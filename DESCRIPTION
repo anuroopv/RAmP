@@ -1,11 +1,72 @@
 Package: RAmP
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Title: Comprehensive analysis of proteome and modified proteomes using limma model
+Version: 1.0
+Author: c(
+    person("Venkatasubramani", "Anuroop V", email = "anuroop.venkatasubramani@bmc.med.lmu.de", role = c("cre","aut")),
+	person("Imhof", "Axel", email = "imhof@lmu.de", role = "aut"),
+	person("Lahiri", "Shibojyothi", email = "Shibojyoti.Lahiri@med.uni-muenchen.de", role = c("aut", "crp)))
+Maintainer: Anuroop V Venkatasubramani <anuroop.venkatasubramani@bmc.med.lmu.de>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
+URL: https://github.com/anuroopv/RAmP
+BugReports: https://github.com/anuroopv/RAmP/issues
+Depends:
+	R (>= 3.5.0),
+	dplyr (>= 1.1.3),
+	data.table (>= 1.14.8),
+	gdata (>= 3.0.0),
+	ggplot2 (>= 3.4.1),
+	ggpubr (>= 0.6.0),
+	ggrepel (>= 0.9.4),
+	rlist (>= 0.4.6.2),
+	ggridges (>= 0.5.4),
+	tibble (>= 3.2.1),
+	ggforce (>= 0.4.1),
+	hexbin (>= 1.28.3),
+	corrplot (>= 0.92),
+	RColorBrewer (>= 1.1-3),
+	seriation (>= 1.5.1),
+	BiocManager (>= 1.30.22),
+	ggnewscale (>= 0.4.9),
+	devtools (>= 2.4.3),
+	Rmisc (>= 1.5.1),
+	ggseqlogo (>= 0.1),
+	stringr (>= 1.5.0),
+	plyr (>= 1.8.9),
+	readr (>= 2.1.4),
+	tidyr (>= 1.3.0),
+	seqinr (>= 4.2-30),
+	qvalue (>= 2.34.0),
+	plotrix (>= 3.8-2),
+	limma (>= 3.58.0),
+	ClassDiscovery (>= 3.4.0),
+	SummarizedExperiment (>= 1.32.0),
+	GenomicFeatures (>= 1.54.1), 
+	AnnotationDbi (>= 1.64.0),
+	org.Dm.eg.db (>= 3.18.0),
+	org.Hs.eg.db (>= 3.18.0),
+	org.Mm.eg.db (>= 3.18.0),
+	org.Sc.sgd.db (>= 3.18.0),
+	clusterProfiler (>= 4.10.0),
+	ComplexHeatmap (>= 2.18.0),
+	DOSE (>= 3.28.0),
+	GO.db (>= 3.18.0),
+	enrichplot (>= 1.22.0),
+	DEP (>= 1.24.0),
+	PTMphinder (>= 0.1.0),
+	rmotifx (>= 1.0)
+Imports:
+Suggests:
+    tcltk (>= 4.3.1),
+    readxl (>= 1.4.3),
+    openxlsx (>= 4.2.5.2),
+    knitr,
+    rmarkdown
+VignetteBuilder:
+	knitr
 Encoding: UTF-8
+Language: en-US
 LazyData: true
+RoxygenNote: 7.2.2
