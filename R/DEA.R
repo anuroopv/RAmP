@@ -24,16 +24,16 @@
 #' @param rowmax.knn Default in 0.9 (Refer DEP package for further information)
 #' @param shift.man Default is 1.8 (Refer DEP package for further information)
 #' @param scale.man Deafult is 0.3 (Refer DEP package for further information)
-#' @param distance.matrix One of "spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird". Used for heatmap
-#' @param clustering.method One of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid". Used for heatmap
+#' @param distance.matrix One of "spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird". Used for heatmap and default is spearman
+#' @param clustering.method One of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid". Used for heatmap and default is ward.D2
 #' @param fav.proteins Vector with favourite proteins (or their corresponding sites) to be named in the volcano plot irrespective of its statistical significance. Also used for plotting corresponding bar plot/timeseries plot (in that case, only significant ones will be plotted)
 #' @param name.sigProteins Logical (Default is FALSE). If TRUE, names all significant protein(s) or site(s)
 #' @param timeSeries Logical (Default is FALSE). If TRUE, line plots will be generated instead of barplots
-#' @param enrich Can be either "gsea" or "enrich"
-#' @param rankBy Can be either stat or logFC (stat indicates t.statistic value). Genes are ranked accordingly for GSEA
+#' @param enrich Can be either "gsea" or "ora". Default is gsea
+#' @param rankBy Can be either stat or logFC (stat indicates t.statistic value). Genes are ranked accordingly for GSEA. Default is stat
 #' @param KEGG Logical, default is FALSE
 #' @param ont Can be "BP", "CC", "MF" or "ALL"
-#' @param padjustMethod.enrich Method for adjusting p-value (Refer clusterProfiler for available options)
+#' @param padjustMethod.enrich Method for adjusting p-value (Refer clusterProfiler for available options). Default is fdr
 #' @param background Logical, default is TRUE. If FALSE, background proteins will not be considered for over representation analysis
 #' @param minGS minimal size of annotated genes in geneset
 #' @param maxGS maximal size of annotated genes in geneset
@@ -47,7 +47,7 @@
 #' @param cexLabelGene Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is 0.8
 #' @param colorCcategory Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
 #' @param colorGene Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
-#' @param nCluster Number of clusters to be generated. Parameter used when plotType = "treePlot". Defualt is 5
+# @param nCluster Number of clusters to be generated. Parameter used when plotType = "treePlot". Defualt is 5
 #' @param showCategory Number of GO terms to be displayed in the plot. Default is 10
 #' @param aa Central amino acid. For example, "K" (for acetylome), "S", "T", "Y", "STY" (for phosphoproteome). Default is "K".
 #' @param seq.width Width of the sequence for motif search. Default is 15
@@ -61,23 +61,36 @@
 #'
 ############### Differential analysis of proteome/enriched data using DEP package ###############
 
-DEA <- function(prot.Data, enrich.Data = NULL, sampleTable, fasta = NULL, org = "dme", quantification = "LFQ", pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, contrasts,
+DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL, org = "dme", quantification = "LFQ", pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, contrasts,
                 fraction = c("Proteome", "Enriched"), filter.protein.type = "condition", filter.thr = 0, filter.protein.min = 0.75,
                 probability = NULL, enrich.batch = FALSE,
                 impute.function = c("knn", "MLE", "QRILC", "man", "MinProb", "bpca", "MinDet"),
                 q.MinProbDet = 0.01, k.knn = 10, rowmax.knn = 0.9, shift.man = 1.8, scale.man = 0.3,
-                distance.matrix = c("spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird"),
-                clustering.method = c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid"),
+                distance.matrix = "spearman",
+                clustering.method = "ward.D2",
                 fav.proteins = NULL, name.sigProteins = FALSE, timeSeries = FALSE,
-                enrich = c('gsea', 'ora'), rankBy = c("stat", "logFC"), KEGG = FALSE, ont= "BP", padjustMethod.enrich = "fdr", background = TRUE,
+                enrich = 'gsea', rankBy = "stat", KEGG = FALSE, ont= "BP", padjustMethod.enrich = "fdr", background = TRUE,
                 minGS = 50, maxGS = 500, simplify = FALSE, simplify_cutoff = 0.7,
                 plotType = c("dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"),
                 circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
-                nCluster = 5, showCategory = 10,
-                aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
+                showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
-  # heatmap.cell.height = 0.5, heatmap.cell.width = 15, na.color = "dark grey", heatmap.rownames = FALSE, heatmap.colnames = TRUE, heatmap.row.fontsize = 5, heatmap.col.fontsize = 5, heatMappdf.height = 12, heatMappdf.width = 5
-  dir.create(paste(getwd(),"/Results",sep = ""),showWarnings = FALSE)
+  make.dir <- function(fp) {
+
+    if(!file.exists(fp)) {
+      # If the folder does not exist, create a new one
+      dir.create(fp, recursive = TRUE)
+
+    } else {
+      # If it existed, delete and replace with a new one
+      unlink(fp, recursive = TRUE)
+      dir.create(fp, recursive=TRUE)
+      print("The name of the folder had already existed, you need to know that you have overwritten it.")
+    }
+  }
+
+  make.dir(paste(getwd(),"/Results",sep = ""))
+  sampleTable <- gsub(" ", ".", sampleTable$label)
   # Decide the organism database
 
   if(org == "dme"){
@@ -155,7 +168,7 @@ DEA <- function(prot.Data, enrich.Data = NULL, sampleTable, fasta = NULL, org = 
     stop()
   }
 
-  dir.create(paste(getwd(),"/Results/Impute_files",sep = ""),showWarnings = FALSE)
+  make.dir(paste(getwd(),"/Results/Impute_files",sep = ""))
   pdf(file = paste(getwd(),"/Results/Impute_files/",fraction,"_Impute-plots.pdf",sep = ""))
   print(plot_imputation(data.norm, data_impute))
   dev.off()
@@ -198,7 +211,7 @@ DEA <- function(prot.Data, enrich.Data = NULL, sampleTable, fasta = NULL, org = 
 
   # Correlation plot
 
-  dir.create(paste(getwd(),"/Results/QC_files",sep = ""),showWarnings = FALSE)
+  make.dir(paste(getwd(),"/Results/QC_files",sep = ""))
   pdf(file = paste(getwd(),"/Results/QC_files/",fraction,"_QC-plots.pdf",sep = ""))
 
   # Hierarchical clustering
@@ -303,7 +316,7 @@ DEA <- function(prot.Data, enrich.Data = NULL, sampleTable, fasta = NULL, org = 
   volcanoPlot(proteinList = fav.proteins, name.sigProteins = name.sigProteins, resData = res, fraction = fraction, filter.protein.type = filter.protein.type,
               contrasts = contrasts, pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
 
-  dir.create(paste(getwd(),"/Results/Final_data",sep = ""),showWarnings = FALSE)
+  make.dir(paste(getwd(),"/Results/Final_data",sep = ""))
   writexl::write_xlsx(x = nonExclusive.list, path = paste(getwd(),"/Results/Final_data/",fraction,"_finalData.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
 
   if(is.null(exclusive.data) == TRUE){

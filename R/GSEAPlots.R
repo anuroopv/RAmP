@@ -33,6 +33,20 @@ GSEAPlots <- function(gseData, fraction = fraction, enrich = c('gsea', 'ora'),
                       org = "dme", pvalCutOff = 0.05){
   # Decide the organism database
 
+    make.dir <- function(fp) {
+
+    if(!file.exists(fp)) {
+      # If the folder does not exist, create a new one
+      dir.create(fp, recursive = TRUE)
+
+    } else {
+      # If it existed, delete and replace with a new one
+      unlink(fp, recursive = TRUE)
+      dir.create(fp, recursive=TRUE)
+      print("The name of the folder had already existed, you need to know that you have overwritten it.")
+    }
+  }
+
   if(org == "dme"){
     orgDB = org.Dm.eg.db
   }else if(org == "hsa"){
@@ -44,7 +58,7 @@ GSEAPlots <- function(gseData, fraction = fraction, enrich = c('gsea', 'ora'),
   }else{
     stop("Only drosophila, human, mouse and yeast databases are supported")
   }
-  dir.create(paste(getwd(),"/Results/Enrichment_analysis",sep = ""),showWarnings = FALSE)
+  make.dir(paste(getwd(),"/Results/Enrichment_analysis",sep = ""))
 
   for(i in 1:length(gseData)){
 
@@ -81,8 +95,7 @@ GSEAPlots <- function(gseData, fraction = fraction, enrich = c('gsea', 'ora'),
     }else if(plotType == "treePlot"){
       pdf(file = paste(getwd(),"/Results/Enrichment_analysis/",fraction,"_",names(gseData[i]),"_enrichmentPlots-treePlot.pdf",sep = ""), paper = "a4r")
       edox <- pairwise_termsim(gseData[[i]])
-      print(enrichplot::treeplot(edox, showCategory = showCategory, cluster.params = list(n = nCluster)) +
-              ggtitle(names(gseData[i])))
+      print(enrichplot::treeplot(edox, showCategory = showCategory) + ggtitle(names(gseData[i])))
       dev.off()
     }else if(plotType == "gseaPlot"){
       if(enrich == "ora"){

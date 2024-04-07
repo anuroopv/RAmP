@@ -27,15 +27,13 @@ DEA(
   rowmax.knn = 0.9,
   shift.man = 1.8,
   scale.man = 0.3,
-  distance.matrix = c("spearman", "pearson", "uncentered correlation",
-    "absolute pearson", "sqrt", "weird"),
-  clustering.method = c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty",
-    "median", "centroid"),
+  distance.matrix = "spearman",
+  clustering.method = "ward.D2",
   fav.proteins = NULL,
   name.sigProteins = FALSE,
   timeSeries = FALSE,
-  enrich = c("gsea", "ora"),
-  rankBy = c("stat", "logFC"),
+  enrich = "gsea",
+  rankBy = "stat",
   KEGG = FALSE,
   ont = "BP",
   padjustMethod.enrich = "fdr",
@@ -52,7 +50,6 @@ DEA(
   cexLabelGene = 0.8,
   colorCcategory = "black",
   colorGene = "black",
-  nCluster = 5,
   showCategory = 10,
   aa = "K",
   seq.width = 15,
@@ -105,9 +102,9 @@ DEA(
 
 \item{scale.man}{Deafult is 0.3 (Refer DEP package for further information)}
 
-\item{distance.matrix}{One of "spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird". Used for heatmap}
+\item{distance.matrix}{One of "spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird". Used for heatmap and default is spearman}
 
-\item{clustering.method}{One of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid". Used for heatmap}
+\item{clustering.method}{One of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid". Used for heatmap and default is ward.D2}
 
 \item{fav.proteins}{Vector with favourite proteins (or their corresponding sites) to be named in the volcano plot irrespective of its statistical significance. Also used for plotting corresponding bar plot/timeseries plot (in that case, only significant ones will be plotted)}
 
@@ -115,15 +112,15 @@ DEA(
 
 \item{timeSeries}{Logical (Default is FALSE). If TRUE, line plots will be generated instead of barplots}
 
-\item{enrich}{Can be either "gsea" or "enrich"}
+\item{enrich}{Can be either "gsea" or "ora". Default is gsea}
 
-\item{rankBy}{Can be either stat or logFC (stat indicates t.statistic value). Genes are ranked accordingly for GSEA}
+\item{rankBy}{Can be either stat or logFC (stat indicates t.statistic value). Genes are ranked accordingly for GSEA. Default is stat}
 
 \item{KEGG}{Logical, default is FALSE}
 
 \item{ont}{Can be "BP", "CC", "MF" or "ALL"}
 
-\item{padjustMethod.enrich}{Method for adjusting p-value (Refer clusterProfiler for available options)}
+\item{padjustMethod.enrich}{Method for adjusting p-value (Refer clusterProfiler for available options). Default is fdr}
 
 \item{background}{Logical, default is TRUE. If FALSE, background proteins will not be considered for over representation analysis}
 
@@ -150,8 +147,6 @@ DEA(
 \item{colorCcategory}{Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"}
 
 \item{colorGene}{Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"}
-
-\item{nCluster}{Number of clusters to be generated. Parameter used when plotType = "treePlot". Defualt is 5}
 
 \item{showCategory}{Number of GO terms to be displayed in the plot. Default is 10}
 

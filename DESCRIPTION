@@ -1,19 +1,19 @@
 Package: RAmP
 Type: Package
-Title: Comprehensive analysis of proteome and modified proteomes using limma model
-Version: 1.0
+Title: R package for Analysis of (modified) Proteome
+Version: 1.1
 Author: c(
     person("Venkatasubramani", "Anuroop V", email = "anuroop.venkatasubramani@bmc.med.lmu.de", role = c("cre","aut")),
 	person("Imhof", "Axel", email = "imhof@lmu.de", role = "aut"),
 	person("Lahiri", "Shibojyothi", email = "Shibojyoti.Lahiri@med.uni-muenchen.de", role = c("aut", "crp)))
 Maintainer: Anuroop V Venkatasubramani <anuroop.venkatasubramani@bmc.med.lmu.de>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: Comprehensive analysis of proteome and modified proteomes using limma model. With this package, one can get PCA (with and without batch correction),different types of filtering and imputation, GO analysis, volcano plots, heatmap and motif analysis in the case of modified proteomes.
+License: ?????-------What license is it under?-------????
 URL: https://github.com/anuroopv/RAmP
 BugReports: https://github.com/anuroopv/RAmP/issues
 Depends:
-	R (>= 3.5.0),
+	R (>= 3.5.0)
+Imports:
 	dplyr (>= 1.1.3),
 	data.table (>= 1.14.8),
 	gdata (>= 3.0.0),
@@ -38,7 +38,7 @@ Depends:
 	readr (>= 2.1.4),
 	tidyr (>= 1.3.0),
 	seqinr (>= 4.2-30),
-	qvalue (>= 2.34.0),
+	qvalue (>= 2.32.0),
 	plotrix (>= 3.8-2),
 	limma (>= 3.58.0),
 	ClassDiscovery (>= 3.4.0),
@@ -56,12 +56,10 @@ Depends:
 	enrichplot (>= 1.22.0),
 	DEP (>= 1.24.0),
 	PTMphinder (>= 0.1.0),
-	rmotifx (>= 1.0)
-Imports:
+	rmotifx (>= 1.0),
+	writexl (>= 1.4.2),
+	readxl (>= 1.4.3)
 Suggests:
-    tcltk (>= 4.3.1),
-    readxl (>= 1.4.3),
-    openxlsx (>= 4.2.5.2),
     knitr,
     rmarkdown
 VignetteBuilder:

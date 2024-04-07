@@ -29,6 +29,20 @@ motif.analysis <- function(raw.enrichData, Ex.data, nonEx.data, fasta, aa = "K",
                            contrasts, sampleTable,
                            pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
 
+  make.dir <- function(fp) {
+
+    if(!file.exists(fp)) {
+      # If the folder does not exist, create a new one
+      dir.create(fp, recursive = TRUE)
+
+    } else {
+      # If it existed, delete and replace with a new one
+      unlink(fp, recursive = TRUE)
+      dir.create(fp, recursive=TRUE)
+      print("The name of the folder had already existed, you need to know that you have overwritten it.")
+    }
+  }
+
   enrichdata.sub <- raw.enrichData %>%
     select(ends_with("Probabilities"),
            starts_with("Number"),
@@ -159,7 +173,7 @@ motif.analysis <- function(raw.enrichData, Ex.data, nonEx.data, fasta, aa = "K",
       motifx.data <- motifx(foreground_Seqs_Filtered, extractBack, central.res = aa, min.seqs = min.seqs, pval.cutoff = p.value.motif)
 
       # View motifx output
-      dir.create(paste(getwd(),"/Results/Motif_analysis",sep = ""),showWarnings = FALSE)
+      make.dir(paste(getwd(),"/Results/Motif_analysis",sep = ""))
       pdf(paste(getwd(),"/Results/Motif_analysis/",names(enrich.sub[i]),"_motif.pdf", sep = ""), width = 8, height = 3)
 
       if(!is.null(motifx.data)){print(ggseqlogo(motifx.data$motif, seq_type='aa', method = 'bits') + ggtitle(names(enrich.sub[i])))

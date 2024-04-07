@@ -31,6 +31,20 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
                     clustering.method = c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid"), sampleTable,
                     title = NA, pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, org = "dme"){
 
+  make.dir <- function(fp) {
+
+    if(!file.exists(fp)) {
+      # If the folder does not exist, create a new one
+      dir.create(fp, recursive = TRUE)
+
+    } else {
+      # If it existed, delete and replace with a new one
+      unlink(fp, recursive = TRUE)
+      dir.create(fp, recursive=TRUE)
+      print("The name of the folder had already existed, you need to know that you have overwritten it.")
+    }
+  }
+
   sign.data <- list()
   protlist <- list()
 
@@ -138,7 +152,7 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
 
     size = calc_ht_size(ht = x, unit = "inch")
 
-    dir.create(paste(getwd(),"/Results/Heatmap",sep = ""),showWarnings = FALSE)
+    make.dir(paste(getwd(),"/Results/Heatmap",sep = ""))
     pdf(file = paste(getwd(),"/Results/Heatmap/",fraction,"_",contrasts[i],"_heatMaps.pdf",sep = ""), height = size[2]*1.25, width = size[1]*1.5)
     ComplexHeatmap::draw(x, heatmap_legend_list = lgd)
     dev.off()

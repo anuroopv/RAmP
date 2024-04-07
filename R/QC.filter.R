@@ -23,6 +23,20 @@ QC.filter <- function(data, fraction = c("Proteome", "Enriched"),
                       filter.protein.type = c("complete", "condition", "fraction"),
                       filter.thr = NA, filter.protein.min = NULL, org = "dme", quantification = "LFQ"){
 
+  make.dir <- function(fp) {
+
+    if(!file.exists(fp)) {
+      # If the folder does not exist, create a new one
+      dir.create(fp, recursive = TRUE)
+
+    } else {
+      # If it existed, delete and replace with a new one
+      unlink(fp, recursive = TRUE)
+      dir.create(fp, recursive=TRUE)
+      print("The name of the folder had already existed, you need to know that you have overwritten it.")
+    }
+  }
+
   # Decide the organism database
 
   if(org == "dme"){
@@ -56,12 +70,18 @@ QC.filter <- function(data, fraction = c("Proteome", "Enriched"),
   data_unique$name %>% duplicated() %>% any()
 
   if(fraction == "Proteome"){
-    LFQ_columns <- grep(quantification, colnames(data_unique))
+    if(quantification != "DIA-NN"){
+      LFQ_columns <- grep(quantification, colnames(data_unique))
+    } else{
+      LFQ_columns <- colnames(data_unique[,c(1:(ncol(data_unique)-2))])
     experimental_design <- sampleTable[grep(fraction, sampleTable$fraction),]
-  } else if(fraction == "Enriched"){
+    }
+  } else if(fraction == "Enriched" & quantification != "DIA-NN"){
     colnames(data_unique) <- gsub("Normalized.", "", colnames(data_unique))
     LFQ_columns <- grep("Intensity", colnames(data_unique))
     experimental_design <- sampleTable[grep(fraction, sampleTable$fraction),]
+  } else if(fraction == "Enriched" & quantification == "DIA-NN"){
+    stop("Analysis of modified proteomes with DIA-NN output is currently not available")
   } else{
     stop("Mention one of these: Proteome or Enriched")
   }
@@ -84,7 +104,7 @@ QC.filter <- function(data, fraction = c("Proteome", "Enriched"),
     stop("Mention one of these: complete, condition or fraction")
   }
 
-  dir.create(paste(getwd(),"/Results/Initial_filtering",sep = ""),showWarnings = FALSE)
+  make.dir(paste(getwd(),"/Results/Initial_filtering",sep = ""))
   pdf(file = paste(getwd(),"/Results/Initial_filtering/",fraction,"_InitialFiltering-plots.pdf",sep = ""))
 
   print(plot_frequency(data_se))
@@ -99,4 +119,3 @@ QC.filter <- function(data, fraction = c("Proteome", "Enriched"),
   dev.off()
   return(data_norm)
 }
-

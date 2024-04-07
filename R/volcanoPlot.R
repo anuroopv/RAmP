@@ -23,7 +23,21 @@
 volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData, fraction, filter.protein.type, contrasts,
                         pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
 
-  dir.create(paste(getwd(),"/Results/VolcanoPlots",sep = ""),showWarnings = FALSE)
+  make.dir <- function(fp) {
+
+    if(!file.exists(fp)) {
+      # If the folder does not exist, create a new one
+      dir.create(fp, recursive = TRUE)
+
+    } else {
+      # If it existed, delete and replace with a new one
+      unlink(fp, recursive = TRUE)
+      dir.create(fp, recursive=TRUE)
+      print("The name of the folder had already existed, you need to know that you have overwritten it.")
+    }
+  }
+
+  make.dir(paste(getwd(),"/Results/VolcanoPlots",sep = ""))
   pdf(paste(getwd(),"/Results/VolcanoPlots/",fraction,"_volcanoPlot.pdf",sep = ""), paper = "a4r")
 
   for(i in seq_along(1:length(contrasts))){

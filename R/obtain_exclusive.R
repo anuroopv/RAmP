@@ -17,6 +17,20 @@
 
 obtain_exclusive <- function(data, fraction = c("Proteome", "Enriched"), sampleTable, contrasts){
 
+  make.dir <- function(fp) {
+
+    if(!file.exists(fp)) {
+      # If the folder does not exist, create a new one
+      dir.create(fp, recursive = TRUE)
+
+    } else {
+      # If it existed, delete and replace with a new one
+      unlink(fp, recursive = TRUE)
+      dir.create(fp, recursive=TRUE)
+      print("The name of the folder had already existed, you need to know that you have overwritten it.")
+    }
+  }
+
   data.na <- data
 
   if(fraction=="Proteome"){
@@ -110,7 +124,7 @@ obtain_exclusive <- function(data, fraction = c("Proteome", "Enriched"), sampleT
     stop("Accepted values are Proteome or Enriched")
   }
   names(exclusive.list) <- new.contrasts
-  dir.create(paste(getwd(),"/Results/Exclusive_files",sep = ""),showWarnings = FALSE)
+  make.dir(paste(getwd(),"/Results/Exclusive_files",sep = ""),showWarnings = FALSE)
   writexl::write_xlsx(x = exclusive.list, path = paste(getwd(),"/Results/Exclusive_files/",fraction,"_exclusive.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
   return(exclusive.list)
 }
