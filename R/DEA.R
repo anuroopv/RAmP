@@ -131,17 +131,17 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   }
 
   if(fraction == "Proteome"){
-    data.norm <- QC.filter(data = lfq.data, fraction = fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr,
+    data.norm <- QC.filter(data = lfq.data, fraction = fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
                            filter.protein.min = filter.protein.min, org = org, quantification = quantification)
     print("Filtering proteome data")
   }else if(fraction == "Enriched" & filter.protein.type == "condition"){
-    data.norm <- QC.filter(data = lfq.data, fraction = fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr,
+    data.norm <- QC.filter(data = lfq.data, fraction = fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
                            filter.protein.min = filter.protein.min, org = org)
     print("Enriched data is NOT normalized to the Proteome")
   }else if(fraction == "Enriched" & filter.protein.type == "fraction"){
     normalized.enrich <- enrich_normalization(protein.data = prot.Data, enrich.data = enrich.Data, probability = probability, enrich.batch = enrich.batch,
                                               sampleTable = sampleTable, org = org)
-    data.norm <- QC.filter(data = normalized.enrich, fraction = fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr,
+    data.norm <- QC.filter(data = normalized.enrich, fraction = fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
                            filter.protein.min = filter.protein.min, org = org)
     print("Enriched data is normalized to the Proteome")
   }else{

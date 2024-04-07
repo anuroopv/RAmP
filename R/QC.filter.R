@@ -17,7 +17,7 @@
 #' @export
 ###################################################### Filtering and quality control of the data ##############################################
 
-QC.filter <- function(data, fraction = c("Proteome", "Enriched"),
+QC.filter <- function(data, fraction = c("Proteome", "Enriched"), sampleTable,
                       filter.protein.type = c("complete", "condition", "fraction"),
                       filter.thr = NA, filter.protein.min = NULL, org = "dme", quantification = "LFQ"){
 
