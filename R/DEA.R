@@ -66,7 +66,7 @@
 #' @import limma
 #' @import qvalue
 #' @import corrplot
-#' @import ggplot
+#' @import ggplot2
 #' @import ggpubr
 #' @import ggrepel
 #' @import ggnewscale
