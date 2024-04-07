@@ -57,14 +57,14 @@ Imports:
 	DEP (>= 1.24.0),
 	PTMphinder (>= 0.1.0),
 	rmotifx (>= 1.0),
-	writexl (>= 1.4.2),
-	readxl (>= 1.4.3)
+	writexl (>= 1.4.2)
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+	readxl 
 VignetteBuilder:
 	knitr
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-RoxygenNote: 7.2.2
+RoxygenNote: 7.3.1

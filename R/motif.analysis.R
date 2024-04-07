@@ -17,10 +17,14 @@
 #'
 #' @return Image of the most representated motif(s) and the corresponding information as a file (Check rmotifx package for more information)
 #'
-#'
 #' @export
-#' @importFrom dplyr "%>%"
 #'
+#' @import rmotifx
+#' @import PTMphinder
+#' @import seqinr
+#' @import ggseqlogo
+#' @import plotrix
+#' @import devtools
 ################################################################################
 
 # Motif analysis of significant enriched sites

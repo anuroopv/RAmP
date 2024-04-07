@@ -10,8 +10,16 @@
 #' @return List of exclsive proteins/sites from all comparisons (except difference of difference comparisons)
 #'
 #' @export
-#' @importFrom dplyr "%>%"
 #'
+#' @import data.table
+#' @import gdata
+#' @import rlist
+#' @import ggridges
+#' @import tibble
+#' @import hexbin
+#' @import stringr
+#' @import plyr
+#' @import readr
 
 ##################### Obtain exclusive proteins and sites ########################
 

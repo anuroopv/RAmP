@@ -4,7 +4,7 @@
 \alias{filter.identical}
 \title{filter.identical}
 \usage{
-filter.identical(nonexclusive.data, exlusive.data, fraction, contrasts)
+\method{filter}{identical}(nonexclusive.data, exlusive.data, fraction, contrasts)
 }
 \arguments{
 \item{nonexclusive.data}{Data frame(s) (as list) obtained after limma differential expression analysis}

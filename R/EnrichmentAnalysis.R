@@ -24,8 +24,10 @@
 #' @return Generates list of significant GO terms
 #'
 #' @export
-#' @importFrom dplyr "%>%"
 #'
+#' @import clusterProfiler
+#' @import DOSE
+#' @import GO.db
 ################################################################################
 # GO term analysis
 

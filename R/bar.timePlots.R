@@ -16,8 +16,9 @@
 #' @return Generates bar plot (or timeseries) for the selected protein(s) or site(s)
 #'
 #' @export
-#' @importFrom dplyr "%>%"
 #'
+#' @import Rmisc
+#' @import tidyr
 ################################################################################
 # Barplot of for selected proteins/sites
 

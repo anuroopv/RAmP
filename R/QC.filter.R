@@ -15,8 +15,6 @@
 #' @examples
 #' norm_data <- QC.filter(data = lfqdata, fraction = "Enriched", filter.protein.type = "fraction", filter.protein.min = 0.75)
 #' @export
-#' @importFrom dplyr "%>%"
-
 ###################################################### Filtering and quality control of the data ##############################################
 
 QC.filter <- function(data, fraction = c("Proteome", "Enriched"),
@@ -70,18 +68,12 @@ QC.filter <- function(data, fraction = c("Proteome", "Enriched"),
   data_unique$name %>% duplicated() %>% any()
 
   if(fraction == "Proteome"){
-    if(quantification != "DIA-NN"){
-      LFQ_columns <- grep(quantification, colnames(data_unique))
-    } else{
-      LFQ_columns <- colnames(data_unique[,c(1:(ncol(data_unique)-2))])
+    LFQ_columns <- grep(quantification, colnames(data_unique))
     experimental_design <- sampleTable[grep(fraction, sampleTable$fraction),]
-    }
-  } else if(fraction == "Enriched" & quantification != "DIA-NN"){
+    } else if(fraction == "Enriched"){
     colnames(data_unique) <- gsub("Normalized.", "", colnames(data_unique))
     LFQ_columns <- grep("Intensity", colnames(data_unique))
     experimental_design <- sampleTable[grep(fraction, sampleTable$fraction),]
-  } else if(fraction == "Enriched" & quantification == "DIA-NN"){
-    stop("Analysis of modified proteomes with DIA-NN output is currently not available")
   } else{
     stop("Mention one of these: Proteome or Enriched")
   }

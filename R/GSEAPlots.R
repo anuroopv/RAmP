@@ -20,8 +20,8 @@
 #' @return Generates plots from GO term analysis
 #'
 #' @export
-#' @importFrom dplyr "%>%"
 #'
+#' @import enrichplot
 ################################################################################
 
 # Various types of plot to represent the GO terms

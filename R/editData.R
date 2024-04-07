@@ -13,8 +13,7 @@
 #' @examples
 #' lfqdata <- editData(data = proteome, fraction = "Enriched", probability = 0.9)
 #' @export
-#' @importFrom dplyr "%>%"
-
+#'
 ################# Data preparation for differential expression analysis ###################
 
 editData <- function(data, fraction = c("Proteome", "Enriched"), probability = NULL, org = "dme", quantification = "LFQ"){
@@ -37,14 +36,12 @@ editData <- function(data, fraction = c("Proteome", "Enriched"), probability = N
 
     # Remove contaminants
     #data <- data[!(data$Only.identified.by.site=="+" | data$Reverse=="+" | data$Potential.contaminant=="+"),]
-    if(quantification != "DIA-NN"){
       data.sub <- subset(data, data$Only.identified.by.site=="+" | data$Reverse=="+" | data$Potential.contaminant=="+")
       data <- data[!data$Protein.IDs %in% data.sub$Protein.IDs,]
 
     # Edit data to obtain symbols from Uniprot
     data$Uniprot <- gsub("((sp\\|)|(tr\\|))", "", data$Fasta.headers)
     data$Uniprot  <- gsub("[|].*", "", data$Uniprot)
-    }
 
     # Obtain LFQ information
     if(quantification == "LFQ"){
@@ -66,18 +63,8 @@ editData <- function(data, fraction = c("Proteome", "Enriched"), probability = N
         lfq.data$symbol <- mapIds(x = orgDB, keys =  as.character(lfq.data$Uniprot), column = "GENENAME", keytype="UNIPROT", multiVals="first")
       }
 
-    } else if(quantification == "DIA-NN"){
-      lfq.data <- data[,c(6:ncol(data))]
-      lfq.data$Uniprot <- data$Protein.Ids
-      lfq.data$Uniprot <- gsub(";.*", "", lfq.data$Uniprot)
-      if(org != "sce"){
-        lfq.data$symbol <- mapIds(x = orgDB, keys =  as.character(lfq.data$Uniprot), column = "SYMBOL", keytype="UNIPROT", multiVals="first")
-      }else {
-        lfq.data$symbol <- mapIds(x = orgDB, keys =  as.character(lfq.data$Uniprot), column = "GENENAME", keytype="UNIPROT", multiVals="first")
-      }
-
-      }else {
-      stop("Values can be either LFQ or iBAQ or DIA-NN")
+    }else {
+      stop("Values can be either LFQ or iBAQ")
     }
 
     lfq.data[lfq.data==0] <- NA # Convert zeros to NA
@@ -87,7 +74,7 @@ editData <- function(data, fraction = c("Proteome", "Enriched"), probability = N
     #   lfq.data$symbol <- mapIds(x = orgDB, keys =  as.character(lfq.data$Uniprot), column = "GENENAME", keytype="UNIPROT", multiVals="first")
     # }
 
-  } else if(fraction == "Enriched" & quantification != "DIA-NN"){
+  } else if(fraction == "Enriched"){
 
     # Remove contaminants
     #data <- data[!(data$Only.identified.by.site=="+" | data$Reverse=="+" | data$Potential.contaminant=="+"),]
@@ -115,10 +102,7 @@ editData <- function(data, fraction = c("Proteome", "Enriched"), probability = N
       lfq.data$symbol <- mapIds(x = orgDB, keys =  as.character(lfq.data$Uniprot), column = "GENENAME", keytype="UNIPROT", multiVals="first")
     }
 
-  }else if(fraction == "Enriched" & quantification == "DIA-NN"){
-    stop("Analysis of modified proteomes with DIA-NN output is currently not available")
-  }
-    else{
+  }else{
     stop("Accepted values are Proteome or Enriched")
   }
   return(lfq.data)

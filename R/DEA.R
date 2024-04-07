@@ -57,8 +57,27 @@
 #' @return Returns a complete comprenhensive analysis separated into different folders for each type of analysis from quality control, filtering, limma differential expression analysis, GO term analysis and visualization and motif analysis for modified proteomes
 #'
 #' @export
-#' @importFrom dplyr "%>%"
 #'
+#' @import org.Dm.eg.db
+#' @import org.Hs.eg.db
+#' @import org.Mm.eg.db
+#' @import org.Sc.sgd.db
+#' @import DEP
+#' @import limma
+#' @import qvalue
+#' @import corrplot
+#' @import ggplot
+#' @import ggpubr
+#' @import ggrepel
+#' @import ggnewscale
+#' @import ggforce
+#' @import RColorBrewer
+#' @import SummarizedExperiment
+#' @import writexl
+#' @import AnnotationDbi
+#' @import ClassDiscovery
+#' @import GenomicFeatures
+#' @import BiocManager
 ############### Differential analysis of proteome/enriched data using DEP package ###############
 
 DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL, org = "dme", quantification = "LFQ", pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, contrasts,

@@ -20,8 +20,9 @@
 #' @return Generates heatmap and a file containing the order of protein(s) or site(s) in the heatmap
 #'
 #' @export
-#' @importFrom dplyr "%>%"
 #'
+#' @import ComplexHeatmap
+#' @import seriation
 ################################################################################
 
 # Function for generating heatmaps for exclusive and significant proteins/sites

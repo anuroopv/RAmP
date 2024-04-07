@@ -10,9 +10,6 @@
 #' @return Data frame(s) (as list) for volcano plots
 #'
 #' @export
-#' @importFrom dplyr "%>%"
-#'
-#'
 ################################################################################
 # Remove identical values from non-exclusive data that are also present in exclusive data
 

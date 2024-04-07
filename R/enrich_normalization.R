@@ -12,8 +12,6 @@
 #' @return Filtered and vsn normalized data
 #'
 #' @export
-#' @importFrom dplyr "%>%"
-#'
 ############### Obtain normalized data for differential expression analysis of enriched fraction ###############
 
 enrich_normalization <- function(protein.data, enrich.data, enrich.batch = c(TRUE, FALSE), probability = NULL,

@@ -15,8 +15,6 @@
 #' @return Generates volcanoPlot
 #'
 #' @export
-#' @importFrom dplyr "%>%"
-#'
 ################################################################################
 # Function for generating volcano plots
 

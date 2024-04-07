@@ -5,7 +5,7 @@
 \title{DEA}
 \usage{
 DEA(
-  prot.Data,
+  prot.Data = NULL,
   enrich.Data = NULL,
   sampleTable,
   fasta = NULL,

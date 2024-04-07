@@ -9,8 +9,8 @@
 #' @return An object of SummarizedExperiment class
 #'
 #' @export
-#' @importFrom dplyr "%>%"
 #'
+#' @import dplyr
 ##########################################################
 # Make summarized experiment (modified from DEP package)
 
