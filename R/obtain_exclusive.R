@@ -132,7 +132,7 @@ obtain_exclusive <- function(data, Fraction, sampleTable, contrasts){
     stop("Accepted values are Proteome or Enriched")
   }
   names(exclusive.list) <- new.contrasts
-  make.dir(paste(getwd(),"/Results/Exclusive_files",sep = ""),showWarnings = FALSE)
+  make.dir(paste(getwd(),"/Results/Exclusive_files",sep = ""))
   writexl::write_xlsx(x = exclusive.list, path = paste(getwd(),"/Results/Exclusive_files/",Fraction,"_exclusive.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
   return(exclusive.list)
 }

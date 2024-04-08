@@ -43,6 +43,20 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
                         simplify = FALSE, simplify_cutoff = 0.7,
                         org = "dme", contrasts, pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
 
+  make.dir <- function(fp) {
+
+    if(!file.exists(fp)) {
+      # If the folder does not exist, create a new one
+      dir.create(fp, recursive = TRUE)
+
+    } else {
+      # If it existed, delete and replace with a new one
+      unlink(fp, recursive = TRUE)
+      dir.create(fp, recursive=TRUE)
+      print("The name of the folder had already existed, you need to know that you have overwritten it.")
+    }
+  }
+
   # Decide the organism database
 
   if(org == "dme"){
@@ -136,7 +150,7 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
     names(gse.list)[[i]] <- contrasts[i]
     names(pathways.list)[[i]] <- contrasts[i]
   }
-  dir.create(paste(getwd(),"/Results/Enrichment_analysis",sep = ""),showWarnings = FALSE)
+  make.dir(paste(getwd(),"/Results/Enrichment_analysis",sep = ""))
   writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_GSEA.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
   return(gse.list)
 }else if(enrich == "ora"){
@@ -240,7 +254,7 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
     names(pathways.list)[c(i+k,i+k+1)] <- paste(conditions, contrasts[i], sep = "_")
     names(go_enrich.list)[c(i+k,i+k+1)] <- paste(conditions, contrasts[i], sep = "_")
   }
-  dir.create(paste(getwd(),"/Results/Enrichment_analysis",sep = ""),showWarnings = FALSE)
+  make.dir(paste(getwd(),"/Results/Enrichment_analysis",sep = ""))
   writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_ORA.xlsx", sep = ""), col_names = TRUE, format_headers = TRUE)
   return(go_enrich.list)
 }else{
