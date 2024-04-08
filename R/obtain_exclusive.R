@@ -11,16 +11,6 @@
 #'
 #' @export
 #'
-#' @import data.table
-#' @import gdata
-#' @import rlist
-#' @import ggridges
-#' @import tibble
-#' @import hexbin
-#' @import stringr
-#' @import plyr
-#' @import readr
-
 ##################### Obtain exclusive proteins and sites ########################
 
 obtain_exclusive <- function(data, Fraction, sampleTable, contrasts){

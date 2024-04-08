@@ -57,26 +57,21 @@
 #'
 #' @export
 #'
-#' @import org.Dm.eg.db
-#' @import org.Hs.eg.db
-#' @import org.Mm.eg.db
-#' @import org.Sc.sgd.db
-#' @import DEP
-#' @import limma
-#' @import qvalue
-#' @import corrplot
+#' @importFrom stats model.matrix hclust
+#' @importFrom DEP impute plot_pca make_unique filter_proteins normalize_vsn plot_frequency plot_numbers plot_coverage plot_normalization meanSdPlot plot_missval plot_detect
+#' @importFrom limma makeContrasts lmFit contrasts.fit eBayes topTable removeBatchEffect
+#' @importFrom SummarizedExperiment rowData assay SummarizedExperiment
+#' @importFrom qvalue qvalue
+#' @importFrom corrplot corrplot
+#' @importFrom writexl write_xlsx
+#'
 #' @import ggplot2
 #' @import ggpubr
 #' @import ggrepel
 #' @import ggnewscale
 #' @import ggforce
+#' @import ggridges
 #' @import RColorBrewer
-#' @import SummarizedExperiment
-#' @import writexl
-#' @import AnnotationDbi
-#' @import ClassDiscovery
-#' @import GenomicFeatures
-#' @import BiocManager
 ############### Differential analysis of proteome/enriched data using DEP package ###############
 
 DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL, org = "dme", quantification = "LFQ", pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, contrasts,
@@ -93,7 +88,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                 circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
                 showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
-  dir.create(paste(getwd(),"/Results/",Fraction,sep = ""), showWarnings = TRUE)
+  dir.create(paste(getwd(),"/Results",sep = ""), showWarnings = TRUE)
   sampleTable$label <- gsub(" ", ".", sampleTable$label)
 
   # Decide the organism database
@@ -126,7 +121,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
     print("Enriched data is NOT normalized to the Proteome")
   }else if(Fraction == "Enriched" & filter.protein.type == "fraction"){
     normalized.enrich <- enrich_normalization(protein.data = prot.Data, enrich.data = enrich.Data, probability = probability, enrich.batch = enrich.batch,
-                                              sampleTable = sampleTable, org = org)
+                                              sampleTable = sampleTable, org = org, quantification = quantification)
     data.norm <- QC.filter(data = normalized.enrich, Fraction = Fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
                            filter.protein.min = filter.protein.min, org = org)
     print("Enriched data is normalized to the Proteome")

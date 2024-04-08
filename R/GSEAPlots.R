@@ -20,7 +20,7 @@
 #'
 #' @export
 #'
-#' @import enrichplot
+#' @importFrom enrichplot dotplot cnetplot heatplot treeplot pairwise_termsim gseaplot2 ridgeplot
 ################################################################################
 
 # Various types of plot to represent the GO terms

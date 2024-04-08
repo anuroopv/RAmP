@@ -17,8 +17,7 @@
 #'
 #' @export
 #'
-#' @import Rmisc
-#' @import tidyr
+#' @importFrom Rmisc summarySE
 ################################################################################
 # Barplot of for selected proteins/sites
 

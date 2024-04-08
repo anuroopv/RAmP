@@ -12,11 +12,19 @@
 #'
 #' @examples
 #' lfqdata <- editData(data = proteome, Fraction = "Enriched", probability = 0.9)
+#'
 #' @export
 #'
+#' @importFrom AnnotationDbi mapIds
+#' @import org.Dm.eg.db
+#' @import org.Hs.eg.db
+#' @import org.Mm.eg.db
+#' @import org.Sc.sgd.db
 ################# Data preparation for differential expression analysis ###################
 
 editData <- function(data, Fraction, probability, org, quantification){
+
+  dir.create(paste(getwd(),"/Results/",Fraction,sep = ""), showWarnings = TRUE)
 
   # Decide the organism database
 

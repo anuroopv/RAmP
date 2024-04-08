@@ -25,9 +25,8 @@
 #'
 #' @export
 #'
-#' @import clusterProfiler
-#' @import DOSE
-#' @import GO.db
+#' @importFrom DOSE setReadable
+#' @importFrom clusterProfiler gseGO gseKEGG simplify enrichGO
 ################################################################################
 # GO term analysis
 

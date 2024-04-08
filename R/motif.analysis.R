@@ -19,12 +19,9 @@
 #'
 #' @export
 #'
-#' @import rmotifx
 #' @import PTMphinder
-#' @import seqinr
+#' @import rmotifx
 #' @import ggseqlogo
-#' @import plotrix
-#' @import devtools
 ################################################################################
 
 # Motif analysis of significant enriched sites
