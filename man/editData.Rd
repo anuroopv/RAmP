@@ -25,4 +25,5 @@ Cleans the raw data from MaxQuant for downstream analysis
 }
 \examples{
 lfqdata <- editData(data = proteome, Fraction = "Enriched", probability = 0.9)
+
 }

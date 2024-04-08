@@ -8,8 +8,9 @@ enrich_normalization(
   protein.data,
   enrich.data,
   enrich.batch = c(TRUE, FALSE),
-  probability = NULL,
-  org = "dme",
+  probability,
+  quantification,
+  org,
   sampleTable
 )
 }
