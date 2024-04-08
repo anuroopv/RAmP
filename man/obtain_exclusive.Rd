@@ -4,17 +4,12 @@
 \alias{obtain_exclusive}
 \title{obtain_exclusive}
 \usage{
-obtain_exclusive(
-  data,
-  fraction = c("Proteome", "Enriched"),
-  sampleTable,
-  contrasts
-)
+obtain_exclusive(data, Fraction, sampleTable, contrasts)
 }
 \arguments{
 \item{data}{Input or modified proteome file from MaxQuant (.txt)}
 
-\item{fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
+\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
 \item{sampleTable}{.xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)}
 
