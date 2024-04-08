@@ -4,7 +4,7 @@
 #'
 #' @param nonexclusive.data Data frame(s) (as list) obtained after limma differential expression analysis
 #' @param exlusive.data Output from obtain_exclusive
-#' @param fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
 #'
 #' @return Data frame(s) (as list) for volcano plots
@@ -13,8 +13,8 @@
 ################################################################################
 # Remove identical values from non-exclusive data that are also present in exclusive data
 
-filter.identical <- function(nonexclusive.data, exlusive.data, fraction, contrasts){
-  if(fraction == "Enriched"){
+filter.identical <- function(nonexclusive.data, exlusive.data, Fraction, contrasts){
+  if(Fraction == "Enriched"){
     for (i in 1:length(contrasts)){
       if(str_count(contrasts[i], "vs")==1){
         test.ex <- exlusive.data[[i]]

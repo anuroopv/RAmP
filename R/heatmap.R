@@ -5,7 +5,7 @@
 #' @param data_impute Output from plot_pca function
 #' @param lfq.data Title of the plot
 #' @param filter.protein.type Parameters (column should be present in the sampleTable file) to compare in the PCA (i.e. conditions or batch or timepoint)
-#' @param fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param distance.matrix One of "spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird"
 #' @param exclusive.data Data frame(s) (as list) containing exclusive proteins or sites
 #' @param clustering.method One of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid"
@@ -27,7 +27,7 @@
 
 # Function for generating heatmaps for exclusive and significant proteins/sites
 
-heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filter.protein.type, fraction = c("Proteome", "Enriched"), contrasts,
+heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filter.protein.type, Fraction, contrasts,
                     distance.matrix = c("spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird"), exclusive.data = exclusive.data,
                     clustering.method = c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid"), sampleTable,
                     title = NA, pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, org = "dme"){
@@ -62,13 +62,13 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
     sign.data[[i]] <- data.heatmap[,grep(contrasts[i], colnames(data.heatmap))]
     sign.data[[i]]$Uniprot <- data.heatmap$Uniprot
     sign.data[[i]]$symbol <- data.heatmap$symbol
-    if(fraction == "Enriched"){sign.data[[i]]$Sequence <- data.heatmap[,5]}
+    if(Fraction == "Enriched"){sign.data[[i]]$Sequence <- data.heatmap[,5]}
     sign.data[[i]]$UniqueNames <- data.heatmap$name
     sign.data[[i]] <- subset(sign.data[[i]], abs(sign.data[[i]][,1]) > lfcCutOff & (sign.data[[i]][,9] < pvalCutOff | sign.data[[i]][,11] < sigmaCutOff))
 
-    if(fraction == "Enriched" & filter.protein.type=="fraction" & str_count(contrasts[i], "vs") == 1){rownames(exclusive.data[[i]]) <- exclusive.data[[i]]$name}
+    if(Fraction == "Enriched" & filter.protein.type=="fraction" & str_count(contrasts[i], "vs") == 1){rownames(exclusive.data[[i]]) <- exclusive.data[[i]]$name}
 
-    protlist[[i]] <- if(fraction == "Enriched"){
+    protlist[[i]] <- if(Fraction == "Enriched"){
       if(filter.protein.type=="fraction" & str_count(contrasts[i], "vs") == 1){
         distinct(rbind(sign.data[[i]][,c(12,14)], exclusive.data[[i]][,c(4,6)]))
       }else{sign.data[[i]][,c(12,14)]
@@ -97,7 +97,7 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
 
     sampleTable.sub <- sampleTable[sampleTable$condition %in% conditions,]
 
-    if(fraction == "Proteome"){
+    if(Fraction == "Proteome"){
       protIntensityData <- lfq.data[,colnames(lfq.data) %in% sampleTable.sub$label]
       protIntensityData$symbol <- lfq.data$symbol
       protIntensityData$Uniprot <- lfq.data$Uniprot
@@ -107,7 +107,7 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
       rownames(protIntensityData2) <- protIntensityData$Uniprot
       protIntensityData2 <- log2(protIntensityData2)
 
-    }else if(fraction == "Enriched"){
+    }else if(Fraction == "Enriched"){
       protIntensityData <- lfq.data[,colnames(lfq.data) %in% sampleTable.sub$label]
       protIntensityData$symbol <- lfq.data$symbol
       protIntensityData$Uniprot <- lfq.data$Uniprot
@@ -120,7 +120,7 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
       protIntensityData2 <- log2(protIntensityData2)
 
     }else{
-      stop("Check the value provided for fraction")
+      stop("Check the value provided for Fraction")
     }
 
     hc.features <- as.matrix(protIntensityData2) %>% t() %>%
@@ -131,7 +131,7 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
       distanceMatrix(metric=distance.matrix) %>%
       hclust(method=clustering.method)
 
-    names(protIntensityData2) <- sampleTable[grep(fraction, sampleTable$fraction),]$condition[match(names(protIntensityData2), sampleTable[grep(fraction, sampleTable$fraction),]$label)]
+    names(protIntensityData2) <- sampleTable[grep(Fraction, sampleTable$fraction),]$condition[match(names(protIntensityData2), sampleTable[grep(Fraction, sampleTable$fraction),]$label)]
 
     calc_ht_size = function(ht, unit = "inch") {
       pdf(NULL)
@@ -154,16 +154,16 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
     size = calc_ht_size(ht = x, unit = "inch")
 
     make.dir(paste(getwd(),"/Results/Heatmap",sep = ""))
-    pdf(file = paste(getwd(),"/Results/Heatmap/",fraction,"_",contrasts[i],"_heatMaps.pdf",sep = ""), height = size[2]*1.25, width = size[1]*1.5)
+    pdf(file = paste(getwd(),"/Results/Heatmap/",Fraction,"_",contrasts[i],"_heatMaps.pdf",sep = ""), height = size[2]*1.25, width = size[1]*1.5)
     ComplexHeatmap::draw(x, heatmap_legend_list = lgd)
     dev.off()
 
     geneOrder <- data.frame("Uniprot" = rownames(protIntensityData2)[ComplexHeatmap::row_order(x)])
-    if(fraction=="Enriched"){geneOrder$Sequence = gsub(".*_", "", geneOrder$Uniprot)
+    if(Fraction=="Enriched"){geneOrder$Sequence = gsub(".*_", "", geneOrder$Uniprot)
     geneOrder$Uniprot = gsub("_.*", "", geneOrder$Uniprot)}
 
     geneOrder$symbol <- if(org != "sce"){mapIds(x = orgDB, keys =  as.character(geneOrder$Uniprot), column = "SYMBOL", keytype="UNIPROT", multiVals="first")}else{mapIds(x = orgDB, keys =  as.character(geneOrder$Uniprot), column = "GENENAME", keytype="UNIPROT", multiVals="first")}
-    write.csv(geneOrder, paste(getwd(),"/Results/Heatmap/",fraction,"_",contrasts[i],"_proteinOrder-heatMaps.csv",sep = ""), row.names = FALSE)
+    write.csv(geneOrder, paste(getwd(),"/Results/Heatmap/",Fraction,"_",contrasts[i],"_proteinOrder-heatMaps.csv",sep = ""), row.names = FALSE)
   }
 
 }

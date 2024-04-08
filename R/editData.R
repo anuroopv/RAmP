@@ -3,20 +3,20 @@
 #' @description Cleans the raw data from MaxQuant for downstream analysis
 #'
 #' @param data Input or modified proteome file from MaxQuant (.txt)
-#' @param fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
-#' @param probability Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if fraction = "Enriched")
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+#' @param probability Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if Fraction = "Enriched")
 #' @param org Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"
 #' @param quantification Default is LFQ. Can be either "LFQ" or "iBAQ"
 #'
 #' @return A data frame that will be cleaner than the original raw data to be used for differential expression analysis
 #'
 #' @examples
-#' lfqdata <- editData(data = proteome, fraction = "Enriched", probability = 0.9)
+#' lfqdata <- editData(data = proteome, Fraction = "Enriched", probability = 0.9)
 #' @export
 #'
 ################# Data preparation for differential expression analysis ###################
 
-editData <- function(data, fraction = c("Proteome", "Enriched"), probability = NULL, org = "dme", quantification = "LFQ"){
+editData <- function(data, Fraction, probability, org, quantification){
 
   # Decide the organism database
 
@@ -32,7 +32,7 @@ editData <- function(data, fraction = c("Proteome", "Enriched"), probability = N
     stop("Only drosophila, human, mouse and yeast databases are supported")
   }
 
-  if(fraction == "Proteome"){
+  if(Fraction == "Proteome"){
 
     # Remove contaminants
     #data <- data[!(data$Only.identified.by.site=="+" | data$Reverse=="+" | data$Potential.contaminant=="+"),]
@@ -74,7 +74,7 @@ editData <- function(data, fraction = c("Proteome", "Enriched"), probability = N
     #   lfq.data$symbol <- mapIds(x = orgDB, keys =  as.character(lfq.data$Uniprot), column = "GENENAME", keytype="UNIPROT", multiVals="first")
     # }
 
-  } else if(fraction == "Enriched"){
+  } else if(Fraction == "Enriched"){
 
     # Remove contaminants
     #data <- data[!(data$Only.identified.by.site=="+" | data$Reverse=="+" | data$Potential.contaminant=="+"),]

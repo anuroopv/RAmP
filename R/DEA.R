@@ -12,7 +12,7 @@
 #' @param sigmaCutOff PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)
 #' @param lfcCutOff Log-fold change cut off. Default is 0
 #' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
-#' @param fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param filter.protein.type Can be either "complete" or "condition" or "fraction". complete indictaes removal of all NAs. condition indicates removal of NAs based on different conditions in the data (Ex. mutant and control). fraction indicates removal of NAs based on all samples irrespective of different conditions (check DEP package for further details)
 #' @param filter.thr Only if filter.protein.type = condition. Numerical value less than the number of relicates in either condition (Ex. 0 indicates the protein should have no NAs in all replicates of atleast one condition while 1 indicates they can have one NAs)
 #' @param filter.protein.min Only if filter.protein.type = fraction. Any value between 0-1 Any value between 0-1 (Ex. 0.75 indicates the protein should not have NAs in 75\% of all samples)
@@ -81,7 +81,7 @@
 ############### Differential analysis of proteome/enriched data using DEP package ###############
 
 DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL, org = "dme", quantification = "LFQ", pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, contrasts,
-                fraction = c("Proteome", "Enriched"), filter.protein.type = "condition", filter.thr = 0, filter.protein.min = 0.75,
+                Fraction = c("Proteome", "Enriched"), filter.protein.type = "condition", filter.thr = 0, filter.protein.min = 0.75,
                 probability = NULL, enrich.batch = FALSE,
                 impute.function = c("knn", "MLE", "QRILC", "man", "MinProb", "bpca", "MinDet"),
                 q.MinProbDet = 0.01, k.knn = 10, rowmax.knn = 0.9, shift.man = 1.8, scale.man = 0.3,
@@ -124,24 +124,24 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
     stop("Only drosophila, human, mouse and yeast databases are supported")
   }
 
-  if(fraction == "Proteome"){
-    lfq.data <- editData(data = prot.Data, fraction = fraction, org = org, quantification = quantification)
+  if(Fraction == "Proteome"){
+    lfq.data <- editData(data = prot.Data, Fraction = Fraction, org = org, quantification = quantification)
   }else{
-    lfq.data <- editData(data = enrich.Data, fraction = fraction, probability = probability, org)
+    lfq.data <- editData(data = enrich.Data, Fraction = Fraction, probability = probability, org)
   }
 
-  if(fraction == "Proteome"){
-    data.norm <- QC.filter(data = lfq.data, fraction = fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
+  if(Fraction == "Proteome"){
+    data.norm <- QC.filter(data = lfq.data, Fraction = Fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
                            filter.protein.min = filter.protein.min, org = org, quantification = quantification)
     print("Filtering proteome data")
-  }else if(fraction == "Enriched" & filter.protein.type == "condition"){
-    data.norm <- QC.filter(data = lfq.data, fraction = fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
+  }else if(Fraction == "Enriched" & filter.protein.type == "condition"){
+    data.norm <- QC.filter(data = lfq.data, Fraction = Fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
                            filter.protein.min = filter.protein.min, org = org)
     print("Enriched data is NOT normalized to the Proteome")
-  }else if(fraction == "Enriched" & filter.protein.type == "fraction"){
+  }else if(Fraction == "Enriched" & filter.protein.type == "fraction"){
     normalized.enrich <- enrich_normalization(protein.data = prot.Data, enrich.data = enrich.Data, probability = probability, enrich.batch = enrich.batch,
                                               sampleTable = sampleTable, org = org)
-    data.norm <- QC.filter(data = normalized.enrich, fraction = fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
+    data.norm <- QC.filter(data = normalized.enrich, Fraction = Fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
                            filter.protein.min = filter.protein.min, org = org)
     print("Enriched data is normalized to the Proteome")
   }else{
@@ -149,13 +149,13 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   }
 
   if(filter.protein.type == "fraction"){
-    exclusive.data <- obtain_exclusive(data = lfq.data, fraction = fraction, sampleTable = sampleTable, contrasts = contrasts)
+    exclusive.data <- obtain_exclusive(data = lfq.data, Fraction = Fraction, sampleTable = sampleTable, contrasts = contrasts)
   }else{
     exclusive.data <- NULL
     print("Exclusive proteins/site file is not generated (applies to difference of difference contrasts)")
   }
 
-  experimental_design <- sampleTable[grep(fraction, sampleTable$fraction),]
+  experimental_design <- sampleTable[grep(Fraction, sampleTable$fraction),]
   experimental_design$label <- as.character(experimental_design$label)
   experimental_design$condition <- as.character(experimental_design$condition)
 
@@ -188,7 +188,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   }
 
   make.dir(paste(getwd(),"/Results/Impute_files",sep = ""))
-  pdf(file = paste(getwd(),"/Results/Impute_files/",fraction,"_Impute-plots.pdf",sep = ""))
+  pdf(file = paste(getwd(),"/Results/Impute_files/",Fraction,"_Impute-plots.pdf",sep = ""))
   print(plot_imputation(data.norm, data_impute))
   dev.off()
 
@@ -231,7 +231,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   # Correlation plot
 
   make.dir(paste(getwd(),"/Results/QC_files",sep = ""))
-  pdf(file = paste(getwd(),"/Results/QC_files/",fraction,"_QC-plots.pdf",sep = ""))
+  pdf(file = paste(getwd(),"/Results/QC_files/",Fraction,"_QC-plots.pdf",sep = ""))
 
   # Hierarchical clustering
   dist2Order = function(corr, method, ...) {
@@ -286,12 +286,12 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
 
   # Heatmap of significant and exclusive proteins/sites
 
-  heatmap(data_impute = data_impute, lfq.data = lfq.data, fraction = fraction, distance.matrix = distance.matrix, clustering.method = clustering.method,
+  heatmap(data_impute = data_impute, lfq.data = lfq.data, Fraction = Fraction, distance.matrix = distance.matrix, clustering.method = clustering.method,
           title = title, exclusive.data = exclusive.data, filter.protein.type = filter.protein.type, contrasts = contrasts, sampleTable = sampleTable,
           pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff, org = org)
 
   # Barplot of for selected proteins/sites
-  bar.timePlots(imputed.data = data_impute, fav.proteins = fav.proteins, fraction = fraction, timeSeries = timeSeries, lfq.data = lfq.data,
+  bar.timePlots(imputed.data = data_impute, fav.proteins = fav.proteins, Fraction = Fraction, timeSeries = timeSeries, lfq.data = lfq.data,
                 contrasts = contrasts, sampleTable = sampleTable, pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
 
   res <- as.data.frame(data_impute@elementMetadata@listData)
@@ -302,7 +302,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
 
   nonExclusive.list <- list()
   for (i in 1:length(contrasts)){
-    if(fraction == "Proteome"){
+    if(Fraction == "Proteome"){
       data.subset <- res[grep(paste("^",contrasts[i],"\\.",sep=""), colnames(res))]
       if(filter.protein.type != "complete"){data.subset <- cbind(res[,c(1,2,3,5,6)], data.subset)}else{data.subset <- cbind(res[,c(1,2,3)], data.subset)}
 
@@ -326,35 +326,35 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   names(nonExclusive.list) <- contrasts
 
   if(filter.protein.type=="fraction"){
-    res <- filter.identical(nonexclusive.data = nonExclusive.list, exlusive.data = exclusive.data, fraction = fraction, contrasts = contrasts)
+    res <- filter.identical(nonexclusive.data = nonExclusive.list, exlusive.data = exclusive.data, Fraction = Fraction, contrasts = contrasts)
   } else {
     res <- nonExclusive.list
   }
 
   # Volcano plot
-  volcanoPlot(proteinList = fav.proteins, name.sigProteins = name.sigProteins, resData = res, fraction = fraction, filter.protein.type = filter.protein.type,
+  volcanoPlot(proteinList = fav.proteins, name.sigProteins = name.sigProteins, resData = res, Fraction = Fraction, filter.protein.type = filter.protein.type,
               contrasts = contrasts, pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
 
   make.dir(paste(getwd(),"/Results/Final_data",sep = ""))
-  writexl::write_xlsx(x = nonExclusive.list, path = paste(getwd(),"/Results/Final_data/",fraction,"_finalData.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
+  writexl::write_xlsx(x = nonExclusive.list, path = paste(getwd(),"/Results/Final_data/",Fraction,"_finalData.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
 
   if(is.null(exclusive.data) == TRUE){
-    enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, fraction = fraction, rankBy = rankBy, KEGG = KEGG,
+    enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, Fraction = Fraction, rankBy = rankBy, KEGG = KEGG,
                                       ont = ont, padjustMethod = padjustMethod.enrich, background = background, minGS = minGS, maxGS = maxGS,
                                       simplify = simplify, simplify_cutoff = simplify_cutoff, org = org, contrasts = contrasts, pvalCutOff = pvalCutOff,
                                       sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
   }else{
-    enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, exclusive.data = exclusive.data, fraction = fraction, rankBy = rankBy, KEGG = KEGG,
+    enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, exclusive.data = exclusive.data, Fraction = Fraction, rankBy = rankBy, KEGG = KEGG,
                                       ont = ont, padjustMethod = padjustMethod.enrich, background = background, minGS = minGS, maxGS = maxGS,
                                       simplify = simplify, simplify_cutoff = simplify_cutoff, org = org, contrasts = contrasts, pvalCutOff = pvalCutOff,
                                       sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
   }
 
   # Enrichment analysis and corresponding plots
-  GSEAPlots(gseData = enrich.data, fraction = fraction, enrich = enrich, plotType = plotType, showCategory = 20, org = org, pvalCutOff = pvalCutOff)
+  GSEAPlots(gseData = enrich.data, Fraction = Fraction, enrich = enrich, plotType = plotType, showCategory = 20, org = org, pvalCutOff = pvalCutOff)
 
   # Motif analysis
-  if(fraction == "Enriched"){
+  if(Fraction == "Enriched"){
     motif.analysis(raw.enrichData = enrich.Data, Ex.data = exclusive.data, nonEx.data = nonExclusive.list, aa = aa, seq.width = seq.width, min.seqs = min.seqs, p.value.motif = motif.pval,
                    contrasts = contrasts, sampleTable = sampleTable, fasta = fasta,
                    pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)

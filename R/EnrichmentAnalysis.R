@@ -4,7 +4,7 @@
 #'
 #' @param enrich Can be either "gsea" or "enrich"
 #' @param nonExclusive.data Default is NULL. If not, the data should be given as list containing data frame(s)
-#' @param fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param rankBy Can be either stat or logFC. Genes are ranked accordingly for GSEA
 #' @param KEGG Logical, default is FALSE
 #' @param ont Can be "BP", "CC", "MF" or "ALL"
@@ -33,7 +33,7 @@
 
 ##### Gene Set Enrichement analysis ####
 
-EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NULL, fraction = c("Proteome", "Enriched"),
+EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NULL, Fraction,
                         rankBy = "stat", KEGG = FALSE,
                         ont = "BP",
                         padjustMethod = "fdr",
@@ -58,7 +58,7 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
   }
 
   if(enrich == "gsea"){
-  if(fraction == "Enriched"){
+  if(Fraction == "Enriched"){
     stop(print("GSEA cannot be perfromed for enriched data as they cannot be ranked due to repetitiveness of symbol. Proceed with over-representation analysis"))
   }else if(is.null(exclusive.data) == FALSE){
     print("GSEA cannot be perfromed for exclusive data but the analysis will be proceeded for non-exclusive data. To use both, perform over-representation analysis")
@@ -137,7 +137,7 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
     names(pathways.list)[[i]] <- contrasts[i]
   }
   dir.create(paste(getwd(),"/Results/Enrichment_analysis",sep = ""),showWarnings = FALSE)
-  writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/Enrichment_analysis/",fraction,"_GSEA.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
+  writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_GSEA.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
   return(gse.list)
 }else if(enrich == "ora"){
 
@@ -241,7 +241,7 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
     names(go_enrich.list)[c(i+k,i+k+1)] <- paste(conditions, contrasts[i], sep = "_")
   }
   dir.create(paste(getwd(),"/Results/Enrichment_analysis",sep = ""),showWarnings = FALSE)
-  writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/Enrichment_analysis/",fraction,"_ORA.xlsx", sep = ""), col_names = TRUE, format_headers = TRUE)
+  writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_ORA.xlsx", sep = ""), col_names = TRUE, format_headers = TRUE)
   return(go_enrich.list)
 }else{
   stop("Accepted values for enrich are: gsea or ora")

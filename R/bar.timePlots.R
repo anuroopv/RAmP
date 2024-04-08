@@ -4,7 +4,7 @@
 #'
 #' @param fav.proteins Vector with favourite proteins (or their corresponding sites) for which corresponding bar or timeseries plots are required
 #' @param timeSeries Logical (Default is FALSE). If TRUE, line plots will be generated instead of barplots
-#' @param fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param imputed.data Imputed data obtained after QC.filter
 #' @param lfq.data Output from editData function
 #' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
@@ -22,7 +22,7 @@
 ################################################################################
 # Barplot of for selected proteins/sites
 
-bar.timePlots <- function(imputed.data, fav.proteins, fraction, timeSeries = FALSE, lfq.data, contrasts, sampleTable,
+bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FALSE, lfq.data, contrasts, sampleTable,
                           pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
 
   make.dir <- function(fp) {
@@ -50,13 +50,13 @@ bar.timePlots <- function(imputed.data, fav.proteins, fraction, timeSeries = FAL
     data.cont$symbol <- lfq.data.sub$symbol
     data.cont$Uniprot <- lfq.data.sub$Uniprot
 
-    if(fraction == "Enriched"){data.cont$Sequence <- lfq.data.sub$Sequence[[1]]
+    if(Fraction == "Enriched"){data.cont$Sequence <- lfq.data.sub$Sequence[[1]]
     data.cont$Sequence <- make.unique(data.cont$Sequence)}
 
-    if(fraction == "Proteome"){names(data.cont)[1:(ncol(data.cont)-2)] <- sampleTable[grep(fraction, sampleTable$fraction),]$condition[match(names(data.cont)[1:(ncol(data.cont)-2)], sampleTable[grep(fraction, sampleTable$fraction),]$label)]
+    if(Fraction == "Proteome"){names(data.cont)[1:(ncol(data.cont)-2)] <- sampleTable[grep(Fraction, sampleTable$fraction),]$condition[match(names(data.cont)[1:(ncol(data.cont)-2)], sampleTable[grep(Fraction, sampleTable$fraction),]$label)]
     names(data.cont)[1:(ncol(data.cont)-2)] <- make.unique(names(data.cont)[1:(ncol(data.cont)-2)])
     data.cont <- gather(data.cont, condition, measurement, 1:(length(colnames(data.cont))-2), factor_key=TRUE)
-    }else{names(data.cont)[1:(ncol(data.cont)-3)] <- sampleTable[grep(fraction, sampleTable$fraction),]$condition[match(names(data.cont)[1:(ncol(data.cont)-3)], sampleTable[grep(fraction, sampleTable$fraction),]$label)]
+    }else{names(data.cont)[1:(ncol(data.cont)-3)] <- sampleTable[grep(Fraction, sampleTable$fraction),]$condition[match(names(data.cont)[1:(ncol(data.cont)-3)], sampleTable[grep(Fraction, sampleTable$fraction),]$label)]
     names(data.cont)[1:(ncol(data.cont)-3)] <- make.unique(names(data.cont)[1:(ncol(data.cont)-3)])
     data.cont <- gather(data.cont, condition, measurement, 1:(length(colnames(data.cont))-3), factor_key=TRUE)
     }
@@ -65,7 +65,7 @@ bar.timePlots <- function(imputed.data, fav.proteins, fraction, timeSeries = FAL
     data.cont$logIntensity <- log2(data.cont$measurement)
     data.cont <- data.cont[complete.cases(data.cont$measurement),]
 
-    summary.data <- if(fraction == "Proteome"){summarySE(data = data.cont, measurevar = "measurement", groupvars = c("Uniprot", "symbol", "condition"), conf.interval = 0.95)}else{summarySE(data = data.cont, measurevar = "measurement", groupvars = c("Uniprot", "symbol", "condition", "Sequence"), conf.interval = 0.95)}
+    summary.data <- if(Fraction == "Proteome"){summarySE(data = data.cont, measurevar = "measurement", groupvars = c("Uniprot", "symbol", "condition"), conf.interval = 0.95)}else{summarySE(data = data.cont, measurevar = "measurement", groupvars = c("Uniprot", "symbol", "condition", "Sequence"), conf.interval = 0.95)}
     summary.data$condition <- gsub(".*[.]", "", summary.data$condition)
     summary.data$genotype <- as.factor(gsub("[_].*", "", summary.data$condition))
 
@@ -85,7 +85,7 @@ bar.timePlots <- function(imputed.data, fav.proteins, fraction, timeSeries = FAL
           theme(legend.title = element_blank(), plot.subtitle = element_text(size = 10, face = "bold"), plot.caption = element_text(size = 8)) +
           theme(axis.title.x = element_text(size = 10, face = "bold")) +
           theme(axis.title.y = element_text(size = 10, face = "bold")) +
-          {if(fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence,  nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
+          {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence,  nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
       }else{
         summary.data$condition <- as.numeric(gsub(".*[_]", "", summary.data$condition))
         plot2 <- ggplot(data = summary.data, aes(x=condition, y=measurement, color = genotype)) +
@@ -102,13 +102,13 @@ bar.timePlots <- function(imputed.data, fav.proteins, fraction, timeSeries = FAL
           theme(legend.title = element_blank(), plot.subtitle = element_text(size = 10, face = "bold"), plot.caption = element_text(size = 8)) +
           theme(axis.title.x = element_text(size = 10, face = "bold")) +
           theme(axis.title.y = element_text(size = 10, face = "bold")) +
-          {if(fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
+          {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
       }
 
       make.dir(paste(getwd(),"/Results/BarPlots",sep = ""))
-      pdf(paste(getwd(),"/Results/BarPlots/",fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
+      pdf(paste(getwd(),"/Results/BarPlots/",Fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
       for(i in 1:(n_pages(plot2))){
-        if(fraction=="Proteome"){print(plot2 + facet_wrap_paginate(~symbol, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
+        if(Fraction=="Proteome"){print(plot2 + facet_wrap_paginate(~symbol, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
         }else{print(plot2 + facet_wrap_paginate(~symbol+Sequence, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
         }
       }

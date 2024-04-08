@@ -31,8 +31,8 @@ enrich_normalization <- function(protein.data, enrich.data, enrich.batch = c(TRU
     stop("Only drosophila, human, mouse and yeast databases are supported")
   }
 
-  protein.data <- editData(data = protein.data, fraction = "Proteome")
-  enrich.data <- editData(data = enrich.data, fraction = "Enriched", probability = probability)
+  protein.data <- editData(data = protein.data, Fraction = "Proteome")
+  enrich.data <- editData(data = enrich.data, Fraction = "Enriched", probability = probability)
 
   if(enrich.batch == TRUE){
     # Combine proteome and enrichment data using Uniprot IDs

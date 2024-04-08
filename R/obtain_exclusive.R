@@ -3,7 +3,7 @@
 #' @description Get exclusive proteins/sites (only used when filter.protein.type = "fraction")
 #'
 #' @param data Input or modified proteome file from MaxQuant (.txt)
-#' @param fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param sampleTable .xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)
 #' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
 #'
@@ -23,7 +23,7 @@
 
 ##################### Obtain exclusive proteins and sites ########################
 
-obtain_exclusive <- function(data, fraction = c("Proteome", "Enriched"), sampleTable, contrasts){
+obtain_exclusive <- function(data, Fraction, sampleTable, contrasts){
 
   make.dir <- function(fp) {
 
@@ -41,14 +41,14 @@ obtain_exclusive <- function(data, fraction = c("Proteome", "Enriched"), sampleT
 
   data.na <- data
 
-  if(fraction=="Proteome"){
+  if(Fraction=="Proteome"){
     data.na <- make_unique(proteins = data.na, names = "Uniprot", ids = "symbol", delim = ";")
     bin_data <- data.na[,1:(ncol(data.na)-4)]
     idx <- is.na(bin_data)
     bin_data[!idx] <- 1
     bin_data[idx] <- 0
     rownames(bin_data) <- data.na$name
-  }else if(fraction=="Enriched"){
+  }else if(Fraction=="Enriched"){
     data.na$symbol <- NULL
     data.na <- data.na %>%
       mutate_all(~replace(., . == 0, NA))
@@ -111,7 +111,7 @@ obtain_exclusive <- function(data, fraction = c("Proteome", "Enriched"), sampleT
     # }
   }
 
-  if(fraction=="Proteome"){
+  if(Fraction=="Proteome"){
     exclusive.list <- lapply(exclusive.list, dplyr::add_rownames, "Uniprot")
     for(i in 1:length(new.contrasts)){
       exclusive.list[[i]] <- merge(x = exclusive.list[[i]], y = data.na[ , c("name", "Uniprot", "symbol")], by = "Uniprot")
@@ -119,7 +119,7 @@ obtain_exclusive <- function(data, fraction = c("Proteome", "Enriched"), sampleT
       exclusive.list[[i]] <- select(exclusive.list[[i]], unlist(c("Uniprot", contrasts.sep[i], "name", "symbol")))
       stopifnot(identical(unlist(c("Uniprot", contrasts.sep[i], "name", "symbol")), colnames(exclusive.list[[i]])))
     }
-  }else if(fraction=="Enriched"){
+  }else if(Fraction=="Enriched"){
     exclusive.list <- lapply(exclusive.list, dplyr::add_rownames, "name")
     for(i in 1:length(new.contrasts)){
       exclusive.list[[i]] <- merge(x = exclusive.list[[i]], y = data.na[ , c("name", "Uniprot", "symbol", "Sequence")], by = "name")
@@ -133,6 +133,6 @@ obtain_exclusive <- function(data, fraction = c("Proteome", "Enriched"), sampleT
   }
   names(exclusive.list) <- new.contrasts
   make.dir(paste(getwd(),"/Results/Exclusive_files",sep = ""),showWarnings = FALSE)
-  writexl::write_xlsx(x = exclusive.list, path = paste(getwd(),"/Results/Exclusive_files/",fraction,"_exclusive.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
+  writexl::write_xlsx(x = exclusive.list, path = paste(getwd(),"/Results/Exclusive_files/",Fraction,"_exclusive.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
   return(exclusive.list)
 }

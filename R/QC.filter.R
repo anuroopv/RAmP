@@ -3,7 +3,7 @@
 #' @description Performs quality control and filters the missing values based on parameters provided
 #'
 #' @param data output file (or output) from editData function
-#' @param fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param filter.protein.type Can be either "complete" or "condition" or "fraction". complete indictaes removal of all NAs. condition indicates removal of NAs based on different conditions in the data (Ex. mutant and control). fraction indicates removal of NAs based on all samples irrespective of different conditions (check DEP package for further details)
 #' @param filter.thr Only if filter.protein.type = condition. Numerical value less than the number of relicates in either condition (Ex. 0 indicates the protein should have no NAs in all replicates of atleast one condition while 1 indicates they can have one NAs)
 #' @param filter.protein.min Only if filter.protein.type = fraction. Any value between 0-1 Any value between 0-1 (Ex. 0.75 indicates the protein should not have NAs in 75\% of all samples)
@@ -17,7 +17,7 @@
 #' @export
 ###################################################### Filtering and quality control of the data ##############################################
 
-QC.filter <- function(data, fraction = c("Proteome", "Enriched"), sampleTable,
+QC.filter <- function(data, Fraction, sampleTable,
                       filter.protein.type = c("complete", "condition", "fraction"),
                       filter.thr = NA, filter.protein.min = NULL, org = "dme", quantification = "LFQ"){
 
@@ -67,13 +67,13 @@ QC.filter <- function(data, fraction = c("Proteome", "Enriched"), sampleTable,
   # Are there any duplicated names?
   data_unique$name %>% duplicated() %>% any()
 
-  if(fraction == "Proteome"){
+  if(Fraction == "Proteome"){
     LFQ_columns <- grep(quantification, colnames(data_unique))
-    experimental_design <- sampleTable[grep(fraction, sampleTable$fraction),]
-    } else if(fraction == "Enriched"){
+    experimental_design <- sampleTable[grep(Fraction, sampleTable$fraction),]
+    } else if(Fraction == "Enriched"){
     colnames(data_unique) <- gsub("Normalized.", "", colnames(data_unique))
     LFQ_columns <- grep("Intensity", colnames(data_unique))
-    experimental_design <- sampleTable[grep(fraction, sampleTable$fraction),]
+    experimental_design <- sampleTable[grep(Fraction, sampleTable$fraction),]
   } else{
     stop("Mention one of these: Proteome or Enriched")
   }
@@ -97,7 +97,7 @@ QC.filter <- function(data, fraction = c("Proteome", "Enriched"), sampleTable,
   }
 
   make.dir(paste(getwd(),"/Results/Initial_filtering",sep = ""))
-  pdf(file = paste(getwd(),"/Results/Initial_filtering/",fraction,"_InitialFiltering-plots.pdf",sep = ""))
+  pdf(file = paste(getwd(),"/Results/Initial_filtering/",Fraction,"_InitialFiltering-plots.pdf",sep = ""))
 
   print(plot_frequency(data_se))
   print(plot_numbers(data_filt))
