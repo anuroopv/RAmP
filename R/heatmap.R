@@ -139,8 +139,9 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
                                  cluster_columns = hc.samples, width = ncol(protIntensityData2)*unit(5, "mm"), height = nrow(protIntensityData2)*unit(0.2, "mm"),
                                  show_row_names = FALSE, show_column_names = TRUE, heatmap_legend_param = list(title = "Scaled values"))
 
-
     size = calc_ht_size(ht = x, unit = "inch")
+
+    x <- ComplexHeatmap::draw(x)
 
     dir.create(paste(getwd(),"/Results/",Fraction,"/Heatmap",sep = ""), showWarnings = TRUE)
     pdf(file = paste(getwd(),"/Results/",Fraction,"/Heatmap/",Fraction,"_",contrasts[i],"_heatMaps.pdf",sep = ""), height = size[2]*1.25, width = size[1]*1.5)
