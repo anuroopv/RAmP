@@ -22,6 +22,7 @@
 #' @import PTMphinder
 #' @import rmotifx
 #' @import ggseqlogo
+#' @importFrom data.table setDT
 ################################################################################
 
 # Motif analysis of significant enriched sites
