@@ -5,7 +5,7 @@
 #' @param proteinList Vector with favourite proteins (or their corresponding sites) to be named in the volcano plot irrespective of its statistical significance
 #' @param name.sigProteins Logical (Default is FALSE). If TRUE, names all significant protein(s) or site(s)
 #' @param resData Data frame(s) (as list) from limma differential expression analysis
-#' @param fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param filter.protein.type Can be either "complete" or "condition" or "fraction"
 #' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
 #' @param pvalCutOff P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05
@@ -18,7 +18,7 @@
 ################################################################################
 # Function for generating volcano plots
 
-volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData, fraction, filter.protein.type, contrasts,
+volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData, Fraction, filter.protein.type, contrasts,
                         pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
 
   make.dir <- function(fp) {
@@ -36,7 +36,7 @@ volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData, fraction
   }
 
   make.dir(paste(getwd(),"/Results/VolcanoPlots",sep = ""))
-  pdf(paste(getwd(),"/Results/VolcanoPlots/",fraction,"_volcanoPlot.pdf",sep = ""), paper = "a4r")
+  pdf(paste(getwd(),"/Results/VolcanoPlots/",Fraction,"_volcanoPlot.pdf",sep = ""), paper = "a4r")
 
   for(i in seq_along(1:length(contrasts))){
     data.sub <- resData[[i]]
@@ -44,15 +44,15 @@ volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData, fraction
     proteinData <- data.sub[data.sub$symbol %in% proteinList,]
 
     # To set the corresponding column number for log-fc, qvalue and non-adj pvalue
-    if(fraction == "Proteome"){
+    if(Fraction == "Proteome"){
       col_num = 14
       logFC_col_num = 6
       pval_col_num = 11
-    } else if(fraction == "Proteome" & filter.protein.type == "complete"){
+    } else if(Fraction == "Proteome" & filter.protein.type == "complete"){
       col_num = 12
       logFC_col_num = 4
       pval_col_num = 9
-    } else if(fraction == "Enriched"){
+    } else if(Fraction == "Enriched"){
       col_num = 17
       logFC_col_num = 9
       pval_col_num = 14

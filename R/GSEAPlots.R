@@ -12,7 +12,6 @@
 #' @param cexLabelGene Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is 0.8
 #' @param colorCcategory Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
 #' @param colorGene Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
-#' @param nCluster Number of clusters to be generated. Parameter used when plotType = "treePlot". Defualt is 5
 #' @param showCategory Number of GO terms to be displayed in the plot. Default is 10
 #' @param pvalCutOff P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05
 #' @param org Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"
@@ -29,8 +28,7 @@
 GSEAPlots <- function(gseData, Fraction, enrich = c('gsea', 'ora'),
                       plotType = c("dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"),
                       circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
-                      nCluster = 5, showCategory = 10,
-                      org = "dme", pvalCutOff = 0.05){
+                      showCategory = 10, org = "dme", pvalCutOff = 0.05){
   # Decide the organism database
 
     make.dir <- function(fp) {

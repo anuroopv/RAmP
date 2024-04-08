@@ -16,7 +16,7 @@
 #' @param filter.protein.type Can be either "complete" or "condition" or "fraction". complete indictaes removal of all NAs. condition indicates removal of NAs based on different conditions in the data (Ex. mutant and control). fraction indicates removal of NAs based on all samples irrespective of different conditions (check DEP package for further details)
 #' @param filter.thr Only if filter.protein.type = condition. Numerical value less than the number of relicates in either condition (Ex. 0 indicates the protein should have no NAs in all replicates of atleast one condition while 1 indicates they can have one NAs)
 #' @param filter.protein.min Only if filter.protein.type = fraction. Any value between 0-1 Any value between 0-1 (Ex. 0.75 indicates the protein should not have NAs in 75\% of all samples)
-#' @param probability Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if fraction = "Enriched")
+#' @param probability Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if Fraction = "Enriched")
 #' @param enrich.batch If the normalization should be done based on paired replicates or avergae of replicates
 #' @param impute.function If filter.protein.type = "condition", one of "QRILC", "man", "MinProb", "MinDet". If filter.protein.type = "fraction", one of "bpca", "knn", "MLE"
 #' @param q.MinProbDet Default is 0.01 (Refer DEP package for further information)
@@ -47,7 +47,6 @@
 #' @param cexLabelGene Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is 0.8
 #' @param colorCcategory Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
 #' @param colorGene Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
-# @param nCluster Number of clusters to be generated. Parameter used when plotType = "treePlot". Defualt is 5
 #' @param showCategory Number of GO terms to be displayed in the plot. Default is 10
 #' @param aa Central amino acid. For example, "K" (for acetylome), "S", "T", "Y", "STY" (for phosphoproteome). Default is "K".
 #' @param seq.width Width of the sequence for motif search. Default is 15
@@ -109,7 +108,8 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   }
 
   make.dir(paste(getwd(),"/Results",sep = ""))
-  sampleTable <- gsub(" ", ".", sampleTable$label)
+  sampleTable$label <- gsub(" ", ".", sampleTable$label)
+
   # Decide the organism database
 
   if(org == "dme"){
