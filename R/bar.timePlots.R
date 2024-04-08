@@ -91,8 +91,8 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
           {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
       }
 
-      dir.create(paste(getwd(),"/Results/BarPlots",sep = ""), showWarnings = TRUE)
-      pdf(paste(getwd(),"/Results/BarPlots/",Fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
+      dir.create(paste(getwd(),"/Results/",Fraction,"/BarPlots",sep = ""), showWarnings = TRUE)
+      pdf(paste(getwd(),"/Results/",Fraction,"/BarPlots/",Fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
       for(i in 1:(n_pages(plot2))){
         if(Fraction=="Proteome"){print(plot2 + facet_wrap_paginate(~symbol, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
         }else{print(plot2 + facet_wrap_paginate(~symbol+Sequence, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))

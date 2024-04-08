@@ -21,8 +21,8 @@
 volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData, Fraction, filter.protein.type, contrasts,
                         pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
 
-  dir.create(paste(getwd(),"/Results/VolcanoPlots",sep = ""), showWarnings = TRUE)
-  pdf(paste(getwd(),"/Results/VolcanoPlots/",Fraction,"_volcanoPlot.pdf",sep = ""), paper = "a4r")
+  dir.create(paste(getwd(),"/Results/",Fraction,"/VolcanoPlots",sep = ""), showWarnings = TRUE)
+  pdf(paste(getwd(),"/Results/",Fraction,"/VolcanoPlots/",Fraction,"_volcanoPlot.pdf",sep = ""), paper = "a4r")
 
   for(i in seq_along(1:length(contrasts))){
     data.sub <- resData[[i]]
