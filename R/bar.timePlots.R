@@ -25,20 +25,6 @@
 bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FALSE, lfq.data, contrasts, sampleTable,
                           pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
 
-  make.dir <- function(fp) {
-
-    if(!file.exists(fp)) {
-      # If the folder does not exist, create a new one
-      dir.create(fp, recursive = TRUE)
-
-    } else {
-      # If it existed, delete and replace with a new one
-      unlink(fp, recursive = TRUE)
-      dir.create(fp, recursive=TRUE)
-      print("The name of the folder had already existed, you need to know that you have overwritten it.")
-    }
-  }
-
   if(!is.null(fav.proteins)){
 
     lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
@@ -105,7 +91,7 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
           {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
       }
 
-      make.dir(paste(getwd(),"/Results/BarPlots",sep = ""))
+      dir.create(paste(getwd(),"/Results/BarPlots",sep = ""), showWarnings = TRUE)
       pdf(paste(getwd(),"/Results/BarPlots/",Fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
       for(i in 1:(n_pages(plot2))){
         if(Fraction=="Proteome"){print(plot2 + facet_wrap_paginate(~symbol, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))

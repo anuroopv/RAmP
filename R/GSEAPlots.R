@@ -31,20 +31,6 @@ GSEAPlots <- function(gseData, Fraction, enrich = c('gsea', 'ora'),
                       showCategory = 10, org = "dme", pvalCutOff = 0.05){
   # Decide the organism database
 
-    make.dir <- function(fp) {
-
-    if(!file.exists(fp)) {
-      # If the folder does not exist, create a new one
-      dir.create(fp, recursive = TRUE)
-
-    } else {
-      # If it existed, delete and replace with a new one
-      unlink(fp, recursive = TRUE)
-      dir.create(fp, recursive=TRUE)
-      print("The name of the folder had already existed, you need to know that you have overwritten it.")
-    }
-  }
-
   if(org == "dme"){
     orgDB = org.Dm.eg.db
   }else if(org == "hsa"){
@@ -56,7 +42,8 @@ GSEAPlots <- function(gseData, Fraction, enrich = c('gsea', 'ora'),
   }else{
     stop("Only drosophila, human, mouse and yeast databases are supported")
   }
-  make.dir(paste(getwd(),"/Results/Enrichment_analysis",sep = ""))
+
+  dir.create(paste(getwd(),"/Results/Enrichment_plots",sep = ""), showWarnings = TRUE)
 
   for(i in 1:length(gseData)){
 
@@ -71,7 +58,7 @@ GSEAPlots <- function(gseData, Fraction, enrich = c('gsea', 'ora'),
     # }
 
     if(plotType == "dotPlot"){
-      pdf(file = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-dotPlot.pdf",sep = ""), paper = "a4r")
+      pdf(file = paste(getwd(),"/Results/Enrichment_plots/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-dotPlot.pdf",sep = ""), paper = "a4r")
       if(enrich == "gsea"){print(enrichplot::dotplot(gseData[[i]], showCategory=showCategory) + ggtitle(names(gseData[i])) +
                                    facet_grid(.~.sign))
       }else{print(enrichplot::dotplot(gseData[[i]], showCategory=showCategory) +
@@ -79,19 +66,19 @@ GSEAPlots <- function(gseData, Fraction, enrich = c('gsea', 'ora'),
       }
       dev.off()
     }else if(plotType == "cNetPlot"){
-      pdf(file = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-cNetPlot.pdf",sep = ""), width = 5, height = 4, paper = "a4r")
+      pdf(file = paste(getwd(),"/Results/Enrichment_plots/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-cNetPlot.pdf",sep = ""), width = 5, height = 4, paper = "a4r")
       print(enrichplot::cnetplot(x = gseData[[i]], categorySize = "pvalue", foldChange=geneList, showCategory=showCategory,
                                  circular = circular, colorEdge = colorEdge, node_label = nodeLabel,
                                  cex_label_category = cexLabelCategory, cex_label_gene = cexLabelGene)
             + ggtitle(names(gseData[i])))
       dev.off()
     }else if(plotType == "heatPlot"){
-      pdf(file = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-heatPlot.pdf",sep = ""), width = 5, height = 4, paper = "a4r")
+      pdf(file = paste(getwd(),"/Results/Enrichment_plots/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-heatPlot.pdf",sep = ""), width = 5, height = 4, paper = "a4r")
       print(enrichplot::heatplot(x = gseData[[i]], foldChange = geneList, showCategory = showCategory) +
               ggtitle(names(gseData[i])))
       dev.off()
     }else if(plotType == "treePlot"){
-      pdf(file = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-treePlot.pdf",sep = ""), paper = "a4r")
+      pdf(file = paste(getwd(),"/Results/Enrichment_plots/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-treePlot.pdf",sep = ""), paper = "a4r")
       edox <- pairwise_termsim(gseData[[i]])
       print(enrichplot::treeplot(edox, showCategory = showCategory) + ggtitle(names(gseData[i])))
       dev.off()
@@ -100,7 +87,7 @@ GSEAPlots <- function(gseData, Fraction, enrich = c('gsea', 'ora'),
         print("GSEA plot cannot be used for Over-representation Analysis")
         stop()
       }
-      pdf(file = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-gseaPlot.pdf",sep = ""), paper = "a4r")
+      pdf(file = paste(getwd(),"/Results/Enrichment_plots/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-gseaPlot.pdf",sep = ""), paper = "a4r")
       if(is.numeric(showCategory) == TRUE){
         print(enrichplot::gseaplot2(gseData[[i]], geneSetID = 1:showCategory, pvalue_table = TRUE, title = names(gseData[i]), subplots = 1))
       }else{
@@ -112,7 +99,7 @@ GSEAPlots <- function(gseData, Fraction, enrich = c('gsea', 'ora'),
         print("Ridge plot cannot be used for Over-representation Analysis")
         stop()
       }
-      pdf(file = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-ridgePlot.pdf",sep = ""), paper = "a4r")
+      pdf(file = paste(getwd(),"/Results/Enrichment_plots/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-ridgePlot.pdf",sep = ""), paper = "a4r")
       print(enrichplot::ridgeplot(x = gseData[[i]], showCategory = showCategory, fill = "p.adjust", decreasing = TRUE) +
               ggtitle(names(gseData[i])))
       dev.off()

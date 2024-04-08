@@ -93,21 +93,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                 circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
                 showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
-  make.dir <- function(fp) {
-
-    if(!file.exists(fp)) {
-      # If the folder does not exist, create a new one
-      dir.create(fp, recursive = TRUE)
-
-    } else {
-      # If it existed, delete and replace with a new one
-      unlink(fp, recursive = TRUE)
-      dir.create(fp, recursive=TRUE)
-      print("The name of the folder had already existed, you need to know that you have overwritten it.")
-    }
-  }
-
-  make.dir(paste(getwd(),"/Results",sep = ""))
+  dir.create(paste(getwd(),"/Results/",sep = ""), showWarnings = TRUE)
   sampleTable$label <- gsub(" ", ".", sampleTable$label)
 
   # Decide the organism database
@@ -187,7 +173,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
     stop()
   }
 
-  make.dir(paste(getwd(),"/Results/Impute_files",sep = ""))
+  dir.create(paste(getwd(),"/Results/Impute_files",sep = ""), showWarnings = TRUE)
   pdf(file = paste(getwd(),"/Results/Impute_files/",Fraction,"_Impute-plots.pdf",sep = ""))
   print(plot_imputation(data.norm, data_impute))
   dev.off()
@@ -230,7 +216,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
 
   # Correlation plot
 
-  make.dir(paste(getwd(),"/Results/QC_files",sep = ""))
+  dir.create(paste(getwd(),"/Results/QC_files",sep = ""), showWarnings = TRUE)
   pdf(file = paste(getwd(),"/Results/QC_files/",Fraction,"_QC-plots.pdf",sep = ""))
 
   # Hierarchical clustering
@@ -335,7 +321,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   volcanoPlot(proteinList = fav.proteins, name.sigProteins = name.sigProteins, resData = res, Fraction = Fraction, filter.protein.type = filter.protein.type,
               contrasts = contrasts, pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
 
-  make.dir(paste(getwd(),"/Results/Final_data",sep = ""))
+  dir.create(paste(getwd(),"/Results/Final_data",sep = ""), showWarnings = TRUE)
   writexl::write_xlsx(x = nonExclusive.list, path = paste(getwd(),"/Results/Final_data/",Fraction,"_finalData.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
 
   if(is.null(exclusive.data) == TRUE){
