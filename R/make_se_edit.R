@@ -11,8 +11,9 @@
 #' @export
 #'
 #' @importFrom tibble rownames_to_column is_tibble
-#' @importFrom dplyr semi_join select add_rownames mutate %>% left_join summarize group_by
+#' @importFrom dplyr semi_join select add_rownames mutate %>% left_join summarize group_by filter_if
 #' @importFrom tidyr gather spread unite
+#' @importFrom stringr str_count
 ##########################################################
 # Make summarized experiment (modified from DEP package)
 

@@ -24,8 +24,7 @@
 #' @import ComplexHeatmap
 #' @importFrom seriation seriate get_order
 #' @importFrom ClassDiscovery distanceMatrix
-#' @importFrom grid convertX
-#' @importFrom grid convertY
+#' @importFrom grid convertX convertY gpar
 ################################################################################
 
 # Function for generating heatmaps for exclusive and significant proteins/sites

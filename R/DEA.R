@@ -58,9 +58,9 @@
 #' @export
 #'
 #' @importFrom stats model.matrix hclust
-#' @importFrom DEP impute plot_pca make_unique filter_proteins normalize_vsn plot_frequency plot_numbers plot_coverage plot_normalization meanSdPlot plot_missval plot_detect
+#' @importFrom DEP impute plot_pca make_unique filter_proteins plot_imputation normalize_vsn plot_frequency plot_numbers plot_coverage plot_normalization meanSdPlot plot_missval plot_detect
 #' @importFrom limma makeContrasts lmFit contrasts.fit eBayes topTable removeBatchEffect
-#' @importFrom SummarizedExperiment rowData assay SummarizedExperiment
+#' @importFrom SummarizedExperiment rowData assay SummarizedExperiment rowData
 #' @importFrom qvalue qvalue
 #' @importFrom corrplot corrplot
 #' @importFrom writexl write_xlsx
@@ -72,6 +72,20 @@
 #' @import ggforce
 #' @import ggridges
 #' @import RColorBrewer
+#'
+# GenomicFeatures
+# BiocManager
+# GO.db
+# data.table
+# gdata
+# rlist
+# hexbin
+# stringr
+# plyr
+# readr
+# devtools
+# seqinr
+# plotrix
 ############### Differential analysis of proteome/enriched data using DEP package ###############
 
 DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL, org = "dme", quantification = "LFQ", pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, contrasts,
