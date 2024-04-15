@@ -60,11 +60,12 @@
 #' @importFrom stats model.matrix hclust
 #' @importFrom DEP impute plot_pca make_unique filter_proteins plot_imputation normalize_vsn plot_frequency plot_numbers plot_coverage plot_normalization meanSdPlot plot_missval plot_detect
 #' @importFrom limma makeContrasts lmFit contrasts.fit eBayes topTable removeBatchEffect
-#' @importFrom SummarizedExperiment rowData assay SummarizedExperiment rowData
+# @importFrom SummarizedExperiment rowData assay SummarizedExperiment rowData
 #' @importFrom qvalue qvalue
 #' @importFrom corrplot corrplot
 #' @importFrom writexl write_xlsx
 #'
+#' @import SummarizedExperiment
 #' @import ggplot2
 #' @import ggpubr
 #' @import ggrepel
