@@ -24,9 +24,14 @@
 bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FALSE, lfq.data, contrasts, sampleTable,
                           pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
 
-  if(!is.null(fav.proteins)){
+  lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
+
+  if(!is.null(fav.proteins) | nrow(lfq.data.sub != 0)){
 
     lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
+    if(nrow(lfq.data.sub == 0)){
+      print("None of the protein(s) or site(s) provided could be found. Check the data to see if the protein is present or if the naming is correct")
+    }
 
     conditions <- unlist(strsplit(gsub("_vs_|[()]", ",", contrasts), ","))
     label_idx <- sampleTable[sampleTable$condition %in% conditions,]$label
@@ -99,7 +104,7 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
       }
       dev.off()
     }else{
-      print("Either the protein(s) were NOT found or the format of the protein name is wrong")
+      print("The given protein(s) (or site(s)) were NOT found. Check the data or the format of the protein name. Provided symbols should exactly match the symbols given in the database, including the case of each letter")
     }
   }
 }

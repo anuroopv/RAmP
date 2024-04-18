@@ -14,7 +14,7 @@
 #' @import dplyr
 # @importFrom dplyr semi_join select add_rownames mutate %>% left_join summarize group_by filter_if
 #' @importFrom tidyr gather spread unite
-#' @importFrom stringr str_count
+#' @importFrom stringr str_count str_extract_all str_match_all
 ##########################################################
 # Make summarized experiment (modified from DEP package)
 
