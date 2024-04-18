@@ -1,7 +1,7 @@
 Package: RAmP
 Type: Package
 Title: R package for Analysis of (modified) Proteome
-Version: 1.1
+Version: 1.3
 Author: c(
     person("Venkatasubramani", "Anuroop V", email = "anuroop.venkatasubramani@bmc.med.lmu.de", role = c("cre","aut")),
 	person("Imhof", "Axel", email = "imhof@lmu.de", role = "aut"),

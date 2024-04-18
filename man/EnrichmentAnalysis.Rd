@@ -7,7 +7,7 @@
 EnrichmentAnalysis(
   enrich = c("gsea", "ora"),
   nonExclusive.data = NULL,
-  fraction = c("Proteome", "Enriched"),
+  Fraction,
   rankBy = "stat",
   KEGG = FALSE,
   ont = "BP",
@@ -30,7 +30,7 @@ EnrichmentAnalysis(
 
 \item{nonExclusive.data}{Default is NULL. If not, the data should be given as list containing data frame(s)}
 
-\item{fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
+\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
 \item{rankBy}{Can be either stat or logFC. Genes are ranked accordingly for GSEA}
 

@@ -8,7 +8,7 @@ volcanoPlot(
   proteinList,
   name.sigProteins = FALSE,
   resData,
-  fraction,
+  Fraction,
   filter.protein.type,
   contrasts,
   pvalCutOff = 0.05,
@@ -23,7 +23,7 @@ volcanoPlot(
 
 \item{resData}{Data frame(s) (as list) from limma differential expression analysis}
 
-\item{fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
+\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
 \item{filter.protein.type}{Can be either "complete" or "condition" or "fraction"}
 

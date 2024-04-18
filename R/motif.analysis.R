@@ -19,12 +19,10 @@
 #'
 #' @export
 #'
-#' @import rmotifx
 #' @import PTMphinder
-#' @import seqinr
+#' @import rmotifx
 #' @import ggseqlogo
-#' @import plotrix
-#' @import devtools
+#' @importFrom data.table setDT
 ################################################################################
 
 # Motif analysis of significant enriched sites
@@ -32,20 +30,6 @@
 motif.analysis <- function(raw.enrichData, Ex.data, nonEx.data, fasta, aa = "K", seq.width = 15, min.seqs = 20, p.value.motif = 1e-5,
                            contrasts, sampleTable,
                            pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
-
-  make.dir <- function(fp) {
-
-    if(!file.exists(fp)) {
-      # If the folder does not exist, create a new one
-      dir.create(fp, recursive = TRUE)
-
-    } else {
-      # If it existed, delete and replace with a new one
-      unlink(fp, recursive = TRUE)
-      dir.create(fp, recursive=TRUE)
-      print("The name of the folder had already existed, you need to know that you have overwritten it.")
-    }
-  }
 
   enrichdata.sub <- raw.enrichData %>%
     select(ends_with("Probabilities"),
@@ -177,8 +161,8 @@ motif.analysis <- function(raw.enrichData, Ex.data, nonEx.data, fasta, aa = "K",
       motifx.data <- motifx(foreground_Seqs_Filtered, extractBack, central.res = aa, min.seqs = min.seqs, pval.cutoff = p.value.motif)
 
       # View motifx output
-      make.dir(paste(getwd(),"/Results/Motif_analysis",sep = ""))
-      pdf(paste(getwd(),"/Results/Motif_analysis/",names(enrich.sub[i]),"_motif.pdf", sep = ""), width = 8, height = 3)
+      dir.create(paste(getwd(),"/Results/Enriched/Motif_analysis",sep = ""), showWarnings = TRUE)
+      pdf(paste(getwd(),"/Results/Enriched/Motif_analysis/",names(enrich.sub[i]),"_motif.pdf", sep = ""), width = 8, height = 3)
 
       if(!is.null(motifx.data)){print(ggseqlogo(motifx.data$motif, seq_type='aa', method = 'bits') + ggtitle(names(enrich.sub[i])))
         print(ggseqlogo(motifx.data$motif, seq_type='aa', method = 'prob')  + ggtitle(names(enrich.sub[i])))
@@ -186,7 +170,7 @@ motif.analysis <- function(raw.enrichData, Ex.data, nonEx.data, fasta, aa = "K",
         print("No motifs matched")
       }
       dev.off()
-      writexl::write_xlsx(path = paste(getwd(),"/Results/Motif_analysis/",names(enrich.sub[i]),"_motif.xlsx", sep = ""), x = motifx.data, col_names = TRUE, format_headers = TRUE)
+      writexl::write_xlsx(path = paste(getwd(),"/Results/Enriched/Motif_analysis/",names(enrich.sub[i]),"_motif.xlsx", sep = ""), x = motifx.data, col_names = TRUE, format_headers = TRUE)
     }
   }
 }

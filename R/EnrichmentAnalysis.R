@@ -25,9 +25,8 @@
 #'
 #' @export
 #'
-#' @import clusterProfiler
-#' @import DOSE
-#' @import GO.db
+#' @importFrom DOSE setReadable
+#' @importFrom clusterProfiler gseGO gseKEGG simplify enrichGO
 ################################################################################
 # GO term analysis
 
@@ -136,8 +135,8 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
     names(gse.list)[[i]] <- contrasts[i]
     names(pathways.list)[[i]] <- contrasts[i]
   }
-  dir.create(paste(getwd(),"/Results/Enrichment_analysis",sep = ""),showWarnings = FALSE)
-  writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_GSEA.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
+  dir.create(paste(getwd(),"/Results/",Fraction,"/Enrichment_analysis",sep = ""), showWarnings = TRUE)
+  writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/",Fraction,"/Enrichment_analysis/",Fraction,"_GSEA.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
   return(gse.list)
 }else if(enrich == "ora"){
 
@@ -240,8 +239,8 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
     names(pathways.list)[c(i+k,i+k+1)] <- paste(conditions, contrasts[i], sep = "_")
     names(go_enrich.list)[c(i+k,i+k+1)] <- paste(conditions, contrasts[i], sep = "_")
   }
-  dir.create(paste(getwd(),"/Results/Enrichment_analysis",sep = ""),showWarnings = FALSE)
-  writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/Enrichment_analysis/",Fraction,"_ORA.xlsx", sep = ""), col_names = TRUE, format_headers = TRUE)
+  dir.create(paste(getwd(),"/Results/",Fraction,"/Enrichment_analysis",sep = ""), showWarnings = TRUE)
+  writexl::write_xlsx(x = pathways.list, path = paste(getwd(),"/Results/",Fraction,"/Enrichment_analysis/",Fraction,"_ORA.xlsx", sep = ""), col_names = TRUE, format_headers = TRUE)
   return(go_enrich.list)
 }else{
   stop("Accepted values for enrich are: gsea or ora")

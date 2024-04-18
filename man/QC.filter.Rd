@@ -6,7 +6,8 @@
 \usage{
 QC.filter(
   data,
-  fraction = c("Proteome", "Enriched"),
+  Fraction,
+  sampleTable,
   filter.protein.type = c("complete", "condition", "fraction"),
   filter.thr = NA,
   filter.protein.min = NULL,
@@ -17,7 +18,7 @@ QC.filter(
 \arguments{
 \item{data}{output file (or output) from editData function}
 
-\item{fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
+\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
 \item{filter.protein.type}{Can be either "complete" or "condition" or "fraction". complete indictaes removal of all NAs. condition indicates removal of NAs based on different conditions in the data (Ex. mutant and control). fraction indicates removal of NAs based on all samples irrespective of different conditions (check DEP package for further details)}
 

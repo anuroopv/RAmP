@@ -22,7 +22,9 @@
 #' @export
 #'
 #' @import ComplexHeatmap
-#' @import seriation
+#' @importFrom seriation seriate get_order
+#' @importFrom ClassDiscovery distanceMatrix
+#' @importFrom grid convertX convertY gpar
 ################################################################################
 
 # Function for generating heatmaps for exclusive and significant proteins/sites
@@ -31,20 +33,6 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
                     distance.matrix = c("spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird"), exclusive.data = exclusive.data,
                     clustering.method = c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid"), sampleTable,
                     title = NA, pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, org = "dme"){
-
-  make.dir <- function(fp) {
-
-    if(!file.exists(fp)) {
-      # If the folder does not exist, create a new one
-      dir.create(fp, recursive = TRUE)
-
-    } else {
-      # If it existed, delete and replace with a new one
-      unlink(fp, recursive = TRUE)
-      dir.create(fp, recursive=TRUE)
-      print("The name of the folder had already existed, you need to know that you have overwritten it.")
-    }
-  }
 
   sign.data <- list()
   protlist <- list()
@@ -150,11 +138,12 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
                                  cluster_columns = hc.samples, width = ncol(protIntensityData2)*unit(5, "mm"), height = nrow(protIntensityData2)*unit(0.2, "mm"),
                                  show_row_names = FALSE, show_column_names = TRUE, heatmap_legend_param = list(title = "Scaled values"))
 
-
     size = calc_ht_size(ht = x, unit = "inch")
 
-    make.dir(paste(getwd(),"/Results/Heatmap",sep = ""))
-    pdf(file = paste(getwd(),"/Results/Heatmap/",Fraction,"_",contrasts[i],"_heatMaps.pdf",sep = ""), height = size[2]*1.25, width = size[1]*1.5)
+    x <- ComplexHeatmap::draw(x)
+
+    dir.create(paste(getwd(),"/Results/",Fraction,"/Heatmap",sep = ""), showWarnings = TRUE)
+    pdf(file = paste(getwd(),"/Results/",Fraction,"/Heatmap/",Fraction,"_",contrasts[i],"_heatMaps.pdf",sep = ""), height = size[2]*1.25, width = size[1]*1.5)
     ComplexHeatmap::draw(x, heatmap_legend_list = lgd)
     dev.off()
 
@@ -163,7 +152,7 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
     geneOrder$Uniprot = gsub("_.*", "", geneOrder$Uniprot)}
 
     geneOrder$symbol <- if(org != "sce"){mapIds(x = orgDB, keys =  as.character(geneOrder$Uniprot), column = "SYMBOL", keytype="UNIPROT", multiVals="first")}else{mapIds(x = orgDB, keys =  as.character(geneOrder$Uniprot), column = "GENENAME", keytype="UNIPROT", multiVals="first")}
-    write.csv(geneOrder, paste(getwd(),"/Results/Heatmap/",Fraction,"_",contrasts[i],"_proteinOrder-heatMaps.csv",sep = ""), row.names = FALSE)
+    write.csv(geneOrder, paste(getwd(),"/Results/",Fraction,"/Heatmap/",Fraction,"_",contrasts[i],"_proteinOrder-heatMaps.csv",sep = ""), row.names = FALSE)
   }
 
 }

@@ -15,7 +15,7 @@ DEA(
   sigmaCutOff = 0.05,
   lfcCutOff = 0,
   contrasts,
-  fraction = c("Proteome", "Enriched"),
+  Fraction = c("Proteome", "Enriched"),
   filter.protein.type = "condition",
   filter.thr = 0,
   filter.protein.min = 0.75,
@@ -78,7 +78,7 @@ DEA(
 
 \item{contrasts}{Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time}
 
-\item{fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
+\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
 \item{filter.protein.type}{Can be either "complete" or "condition" or "fraction". complete indictaes removal of all NAs. condition indicates removal of NAs based on different conditions in the data (Ex. mutant and control). fraction indicates removal of NAs based on all samples irrespective of different conditions (check DEP package for further details)}
 
@@ -86,7 +86,7 @@ DEA(
 
 \item{filter.protein.min}{Only if filter.protein.type = fraction. Any value between 0-1 Any value between 0-1 (Ex. 0.75 indicates the protein should not have NAs in 75\% of all samples)}
 
-\item{probability}{Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if fraction = "Enriched")}
+\item{probability}{Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if Fraction = "Enriched")}
 
 \item{enrich.batch}{If the normalization should be done based on paired replicates or avergae of replicates}
 

@@ -11,33 +11,9 @@
 #'
 #' @export
 #'
-#' @import data.table
-#' @import gdata
-#' @import rlist
-#' @import ggridges
-#' @import tibble
-#' @import hexbin
-#' @import stringr
-#' @import plyr
-#' @import readr
-
 ##################### Obtain exclusive proteins and sites ########################
 
 obtain_exclusive <- function(data, Fraction, sampleTable, contrasts){
-
-  make.dir <- function(fp) {
-
-    if(!file.exists(fp)) {
-      # If the folder does not exist, create a new one
-      dir.create(fp, recursive = TRUE)
-
-    } else {
-      # If it existed, delete and replace with a new one
-      unlink(fp, recursive = TRUE)
-      dir.create(fp, recursive=TRUE)
-      print("The name of the folder had already existed, you need to know that you have overwritten it.")
-    }
-  }
 
   data.na <- data
 
@@ -132,7 +108,7 @@ obtain_exclusive <- function(data, Fraction, sampleTable, contrasts){
     stop("Accepted values are Proteome or Enriched")
   }
   names(exclusive.list) <- new.contrasts
-  make.dir(paste(getwd(),"/Results/Exclusive_files",sep = ""),showWarnings = FALSE)
-  writexl::write_xlsx(x = exclusive.list, path = paste(getwd(),"/Results/Exclusive_files/",Fraction,"_exclusive.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
+  dir.create(paste(getwd(),"/Results/",Fraction,"/Exclusive_files",sep = ""), showWarnings = TRUE)
+  writexl::write_xlsx(x = exclusive.list, path = paste(getwd(),"/Results/",Fraction,"/Exclusive_files/",Fraction,"_exclusive.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
   return(exclusive.list)
 }

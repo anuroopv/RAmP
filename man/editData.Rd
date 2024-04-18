@@ -4,20 +4,14 @@
 \alias{editData}
 \title{editData}
 \usage{
-editData(
-  data,
-  fraction = c("Proteome", "Enriched"),
-  probability = NULL,
-  org = "dme",
-  quantification = "LFQ"
-)
+editData(data, Fraction, probability, org, quantification)
 }
 \arguments{
 \item{data}{Input or modified proteome file from MaxQuant (.txt)}
 
-\item{fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
+\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
-\item{probability}{Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if fraction = "Enriched")}
+\item{probability}{Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if Fraction = "Enriched")}
 
 \item{org}{Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"}
 
@@ -30,5 +24,6 @@ A data frame that will be cleaner than the original raw data to be used for diff
 Cleans the raw data from MaxQuant for downstream analysis
 }
 \examples{
-lfqdata <- editData(data = proteome, fraction = "Enriched", probability = 0.9)
+lfqdata <- editData(data = proteome, Fraction = "Enriched", probability = 0.9)
+
 }

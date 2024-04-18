@@ -21,20 +21,6 @@ QC.filter <- function(data, Fraction, sampleTable,
                       filter.protein.type = c("complete", "condition", "fraction"),
                       filter.thr = NA, filter.protein.min = NULL, org = "dme", quantification = "LFQ"){
 
-  make.dir <- function(fp) {
-
-    if(!file.exists(fp)) {
-      # If the folder does not exist, create a new one
-      dir.create(fp, recursive = TRUE)
-
-    } else {
-      # If it existed, delete and replace with a new one
-      unlink(fp, recursive = TRUE)
-      dir.create(fp, recursive=TRUE)
-      print("The name of the folder had already existed, you need to know that you have overwritten it.")
-    }
-  }
-
   # Decide the organism database
 
   if(org == "dme"){
@@ -96,8 +82,8 @@ QC.filter <- function(data, Fraction, sampleTable,
     stop("Mention one of these: complete, condition or fraction")
   }
 
-  make.dir(paste(getwd(),"/Results/Initial_filtering",sep = ""))
-  pdf(file = paste(getwd(),"/Results/Initial_filtering/",Fraction,"_InitialFiltering-plots.pdf",sep = ""))
+  dir.create(paste(getwd(),"/Results/",Fraction,"/Initial_filtering",sep = ""), showWarnings = TRUE)
+  pdf(file = paste(getwd(),"/Results/",Fraction,"/Initial_filtering/",Fraction,"_InitialFiltering-plots.pdf",sep = ""))
 
   print(plot_frequency(data_se))
   print(plot_numbers(data_filt))

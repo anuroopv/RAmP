@@ -4,14 +4,14 @@
 \alias{filter.identical}
 \title{filter.identical}
 \usage{
-\method{filter}{identical}(nonexclusive.data, exlusive.data, fraction, contrasts)
+\method{filter}{identical}(nonexclusive.data, exlusive.data, Fraction, contrasts)
 }
 \arguments{
 \item{nonexclusive.data}{Data frame(s) (as list) obtained after limma differential expression analysis}
 
 \item{exlusive.data}{Output from obtain_exclusive}
 
-\item{fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
+\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
 \item{contrasts}{Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time}
 }

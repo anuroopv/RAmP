@@ -6,7 +6,7 @@
 \usage{
 GSEAPlots(
   gseData,
-  fraction = fraction,
+  Fraction,
   enrich = c("gsea", "ora"),
   plotType = c("dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"),
   circular = FALSE,
@@ -16,7 +16,6 @@ GSEAPlots(
   cexLabelGene = 0.8,
   colorCcategory = "black",
   colorGene = "black",
-  nCluster = 5,
   showCategory = 10,
   org = "dme",
   pvalCutOff = 0.05
@@ -25,7 +24,7 @@ GSEAPlots(
 \arguments{
 \item{gseData}{Output from clusterProfiler (as list)}
 
-\item{fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
+\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
 \item{plotType}{Can be one of "dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"}
 
@@ -42,8 +41,6 @@ GSEAPlots(
 \item{colorCcategory}{Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"}
 
 \item{colorGene}{Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"}
-
-\item{nCluster}{Number of clusters to be generated. Parameter used when plotType = "treePlot". Defualt is 5}
 
 \item{showCategory}{Number of GO terms to be displayed in the plot. Default is 10}
 

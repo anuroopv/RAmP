@@ -17,31 +17,21 @@
 #'
 #' @export
 #'
-#' @import Rmisc
-#' @import tidyr
+#' @importFrom Rmisc summarySE
 ################################################################################
 # Barplot of for selected proteins/sites
 
 bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FALSE, lfq.data, contrasts, sampleTable,
                           pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
 
-  make.dir <- function(fp) {
+  lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
 
-    if(!file.exists(fp)) {
-      # If the folder does not exist, create a new one
-      dir.create(fp, recursive = TRUE)
-
-    } else {
-      # If it existed, delete and replace with a new one
-      unlink(fp, recursive = TRUE)
-      dir.create(fp, recursive=TRUE)
-      print("The name of the folder had already existed, you need to know that you have overwritten it.")
-    }
-  }
-
-  if(!is.null(fav.proteins)){
+  if(!is.null(fav.proteins) | nrow(lfq.data.sub != 0)){
 
     lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
+    if(nrow(lfq.data.sub == 0)){
+      print("None of the protein(s) or site(s) provided could be found. Check the data to see if the protein is present or if the naming is correct")
+    }
 
     conditions <- unlist(strsplit(gsub("_vs_|[()]", ",", contrasts), ","))
     label_idx <- sampleTable[sampleTable$condition %in% conditions,]$label
@@ -105,8 +95,8 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
           {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
       }
 
-      make.dir(paste(getwd(),"/Results/BarPlots",sep = ""))
-      pdf(paste(getwd(),"/Results/BarPlots/",Fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
+      dir.create(paste(getwd(),"/Results/",Fraction,"/BarPlots",sep = ""), showWarnings = TRUE)
+      pdf(paste(getwd(),"/Results/",Fraction,"/BarPlots/",Fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
       for(i in 1:(n_pages(plot2))){
         if(Fraction=="Proteome"){print(plot2 + facet_wrap_paginate(~symbol, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
         }else{print(plot2 + facet_wrap_paginate(~symbol+Sequence, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
@@ -114,7 +104,7 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
       }
       dev.off()
     }else{
-      print("Either the protein(s) were NOT found or the format of the protein name is wrong")
+      print("The given protein(s) (or site(s)) were NOT found. Check the data or the format of the protein name. Provided symbols should exactly match the symbols given in the database, including the case of each letter")
     }
   }
 }

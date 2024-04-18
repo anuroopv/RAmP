@@ -7,7 +7,7 @@
 bar.timePlots(
   imputed.data,
   fav.proteins,
-  fraction,
+  Fraction,
   timeSeries = FALSE,
   lfq.data,
   contrasts,
@@ -22,7 +22,7 @@ bar.timePlots(
 
 \item{fav.proteins}{Vector with favourite proteins (or their corresponding sites) for which corresponding bar or timeseries plots are required}
 
-\item{fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
+\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
 \item{timeSeries}{Logical (Default is FALSE). If TRUE, line plots will be generated instead of barplots}
 
