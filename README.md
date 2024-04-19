@@ -21,7 +21,7 @@ You can install the development version of RAmP from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("anuroopv/RAmP")
+devtools::install_github("anuroopv/RAmP", dependencies = TRUE)
 library(RAmP)
 ```
 

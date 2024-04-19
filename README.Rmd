@@ -26,7 +26,7 @@ You can install the development version of RAmP from [GitHub](https://github.com
 
 ``` {r, eval=FALSE}
 # install.packages("devtools")
-devtools::install_github("anuroopv/RAmP")
+devtools::install_github("anuroopv/RAmP", dependencies = TRUE)
 library(RAmP)
 ```
 Please note that RAmP requires an R version higher than 4.3.1. Please intsall the latest R version to avoid any compatibility issues with dependent packages. 

@@ -1,8 +1,15 @@
 pandoc: 3.1.1
 pkgdown: 2.0.9
 pkgdown_sha: ~
+title: RAmP  
+url: anuroopv.github.io/RAmP/index.html  
+template:  
+  params:  
+    bootswatch: flatly  
+    ganalytics: UA-12345678-0
 articles:
-  RAmP_vignette: RAmP_vignette.html
   RAmP: RAmP.html
-last_built: 2024-04-19T15:33Z
+navbar:  
+  type: inverse  
+last_built: 2024-04-19T15:52Z
 
