@@ -82,8 +82,8 @@ QC.filter <- function(data, Fraction, sampleTable,
     stop("Mention one of these: complete, condition or fraction")
   }
 
-  dir.create(paste(getwd(),"/Results/",Fraction,"/Initial_filtering",sep = ""), showWarnings = TRUE)
-  pdf(file = paste(getwd(),"/Results/",Fraction,"/Initial_filtering/",Fraction,"_InitialFiltering-plots.pdf",sep = ""))
+  dir.create(paste(path1,"/",Fraction,"/Initial_filtering",sep = ""), showWarnings = FALSE)
+  pdf(file = paste(path1,"/",Fraction,"/Initial_filtering/",Fraction,"_InitialFiltering-plots.pdf",sep = ""))
 
   print(plot_frequency(data_se))
   print(plot_numbers(data_filt))

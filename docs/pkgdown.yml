@@ -1,7 +1,7 @@
 pandoc: 3.1.1
-pkgdown: 2.0.8
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   RAmP: RAmP.html
-last_built: 2024-04-18T21:52Z
+last_built: 2024-04-19T14:47Z
 
