@@ -24,7 +24,7 @@
 
 editData <- function(data, Fraction, probability, org, quantification){
 
-  dir.create(paste(getwd(),"/Results/",Fraction,sep = ""), showWarnings = TRUE)
+  dir.create(paste(path1,"/",Fraction,sep = ""), showWarnings = FALSE)
 
   # Decide the organism database
 

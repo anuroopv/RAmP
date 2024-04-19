@@ -142,8 +142,8 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
 
     x <- ComplexHeatmap::draw(x)
 
-    dir.create(paste(getwd(),"/Results/",Fraction,"/Heatmap",sep = ""), showWarnings = TRUE)
-    pdf(file = paste(getwd(),"/Results/",Fraction,"/Heatmap/",Fraction,"_",contrasts[i],"_heatMaps.pdf",sep = ""), height = size[2]*1.25, width = size[1]*1.5)
+    dir.create(paste(path1,"/",Fraction,"/Heatmap",sep = ""), showWarnings = FALSE)
+    pdf(file = paste(path1,"/",Fraction,"/Heatmap/",Fraction,"_",contrasts[i],"_heatMaps.pdf",sep = ""), height = size[2]*1.25, width = size[1]*1.5)
     ComplexHeatmap::draw(x, heatmap_legend_list = lgd)
     dev.off()
 
@@ -152,7 +152,7 @@ heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filt
     geneOrder$Uniprot = gsub("_.*", "", geneOrder$Uniprot)}
 
     geneOrder$symbol <- if(org != "sce"){mapIds(x = orgDB, keys =  as.character(geneOrder$Uniprot), column = "SYMBOL", keytype="UNIPROT", multiVals="first")}else{mapIds(x = orgDB, keys =  as.character(geneOrder$Uniprot), column = "GENENAME", keytype="UNIPROT", multiVals="first")}
-    write.csv(geneOrder, paste(getwd(),"/Results/",Fraction,"/Heatmap/",Fraction,"_",contrasts[i],"_proteinOrder-heatMaps.csv",sep = ""), row.names = FALSE)
+    write.csv(geneOrder, paste(path1,"/",Fraction,"/Heatmap/",Fraction,"_",contrasts[i],"_proteinOrder-heatMaps.csv",sep = ""), row.names = FALSE)
   }
 
 }

@@ -88,7 +88,7 @@ obtain_exclusive <- function(data, Fraction, sampleTable, contrasts){
   }
 
   if(Fraction=="Proteome"){
-    exclusive.list <- lapply(exclusive.list, dplyr::add_rownames, "Uniprot")
+    exclusive.list <- lapply(exclusive.list, tibble::rownames_to_column, "Uniprot")
     for(i in 1:length(new.contrasts)){
       exclusive.list[[i]] <- merge(x = exclusive.list[[i]], y = data.na[ , c("name", "Uniprot", "symbol")], by = "Uniprot")
       colnames(exclusive.list[[i]]) <- gsub("Symbol", "symbol", colnames(exclusive.list[[i]]))
@@ -96,7 +96,7 @@ obtain_exclusive <- function(data, Fraction, sampleTable, contrasts){
       stopifnot(identical(unlist(c("Uniprot", contrasts.sep[i], "name", "symbol")), colnames(exclusive.list[[i]])))
     }
   }else if(Fraction=="Enriched"){
-    exclusive.list <- lapply(exclusive.list, dplyr::add_rownames, "name")
+    exclusive.list <- lapply(exclusive.list, tibble::rownames_to_column, "name")
     for(i in 1:length(new.contrasts)){
       exclusive.list[[i]] <- merge(x = exclusive.list[[i]], y = data.na[ , c("name", "Uniprot", "symbol", "Sequence")], by = "name")
       tmp <- exclusive.list[[i]]$Sequence
@@ -108,7 +108,7 @@ obtain_exclusive <- function(data, Fraction, sampleTable, contrasts){
     stop("Accepted values are Proteome or Enriched")
   }
   names(exclusive.list) <- new.contrasts
-  dir.create(paste(getwd(),"/Results/",Fraction,"/Exclusive_files",sep = ""), showWarnings = TRUE)
-  writexl::write_xlsx(x = exclusive.list, path = paste(getwd(),"/Results/",Fraction,"/Exclusive_files/",Fraction,"_exclusive.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
+  dir.create(paste(path1,"/",Fraction,"/Exclusive_files",sep = ""), showWarnings = FALSE)
+  writexl::write_xlsx(x = exclusive.list, path = paste(path1,"/",Fraction,"/Exclusive_files/",Fraction,"_exclusive.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
   return(exclusive.list)
 }

@@ -59,7 +59,7 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
     summary.data$condition <- gsub(".*[.]", "", summary.data$condition)
     summary.data$genotype <- as.factor(gsub("[_].*", "", summary.data$condition))
 
-    if(nrow(summary.data) != 0){
+    # if(nrow(summary.data) != 0){
       if(timeSeries == FALSE){
         summary.data$condition <- gsub(".*[_]", "", summary.data$condition)
         plot2 <- ggplot(data = summary.data, aes(x=condition, y=measurement, fill = genotype)) +
@@ -95,8 +95,8 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
           {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
       }
 
-      dir.create(paste(getwd(),"/Results/",Fraction,"/BarPlots",sep = ""), showWarnings = TRUE)
-      pdf(paste(getwd(),"/Results/",Fraction,"/BarPlots/",Fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
+      dir.create(paste(path1,"/",Fraction,"/BarPlots",sep = ""), showWarnings = FALSE)
+      pdf(paste(path1,"/",Fraction,"/BarPlots/",Fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
       for(i in 1:(n_pages(plot2))){
         if(Fraction=="Proteome"){print(plot2 + facet_wrap_paginate(~symbol, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
         }else{print(plot2 + facet_wrap_paginate(~symbol+Sequence, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
@@ -107,4 +107,3 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
       print("The given protein(s) (or site(s)) were NOT found. Check the data or the format of the protein name. Provided symbols should exactly match the symbols given in the database, including the case of each letter")
     }
   }
-}

@@ -103,7 +103,10 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                 circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
                 showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
-  dir.create(paste(getwd(),"/Results",sep = ""), showWarnings = TRUE)
+  path1 <<- paste(getwd(),"/Results","_",Sys.Date(),"_",format(Sys.time(), "%H:%M:%S"),sep = "")
+  path1 <<- gsub(":","-",path1)
+
+  dir.create(path = path1, showWarnings = FALSE)
   sampleTable$label <- gsub(" ", ".", sampleTable$label)
 
   # Decide the organism database
@@ -127,9 +130,9 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   }
 
   if(Fraction == "Proteome"){
+    print("Filtering proteome data")
     data.norm <- QC.filter(data = lfq.data, Fraction = Fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
                            filter.protein.min = filter.protein.min, org = org, quantification = quantification)
-    print("Filtering proteome data")
   }else if(Fraction == "Enriched" & filter.protein.type == "condition"){
     data.norm <- QC.filter(data = lfq.data, Fraction = Fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
                            filter.protein.min = filter.protein.min, org = org)
@@ -183,8 +186,8 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
     stop()
   }
 
-  dir.create(paste(getwd(),"/Results/",Fraction,"/Impute_files",sep = ""), showWarnings = TRUE)
-  pdf(file = paste(getwd(),"/Results/",Fraction,"/Impute_files/",Fraction,"_Impute-plots.pdf",sep = ""))
+  dir.create(paste(path1,"/",Fraction,"/Impute_files",sep = ""), showWarnings = FALSE)
+  pdf(file = paste(path1,"/",Fraction,"/Impute_files/",Fraction,"_Impute-plots.pdf",sep = ""))
   print(plot_imputation(data.norm, data_impute))
   dev.off()
 
@@ -226,8 +229,8 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
 
   # Correlation plot
 
-  dir.create(paste(getwd(),"/Results/",Fraction,"/QC_files",sep = ""), showWarnings = TRUE)
-  pdf(file = paste(getwd(),"/Results/",Fraction,"/QC_files/",Fraction,"_QC-plots.pdf",sep = ""))
+  dir.create(paste(path1,"/",Fraction,"/QC_files",sep = ""), showWarnings = FALSE)
+  pdf(file = paste(path1,"/",Fraction,"/QC_files/",Fraction,"_QC-plots.pdf",sep = ""))
 
   # Hierarchical clustering
   dist2Order = function(corr, method, ...) {
@@ -331,8 +334,8 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   volcanoPlot(proteinList = fav.proteins, name.sigProteins = name.sigProteins, resData = res, Fraction = Fraction, filter.protein.type = filter.protein.type,
               contrasts = contrasts, pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
 
-  dir.create(paste(getwd(),"/Results/",Fraction,"/Final_data",sep = ""), showWarnings = TRUE)
-  writexl::write_xlsx(x = nonExclusive.list, path = paste(getwd(),"/Results/",Fraction,"/Final_data/",Fraction,"_finalData.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
+  dir.create(paste(path1,"/",Fraction,"/Final_data",sep = ""), showWarnings = FALSE)
+  writexl::write_xlsx(x = nonExclusive.list, path = paste(path1,"/",Fraction,"/Final_data/",Fraction,"_finalData.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
 
   if(is.null(exclusive.data) == TRUE){
     enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, Fraction = Fraction, rankBy = rankBy, KEGG = KEGG,

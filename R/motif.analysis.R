@@ -161,8 +161,8 @@ motif.analysis <- function(raw.enrichData, Ex.data, nonEx.data, fasta, aa = "K",
       motifx.data <- motifx(foreground_Seqs_Filtered, extractBack, central.res = aa, min.seqs = min.seqs, pval.cutoff = p.value.motif)
 
       # View motifx output
-      dir.create(paste(getwd(),"/Results/Enriched/Motif_analysis",sep = ""), showWarnings = TRUE)
-      pdf(paste(getwd(),"/Results/Enriched/Motif_analysis/",names(enrich.sub[i]),"_motif.pdf", sep = ""), width = 8, height = 3)
+      dir.create(paste(path1,"/Enriched/Motif_analysis",sep = ""), showWarnings = FALSE)
+      pdf(paste(path1,"/Enriched/Motif_analysis/",names(enrich.sub[i]),"_motif.pdf", sep = ""), width = 8, height = 3)
 
       if(!is.null(motifx.data)){print(ggseqlogo(motifx.data$motif, seq_type='aa', method = 'bits') + ggtitle(names(enrich.sub[i])))
         print(ggseqlogo(motifx.data$motif, seq_type='aa', method = 'prob')  + ggtitle(names(enrich.sub[i])))
@@ -170,7 +170,7 @@ motif.analysis <- function(raw.enrichData, Ex.data, nonEx.data, fasta, aa = "K",
         print("No motifs matched")
       }
       dev.off()
-      writexl::write_xlsx(path = paste(getwd(),"/Results/Enriched/Motif_analysis/",names(enrich.sub[i]),"_motif.xlsx", sep = ""), x = motifx.data, col_names = TRUE, format_headers = TRUE)
+      writexl::write_xlsx(path = paste(path1,"/Enriched/Motif_analysis/",names(enrich.sub[i]),"_motif.xlsx", sep = ""), x = motifx.data, col_names = TRUE, format_headers = TRUE)
     }
   }
 }
