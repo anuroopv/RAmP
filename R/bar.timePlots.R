@@ -29,9 +29,6 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
   if(!is.null(fav.proteins) & nrow(lfq.data.sub != 0)){
 
     lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
-    if(nrow(lfq.data.sub == 0)){
-      print("None of the protein(s) or site(s) provided could be found. Check the data to see if the protein is present or if the naming is correct")
-    }
 
     conditions <- unlist(strsplit(gsub("_vs_|[()]", ",", contrasts), ","))
     label_idx <- sampleTable[sampleTable$condition %in% conditions,]$label
