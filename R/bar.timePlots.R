@@ -26,7 +26,7 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
 
   lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
 
-  if(!is.null(fav.proteins) | nrow(lfq.data.sub != 0)){
+  if(!is.null(fav.proteins) & nrow(lfq.data.sub != 0)){
 
     lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
     if(nrow(lfq.data.sub == 0)){
