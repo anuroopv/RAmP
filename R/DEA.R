@@ -104,7 +104,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                 showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
   date.time <- paste(Sys.Date(),"_",format(Sys.time(), "%H:%M:%S"), sep = "")
-  date.time <<- gsub(":","-",date.time)
+  date.time <- gsub(":","-",date.time)
   path1 <<- paste(getwd(),"/Results","_",date.time,sep = "")
 
 
