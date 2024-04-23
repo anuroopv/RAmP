@@ -55,13 +55,11 @@ Imports:
 	GO.db (>= 3.18.0),
 	enrichplot (>= 1.22.0),
 	DEP (>= 1.24.0),
-	PTMphinder (>= 0.1.0),
-	rmotifx (>= 1.0),
 	writexl (>= 1.4.2)
-Suggests:
-    knitr,
-    rmarkdown,
-	readxl 
+Remotes:
+	jmwozniak/PTMphinder,
+	omarwagih/rmotifx,
+biocViews: MassSpectrometry, Proteomics, DifferentialExpressionAnalysis, DataVisualization
 VignetteBuilder:
 	knitr
 Encoding: UTF-8
