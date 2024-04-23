@@ -100,7 +100,9 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
         }
       }
       dev.off()
-    }else{
+    }else if(!is.null(fav.proteins) & nrow(lfq.data.sub == 0)){
       print("The given protein(s) (or site(s)) were NOT found. Check the data or the format of the protein name. Provided symbols should exactly match the symbols given in the database, including the case of each letter")
+    } else{
+      print("Favourite protein not provided")
     }
   }

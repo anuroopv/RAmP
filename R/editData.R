@@ -24,7 +24,7 @@
 
 editData <- function(data, Fraction, probability, org, quantification){
 
-  dir.create(paste(path1,"/",Fraction,sep = ""), showWarnings = FALSE)
+  # dir.create(paste(path1,"/",Fraction,sep = ""), showWarnings = FALSE)
 
   # Decide the organism database
 
@@ -41,7 +41,7 @@ editData <- function(data, Fraction, probability, org, quantification){
   }
 
   if(Fraction == "Proteome"){
-
+    dir.create(paste(path1,"/",Fraction,sep = ""), showWarnings = FALSE)
     # Remove contaminants
     #data <- data[!(data$Only.identified.by.site=="+" | data$Reverse=="+" | data$Potential.contaminant=="+"),]
       data.sub <- subset(data, data$Only.identified.by.site=="+" | data$Reverse=="+" | data$Potential.contaminant=="+")
@@ -83,7 +83,7 @@ editData <- function(data, Fraction, probability, org, quantification){
     # }
 
   } else if(Fraction == "Enriched"){
-
+    dir.create(paste(path1,"/",Fraction,sep = ""), showWarnings = FALSE)
     # Remove contaminants
     #data <- data[!(data$Only.identified.by.site=="+" | data$Reverse=="+" | data$Potential.contaminant=="+"),]
     data.sub <- subset(data, data$Reverse=="+" | data$Potential.contaminant=="+")
