@@ -1,7 +1,6 @@
-title: RAmP
-url: https://anuroopv.github.io/RAmP/
+url: ~
 template:
   bootstrap: 5
-navbar:
-  type: standard
-
+home:
+  sidebar:
+    structure: [links, license, community, authors, dev]

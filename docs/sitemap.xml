@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://anuroopv.github.io/RAmP/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/articles/RAmP.html</loc>
+    <loc>/articles/RAmP.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/articles/RAmP_vignette.html</loc>
+    <loc>/articles/RAmP_vignette.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/articles/index.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/authors.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/index.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/news/index.html</loc>
+    <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/DEA.html</loc>
+    <loc>/reference/DEA.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/EnrichmentAnalysis.html</loc>
+    <loc>/reference/EnrichmentAnalysis.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/GSEAPlots.html</loc>
+    <loc>/reference/GSEAPlots.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/QC.filter.html</loc>
+    <loc>/reference/QC.filter.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/bar.timePlots.html</loc>
+    <loc>/reference/bar.timePlots.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/editData.html</loc>
+    <loc>/reference/editData.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/enrich.Data.html</loc>
+    <loc>/reference/enrich.Data.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/enrich_normalization.html</loc>
+    <loc>/reference/enrich_normalization.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/fasta.html</loc>
+    <loc>/reference/fasta.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/filter.identical.html</loc>
+    <loc>/reference/filter.identical.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/heatmap.html</loc>
+    <loc>/reference/heatmap.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/index.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/make_se_edit.html</loc>
+    <loc>/reference/make_se_edit.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/motif.analysis.html</loc>
+    <loc>/reference/motif.analysis.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/obtain_exclusive.html</loc>
+    <loc>/reference/obtain_exclusive.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/prot.Data.html</loc>
+    <loc>/reference/prot.Data.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/sampleTable.html</loc>
+    <loc>/reference/sampleTable.html</loc>
   </url>
   <url>
-    <loc>https://anuroopv.github.io/RAmP/reference/volcanoPlot.html</loc>
+    <loc>/reference/volcanoPlot.html</loc>
   </url>
 </urlset>
