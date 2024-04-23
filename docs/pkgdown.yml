@@ -4,8 +4,8 @@ pkgdown_sha: ~
 articles:
   RAmP_vignette: RAmP_vignette.html
   RAmP: RAmP.html
-last_built: 2024-04-23T21:43Z
+last_built: 2024-04-23T22:39Z
 urls:
-  reference: http://ropensci.github.io/MODIStsp/reference
-  article: http://ropensci.github.io/MODIStsp/articles
+  reference: https://anuroopv.github.io/RAmP/reference
+  article: https://anuroopv.github.io/RAmP/articles
 

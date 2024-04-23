@@ -1,6 +1,7 @@
 title: RAmP
-url: http://ropensci.github.io/MODIStsp
+url: https://anuroopv.github.io/RAmP/
 template:
   bootstrap: 5
 navbar:
-  type: inverse
+  type: standard
+

@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/404.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/404.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/articles/RAmP.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/articles/RAmP.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/articles/RAmP_vignette.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/articles/RAmP_vignette.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/articles/index.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/articles/index.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/authors.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/authors.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/index.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/index.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/news/index.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/news/index.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/DEA.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/DEA.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/EnrichmentAnalysis.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/EnrichmentAnalysis.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/GSEAPlots.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/GSEAPlots.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/QC.filter.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/QC.filter.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/bar.timePlots.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/bar.timePlots.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/editData.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/editData.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/enrich.Data.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/enrich.Data.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/enrich_normalization.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/enrich_normalization.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/fasta.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/fasta.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/filter.identical.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/filter.identical.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/heatmap.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/heatmap.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/index.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/index.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/make_se_edit.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/make_se_edit.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/motif.analysis.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/motif.analysis.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/obtain_exclusive.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/obtain_exclusive.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/prot.Data.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/prot.Data.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/sampleTable.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/sampleTable.html</loc>
   </url>
   <url>
-    <loc>http://ropensci.github.io/MODIStsp/reference/volcanoPlot.html</loc>
+    <loc>https://anuroopv.github.io/RAmP/reference/volcanoPlot.html</loc>
   </url>
 </urlset>
