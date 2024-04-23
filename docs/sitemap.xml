@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/404.html</loc>
   </url>
   <url>
-    <loc>/articles/RAmP.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/articles/RAmP.html</loc>
   </url>
   <url>
-    <loc>/articles/RAmP_vignette.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/articles/RAmP_vignette.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/articles/index.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/index.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/DEA.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/DEA.html</loc>
   </url>
   <url>
-    <loc>/reference/EnrichmentAnalysis.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/EnrichmentAnalysis.html</loc>
   </url>
   <url>
-    <loc>/reference/GSEAPlots.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/GSEAPlots.html</loc>
   </url>
   <url>
-    <loc>/reference/QC.filter.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/QC.filter.html</loc>
   </url>
   <url>
-    <loc>/reference/bar.timePlots.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/bar.timePlots.html</loc>
   </url>
   <url>
-    <loc>/reference/editData.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/editData.html</loc>
   </url>
   <url>
-    <loc>/reference/enrich.Data.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/enrich.Data.html</loc>
   </url>
   <url>
-    <loc>/reference/enrich_normalization.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/enrich_normalization.html</loc>
   </url>
   <url>
-    <loc>/reference/fasta.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/fasta.html</loc>
   </url>
   <url>
-    <loc>/reference/filter.identical.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/filter.identical.html</loc>
   </url>
   <url>
-    <loc>/reference/heatmap.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/heatmap.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/make_se_edit.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/make_se_edit.html</loc>
   </url>
   <url>
-    <loc>/reference/motif.analysis.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/motif.analysis.html</loc>
   </url>
   <url>
-    <loc>/reference/obtain_exclusive.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/obtain_exclusive.html</loc>
   </url>
   <url>
-    <loc>/reference/prot.Data.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/prot.Data.html</loc>
   </url>
   <url>
-    <loc>/reference/sampleTable.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/sampleTable.html</loc>
   </url>
   <url>
-    <loc>/reference/volcanoPlot.html</loc>
+    <loc>http://ropensci.github.io/MODIStsp/reference/volcanoPlot.html</loc>
   </url>
 </urlset>

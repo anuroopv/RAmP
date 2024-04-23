@@ -1,0 +1,6 @@
+title: RAmP
+url: http://ropensci.github.io/MODIStsp
+template:
+  bootstrap: 5
+navbar:
+  type: inverse

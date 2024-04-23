@@ -6,3 +6,8 @@
 # RAmP 1.3.2
 
 * Made minor changes to author info, bar/timeseries plots
+
+# RAmP 1.3.3
+
+* Changed issues with directory creation in Windows OS
+* Compressed the toydata sets with "xz" to avoid bad size warnings

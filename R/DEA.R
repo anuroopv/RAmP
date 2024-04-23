@@ -103,8 +103,10 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                 circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
                 showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
-  path1 <<- paste(getwd(),"/Results","_",Sys.Date(),"_",format(Sys.time(), "%H:%M:%S"),sep = "")
-  path1 <<- gsub(":","-",path1)
+  date.time <- paste(Sys.Date(),"_",format(Sys.time(), "%H:%M:%S"), sep = "")
+  date.time <<- gsub(":","-",date.time)
+  path1 <<- paste(getwd(),"/Results","_",date.time,sep = "")
+
 
   dir.create(path = path1, showWarnings = FALSE)
   sampleTable$label <- gsub(" ", ".", sampleTable$label)
@@ -282,6 +284,24 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   }
 
   dev.off()
+
+  # # HeatMap of top n proteins with highest variance across samples
+  #
+  #   var_genes <- head(order(rowVars(assay(data_impute)), decreasing = TRUE), n = 500) # Select the n genes with the highest variance across samples
+  #   mat <- assay(data_impute)[ var_genes, ]
+  #
+  #   my.colors <- heatmap.colors
+  #   pheatmap::pheatmap(mat,scale = scale.heatmap, show_rownames = FALSE, show_colnames = TRUE, cellwidth = 20, cellheight = .5, border_color = NA,
+  #                      annotation_names_col = FALSE, drop_levels =  TRUE, color = my.colors, main = "Before batch correction")
+  #
+  #   # After batch correction
+  #   if(length(unique(experimental_design$batch)) > 1){
+  #   var_genes <- head(order(rowVars(assay(vsd)), decreasing = TRUE), n.heatmap) # Select the n genes with the highest variance across samples
+  #   mat <- assay(vsd)[ var_genes, ]
+  #
+  #   my.colors <- heatmap.colors
+  #   pheatmap::pheatmap(mat,scale = scale.heatmap, show_rownames = FALSE, show_colnames = TRUE, cellwidth = 20, cellheight = .5, border_color = NA,
+  #                      annotation_names_col = FALSE, drop_levels =  TRUE, color = my.colors, main = "Heatmap after batch correction")}
 
   # Heatmap of significant and exclusive proteins/sites
 
