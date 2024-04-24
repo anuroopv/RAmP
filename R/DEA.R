@@ -104,19 +104,26 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                 showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
   # Assign top-level variables from user input
-  assign(x = "org", value = org, envir = topenv())
-  assign(x = "Fraction", value = Fraction, envir = topenv())
-  assign(x = "sampleTable", value = sampleTable, envir = topenv())
-  assign(x = "quantification", value = quantification, envir = topenv())
-  assign(x = "contrasts", value = contrasts, envir = topenv())
-  assign(x = "pvalCutOff", value = pvalCutOff, envir = topenv())
-  assign(x = "sigmaCutOff", value = sigmaCutOff, envir = topenv())
-  assign(x = "lfcCutOff", value = lfcCutOff, envir = topenv())
-  assign(x = "filter.protein.type", value = filter.protein.type, envir = topenv())
+  .onLoad <- function(RAmP) {
+    assign(x = "org", value = org, envir = parent.env(environment()))
+    assign(x = "Fraction", value = Fraction, envir = parent.env(environment()))
+    assign(x = "sampleTable", value = sampleTable, envir = parent.env(environment()))
+    assign(x = "quantification", value = quantification, envir = parent.env(environment()))
+    assign(x = "contrasts", value = contrasts, envir = parent.env(environment()))
+    assign(x = "pvalCutOff", value = pvalCutOff, envir = parent.env(environment()))
+    assign(x = "sigmaCutOff", value = sigmaCutOff, envir = parent.env(environment()))
+    assign(x = "lfcCutOff", value = lfcCutOff, envir = parent.env(environment()))
+    assign(x = "filter.protein.type", value = filter.protein.type, envir = parent.env(environment()))
+  }
+
+
 
   date.time <- paste(Sys.Date(),"_",format(Sys.time(), "%H:%M:%S"), sep = "")
   date.time <- gsub(":","-",date.time)
-  assign(x = "path1", value = paste(getwd(),"/Results","_",date.time,sep = ""), envir = topenv())
+
+  .onLoad <- function(RAmP) {
+  assign(x = "path1", value = paste(getwd(),"/Results","_",date.time,sep = ""), envir = parent.env(environment()))
+  }
 
   dir.create(path = path1, showWarnings = FALSE)
   sampleTable$label <- gsub(" ", ".", sampleTable$label)
