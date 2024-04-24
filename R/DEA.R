@@ -110,39 +110,33 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   dir.create(path = path1, showWarnings = FALSE)
 
   # Assign variables to package namespace from user input
-  .onLoad <- function(RAmP) {
-    assign(x = "org", value = org, envir = parent.env(environment()))
-    assign(x = "Fraction", value = Fraction, envir = parent.env(environment()))
-    assign(x = "sampleTable", value = sampleTable, envir = parent.env(environment()))
-    assign(x = "quantification", value = quantification, envir = parent.env(environment()))
-    assign(x = "contrasts", value = contrasts, envir = parent.env(environment()))
-    assign(x = "pvalCutOff", value = pvalCutOff, envir = parent.env(environment()))
-    assign(x = "sigmaCutOff", value = sigmaCutOff, envir = parent.env(environment()))
-    assign(x = "lfcCutOff", value = lfcCutOff, envir = parent.env(environment()))
-    assign(x = "filter.protein.type", value = filter.protein.type, envir = parent.env(environment()))
-    assign(x = "path1", value = path1, envir = parent.env(environment()))
-  }
+    assign(x = "org", value = org, envir = .GlobalEnv)
+    assign(x = "Fraction", value = Fraction, envir = .GlobalEnv)
+    assign(x = "sampleTable", value = sampleTable, envir = .GlobalEnv)
+    assign(x = "quantification", value = quantification, envir = .GlobalEnv)
+    assign(x = "contrasts", value = contrasts, envir = .GlobalEnv)
+    assign(x = "pvalCutOff", value = pvalCutOff, envir = .GlobalEnv)
+    assign(x = "sigmaCutOff", value = sigmaCutOff, envir = .GlobalEnv)
+    assign(x = "lfcCutOff", value = lfcCutOff, envir = .GlobalEnv)
+    assign(x = "filter.protein.type", value = filter.protein.type, envir = .GlobalEnv)
+    assign(x = "path1", value = path1, envir = .GlobalEnv)
 
   # Pre-processing of sampleTable
   sampleTable$label <- gsub(" ", ".", sampleTable$label)
 
   # Decide the organism database
   if(org == "dme"){
-    .onLoad <- function(RAmP) {
-    assign(x = "orgDB", value = org.Dm.eg.db, envir = parent.env(environment()))
-    }
+    assign(x = "orgDB", value = org.Dm.eg.db, envir = .GlobalEnv)
+
   }else if(org == "hsa"){
-    .onLoad <- function(RAmP) {
-      assign(x = "orgDB", value = org.Hs.eg.db, envir = parent.env(environment()))
-    }
+      assign(x = "orgDB", value = org.Hs.eg.db, envir = .GlobalEnv)
+
   }else if(org == "mmu"){
-    .onLoad <- function(RAmP) {
-      assign(x = "orgDB", value = org.Mm.eg.db, envir = parent.env(environment()))
-    }
+      assign(x = "orgDB", value = org.Mm.eg.db, envir = .GlobalEnv)
+
   }else if(org == "sce"){
-    .onLoad <- function(RAmP) {
-      assign(x = "orgDB", value = org.Sc.sgd.db, envir = parent.env(environment()))
-    }
+      assign(x = "orgDB", value = org.Sc.sgd.db, envir = .GlobalEnv)
+
   }else{
     stop("Only drosophila, human, mouse and yeast databases are supported")
   }
