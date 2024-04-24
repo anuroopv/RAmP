@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RAmP</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,6 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">GSEAPlots</span><span class="op">(</span></span>
 <span>  <span class="va">gseData</span>,</span>
-<span>  <span class="va">Fraction</span>,</span>
 <span>  enrich <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gsea"</span>, <span class="st">"ora"</span><span class="op">)</span>,</span>
 <span>  plotType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dotPlot"</span>, <span class="st">"cNetPlot"</span>, <span class="st">"heatPlot"</span>, <span class="st">"treePlot"</span>, <span class="st">"gseaPlot"</span>, <span class="st">"ridgePlot"</span><span class="op">)</span>,</span>
 <span>  circular <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -72,9 +71,7 @@
 <span>  cexLabelGene <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  colorCcategory <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>  colorGene <span class="op">=</span> <span class="st">"black"</span>,</span>
-<span>  showCategory <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  org <span class="op">=</span> <span class="st">"dme"</span>,</span>
-<span>  pvalCutOff <span class="op">=</span> <span class="fl">0.05</span></span>
+<span>  showCategory <span class="op">=</span> <span class="fl">10</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -82,10 +79,6 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>gseData</dt>
 <dd><p>Output from clusterProfiler (as list)</p></dd>
-
-
-<dt>Fraction</dt>
-<dd><p>Can be either "Proteome" or "Enriched". Indicates the type of input data used</p></dd>
 
 
 <dt>plotType</dt>
@@ -122,14 +115,6 @@
 
 <dt>showCategory</dt>
 <dd><p>Number of GO terms to be displayed in the plot. Default is 10</p></dd>
-
-
-<dt>org</dt>
-<dd><p>Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"</p></dd>
-
-
-<dt>pvalCutOff</dt>
-<dd><p>P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05</p></dd>
 
 </dl></div>
     <div class="section level2">

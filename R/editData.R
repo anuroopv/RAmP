@@ -3,15 +3,13 @@
 #' @description Cleans the raw data from MaxQuant for downstream analysis
 #'
 #' @param data Input or modified proteome file from MaxQuant (.txt)
-#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param probability Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if Fraction = "Enriched")
-#' @param org Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"
-#' @param quantification Default is LFQ. Can be either "LFQ" or "iBAQ"
-#'
+#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
+
 #' @return A data frame that will be cleaner than the original raw data to be used for differential expression analysis
 #'
 #' @examples
-#' lfqdata <- editData(data = proteome, Fraction = "Enriched", probability = 0.9)
+#' lfqdata <- editData(data = proteome, probability = 0.9)
 #'
 #' @export
 #'
@@ -22,23 +20,7 @@
 #' @import org.Sc.sgd.db
 ################# Data preparation for differential expression analysis ###################
 
-editData <- function(data, Fraction, probability, org, quantification){
-
-  # dir.create(paste(path1,"/",Fraction,sep = ""), showWarnings = FALSE)
-
-  # Decide the organism database
-
-  if(org == "dme"){
-    orgDB = org.Dm.eg.db
-  }else if(org == "hsa"){
-    orgDB = org.Hs.eg.db
-  }else if(org == "mmu"){
-    orgDB = org.Mm.eg.db
-  }else if(org == "sce"){
-    orgDB = org.Sc.sgd.db
-  }else{
-    stop("Only drosophila, human, mouse and yeast databases are supported")
-  }
+editData <- function(data, Fraction, probability = NULL){
 
   if(Fraction == "Proteome"){
     dir.create(paste(path1,"/",Fraction,sep = ""), showWarnings = FALSE)
@@ -113,5 +95,7 @@ editData <- function(data, Fraction, probability, org, quantification){
   }else{
     stop("Accepted values are Proteome or Enriched")
   }
+  dir.create(paste(path1,"/",Fraction,"/Processed_data",sep = ""), showWarnings = FALSE)
+  writexl::write_xlsx(x = lfq.data, path = paste(path1,"/",Fraction,"/Processed_data/",Fraction,"_processedData.xlsx", sep = ""), col_names = TRUE, format_headers = TRUE)
   return(lfq.data)
 }

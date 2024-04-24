@@ -5,12 +5,6 @@
 #' @param proteinList Vector with favourite proteins (or their corresponding sites) to be named in the volcano plot irrespective of its statistical significance
 #' @param name.sigProteins Logical (Default is FALSE). If TRUE, names all significant protein(s) or site(s)
 #' @param resData Data frame(s) (as list) from limma differential expression analysis
-#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
-#' @param filter.protein.type Can be either "complete" or "condition" or "fraction"
-#' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
-#' @param pvalCutOff P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05
-#' @param sigmaCutOff PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)
-#' @param lfcCutOff Log-fold change cut off. Default is 0
 #'
 #' @return Generates volcanoPlot
 #'
@@ -18,8 +12,7 @@
 ################################################################################
 # Function for generating volcano plots
 
-volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData, Fraction, filter.protein.type, contrasts,
-                        pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
+volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData){
 
   dir.create(paste(path1,"/",Fraction,"/VolcanoPlots",sep = ""), showWarnings = FALSE)
   pdf(paste(path1,"/",Fraction,"/VolcanoPlots/",Fraction,"_volcanoPlot.pdf",sep = ""), paper = "a4r")

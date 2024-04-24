@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RAmP</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,6 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">EnrichmentAnalysis</span><span class="op">(</span></span>
 <span>  enrich <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gsea"</span>, <span class="st">"ora"</span><span class="op">)</span>,</span>
 <span>  nonExclusive.data <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">Fraction</span>,</span>
 <span>  rankBy <span class="op">=</span> <span class="st">"stat"</span>,</span>
 <span>  KEGG <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ont <span class="op">=</span> <span class="st">"BP"</span>,</span>
@@ -73,12 +72,7 @@
 <span>  minGS <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  maxGS <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>  simplify <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  simplify_cutoff <span class="op">=</span> <span class="fl">0.7</span>,</span>
-<span>  org <span class="op">=</span> <span class="st">"dme"</span>,</span>
-<span>  <span class="va">contrasts</span>,</span>
-<span>  pvalCutOff <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  sigmaCutOff <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  lfcCutOff <span class="op">=</span> <span class="fl">0</span></span>
+<span>  simplify_cutoff <span class="op">=</span> <span class="fl">0.7</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -90,10 +84,6 @@
 
 <dt>nonExclusive.data</dt>
 <dd><p>Default is NULL. If not, the data should be given as list containing data frame(s)</p></dd>
-
-
-<dt>Fraction</dt>
-<dd><p>Can be either "Proteome" or "Enriched". Indicates the type of input data used</p></dd>
 
 
 <dt>rankBy</dt>
@@ -134,26 +124,6 @@
 
 <dt>simplify_cutoff</dt>
 <dd><p>Cutoff for simplify method. Numerical value from 0-1. Default is 0.7</p></dd>
-
-
-<dt>org</dt>
-<dd><p>Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"</p></dd>
-
-
-<dt>contrasts</dt>
-<dd><p>Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time</p></dd>
-
-
-<dt>pvalCutOff</dt>
-<dd><p>P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05</p></dd>
-
-
-<dt>sigmaCutOff</dt>
-<dd><p>PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)</p></dd>
-
-
-<dt>lfcCutOff</dt>
-<dd><p>Log-fold change cut off. Default is 0</p></dd>
 
 </dl></div>
     <div class="section level2">

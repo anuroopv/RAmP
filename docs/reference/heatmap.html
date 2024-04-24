@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RAmP</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,20 +63,12 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">heatmap</span><span class="op">(</span></span>
 <span>  <span class="va">data_impute</span>,</span>
 <span>  lfq.data <span class="op">=</span> <span class="va">lfq.data</span>,</span>
-<span>  filter.protein.type <span class="op">=</span> <span class="va">filter.protein.type</span>,</span>
-<span>  <span class="va">Fraction</span>,</span>
-<span>  <span class="va">contrasts</span>,</span>
 <span>  distance.matrix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spearman"</span>, <span class="st">"pearson"</span>, <span class="st">"uncentered correlation"</span>,</span>
 <span>    <span class="st">"absolute pearson"</span>, <span class="st">"sqrt"</span>, <span class="st">"weird"</span><span class="op">)</span>,</span>
 <span>  exclusive.data <span class="op">=</span> <span class="va">exclusive.data</span>,</span>
 <span>  clustering.method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ward.D"</span>, <span class="st">"ward.D2"</span>, <span class="st">"single"</span>, <span class="st">"complete"</span>, <span class="st">"average"</span>, <span class="st">"mcquitty"</span>,</span>
 <span>    <span class="st">"median"</span>, <span class="st">"centroid"</span><span class="op">)</span>,</span>
-<span>  <span class="va">sampleTable</span>,</span>
-<span>  title <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  pvalCutOff <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  sigmaCutOff <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  lfcCutOff <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  org <span class="op">=</span> <span class="st">"dme"</span></span>
+<span>  title <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -88,18 +80,6 @@
 
 <dt>lfq.data</dt>
 <dd><p>Title of the plot</p></dd>
-
-
-<dt>filter.protein.type</dt>
-<dd><p>Parameters (column should be present in the sampleTable file) to compare in the PCA (i.e. conditions or batch or timepoint)</p></dd>
-
-
-<dt>Fraction</dt>
-<dd><p>Can be either "Proteome" or "Enriched". Indicates the type of input data used</p></dd>
-
-
-<dt>contrasts</dt>
-<dd><p>Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time</p></dd>
 
 
 <dt>distance.matrix</dt>
@@ -114,28 +94,8 @@
 <dd><p>One of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid"</p></dd>
 
 
-<dt>sampleTable</dt>
-<dd><p>.xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)</p></dd>
-
-
 <dt>title</dt>
 <dd><p>Title of the plot</p></dd>
-
-
-<dt>pvalCutOff</dt>
-<dd><p>P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05</p></dd>
-
-
-<dt>sigmaCutOff</dt>
-<dd><p>PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)</p></dd>
-
-
-<dt>lfcCutOff</dt>
-<dd><p>Log-fold change cut off. Default is 0</p></dd>
-
-
-<dt>org</dt>
-<dd><p>Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"</p></dd>
 
 </dl></div>
     <div class="section level2">

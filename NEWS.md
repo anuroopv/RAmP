@@ -11,3 +11,9 @@
 
 * Changed issues with directory creation in Windows OS
 * Compressed the toydata sets with "xz" to avoid bad size warnings
+
+# RAmP 1.3.4
+
+* Pre-processed data from editData function will now be saved
+* Internal data was changed (previous versions were from a different dataset and not from Venkatasubramani et al., 2023)
+* Some of the variables provided by user in DEA will be regarded as top-level environment variables for easy access to other functions

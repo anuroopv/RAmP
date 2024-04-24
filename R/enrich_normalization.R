@@ -4,35 +4,18 @@
 #'
 #' @param protein.data Input proteome file from MaxQuant (.txt)
 #' @param enrich.data Modified proteome file from MaxQuant (.txt)
-#' @param enrich.batch If the normalization should be done based on paired replicates or avergae of replicates
+#' @param enrich.batch If the normalization should be done based on paired replicates or average of replicates
 #' @param probability Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value
-#' @param org Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"
-#' @param sampleTable .xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)
 #'
-#' @return Filtered and vsn normalized data
+#' @return Protein normalized modified-proteome data
 #'
 #' @export
 ############### Obtain normalized data for differential expression analysis of enriched fraction ###############
 
-enrich_normalization <- function(protein.data, enrich.data, enrich.batch = c(TRUE, FALSE), probability, quantification,
-                                 org, sampleTable){
+enrich_normalization <- function(protein.data, enrich.data, enrich.batch = c(TRUE, FALSE), probability){
 
-  # Decide the organism database
-
-  if(org == "dme"){
-    orgDB = org.Dm.eg.db
-  }else if(org == "hsa"){
-    orgDB = org.Hs.eg.db
-  }else if(org == "mmu"){
-    orgDB = org.Mm.eg.db
-  }else if(org == "sce"){
-    orgDB = org.Sc.sgd.db
-  }else{
-    stop("Only drosophila, human, mouse and yeast databases are supported")
-  }
-
-  protein.data <- editData(data = protein.data, Fraction = "Proteome", org = org, quantification = quantification)
-  enrich.data <- editData(data = enrich.data, Fraction = "Enriched", probability = probability, org = org, quantification = quantification)
+  protein.data <- editData(data = protein.data, Fraction = "Proteome")
+  enrich.data <- editData(data = enrich.data, probability = probability,  Fraction = "Enriched")
 
   if(enrich.batch == TRUE){
     # Combine proteome and enrichment data using Uniprot IDs

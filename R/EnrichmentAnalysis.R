@@ -4,7 +4,6 @@
 #'
 #' @param enrich Can be either "gsea" or "enrich"
 #' @param nonExclusive.data Default is NULL. If not, the data should be given as list containing data frame(s)
-#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param rankBy Can be either stat or logFC. Genes are ranked accordingly for GSEA
 #' @param KEGG Logical, default is FALSE
 #' @param ont Can be "BP", "CC", "MF" or "ALL"
@@ -15,11 +14,6 @@
 #' @param maxGS maximal size of annotated genes in geneset
 #' @param simplify Logical, default is FALSE. If TRUE, redundant GO terms will be simplified based on the simplify_cutoff
 #' @param simplify_cutoff Cutoff for simplify method. Numerical value from 0-1. Default is 0.7
-#' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
-#' @param org Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"
-#' @param pvalCutOff P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05
-#' @param sigmaCutOff PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)
-#' @param lfcCutOff Log-fold change cut off. Default is 0
 #'
 #' @return Generates list of significant GO terms
 #'
@@ -32,29 +26,14 @@
 
 ##### Gene Set Enrichement analysis ####
 
-EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NULL, Fraction,
+EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NULL,
                         rankBy = "stat", KEGG = FALSE,
                         ont = "BP",
                         padjustMethod = "fdr",
                         exclusive.data = NULL,
                         background = TRUE,
                         minGS = 50, maxGS = 500,
-                        simplify = FALSE, simplify_cutoff = 0.7,
-                        org = "dme", contrasts, pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
-
-  # Decide the organism database
-
-  if(org == "dme"){
-    orgDB = org.Dm.eg.db
-  }else if(org == "hsa"){
-    orgDB = org.Hs.eg.db
-  }else if(org == "mmu"){
-    orgDB = org.Mm.eg.db
-  }else if(org == "sce"){
-    orgDB = org.Sc.sgd.db
-  }else{
-    stop("Only drosophila, human, mouse and yeast databases are supported")
-  }
+                        simplify = FALSE, simplify_cutoff = 0.7){
 
   if(enrich == "gsea"){
   if(Fraction == "Enriched"){

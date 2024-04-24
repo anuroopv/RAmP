@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RAmP</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,12 +68,7 @@
 <span>  aa <span class="op">=</span> <span class="st">"K"</span>,</span>
 <span>  seq.width <span class="op">=</span> <span class="fl">15</span>,</span>
 <span>  min.seqs <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>  p.value.motif <span class="op">=</span> <span class="fl">1e-05</span>,</span>
-<span>  <span class="va">contrasts</span>,</span>
-<span>  <span class="va">sampleTable</span>,</span>
-<span>  pvalCutOff <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  sigmaCutOff <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  lfcCutOff <span class="op">=</span> <span class="fl">0</span></span>
+<span>  p.value.motif <span class="op">=</span> <span class="fl">1e-05</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -105,26 +100,6 @@
 
 <dt>p.value.motif</dt>
 <dd><p>The p-value threshold for the binomial probability. This is used for the selection of significant residue/position pairs in the motif. Default is 1e-05 and is suggested to maintain a low false positive rate in standard protein motif analyses.</p></dd>
-
-
-<dt>contrasts</dt>
-<dd><p>Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time</p></dd>
-
-
-<dt>sampleTable</dt>
-<dd><p>.xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)</p></dd>
-
-
-<dt>pvalCutOff</dt>
-<dd><p>P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05</p></dd>
-
-
-<dt>sigmaCutOff</dt>
-<dd><p>PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)</p></dd>
-
-
-<dt>lfcCutOff</dt>
-<dd><p>Log-fold change cut off. Default is 0</p></dd>
 
 </dl></div>
     <div class="section level2">

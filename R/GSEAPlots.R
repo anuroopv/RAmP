@@ -3,7 +3,6 @@
 #' @description Visualization of GSEA or ORA
 #'
 #' @param gseData Output from clusterProfiler (as list)
-#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param plotType Can be one of "dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"
 #' @param circular Logical, default is FALSE. If TRUE, circular visualization will be used for cNetPlot
 #' @param colorEdge Logical, default is FALSE. Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot
@@ -13,8 +12,6 @@
 #' @param colorCcategory Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
 #' @param colorGene Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
 #' @param showCategory Number of GO terms to be displayed in the plot. Default is 10
-#' @param pvalCutOff P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05
-#' @param org Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"
 #'
 #' @return Generates plots from GO term analysis
 #'
@@ -25,23 +22,10 @@
 
 # Various types of plot to represent the GO terms
 
-GSEAPlots <- function(gseData, Fraction, enrich = c('gsea', 'ora'),
+GSEAPlots <- function(gseData, enrich = c('gsea', 'ora'),
                       plotType = c("dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"),
                       circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
-                      showCategory = 10, org = "dme", pvalCutOff = 0.05){
-  # Decide the organism database
-
-  if(org == "dme"){
-    orgDB = org.Dm.eg.db
-  }else if(org == "hsa"){
-    orgDB = org.Hs.eg.db
-  }else if(org == "mmu"){
-    orgDB = org.Mm.eg.db
-  }else if(org == "sce"){
-    orgDB = org.Sc.sgd.db
-  }else{
-    stop("Only drosophila, human, mouse and yeast databases are supported")
-  }
+                      showCategory = 10){
 
   dir.create(paste(path1,"/",Fraction,"/Enrichment_plots",sep = ""), showWarnings = FALSE)
 

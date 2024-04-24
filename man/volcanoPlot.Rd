@@ -4,17 +4,7 @@
 \alias{volcanoPlot}
 \title{volcanoPlot}
 \usage{
-volcanoPlot(
-  proteinList,
-  name.sigProteins = FALSE,
-  resData,
-  Fraction,
-  filter.protein.type,
-  contrasts,
-  pvalCutOff = 0.05,
-  sigmaCutOff = 0.05,
-  lfcCutOff = 0
-)
+volcanoPlot(proteinList, name.sigProteins = FALSE, resData)
 }
 \arguments{
 \item{proteinList}{Vector with favourite proteins (or their corresponding sites) to be named in the volcano plot irrespective of its statistical significance}
@@ -22,18 +12,6 @@ volcanoPlot(
 \item{name.sigProteins}{Logical (Default is FALSE). If TRUE, names all significant protein(s) or site(s)}
 
 \item{resData}{Data frame(s) (as list) from limma differential expression analysis}
-
-\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
-
-\item{filter.protein.type}{Can be either "complete" or "condition" or "fraction"}
-
-\item{contrasts}{Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time}
-
-\item{pvalCutOff}{P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05}
-
-\item{sigmaCutOff}{PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)}
-
-\item{lfcCutOff}{Log-fold change cut off. Default is 0}
 }
 \value{
 Generates volcanoPlot

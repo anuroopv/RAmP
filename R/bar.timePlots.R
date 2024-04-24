@@ -4,14 +4,8 @@
 #'
 #' @param fav.proteins Vector with favourite proteins (or their corresponding sites) for which corresponding bar or timeseries plots are required
 #' @param timeSeries Logical (Default is FALSE). If TRUE, line plots will be generated instead of barplots
-#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param imputed.data Imputed data obtained after QC.filter
 #' @param lfq.data Output from editData function
-#' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
-#' @param sampleTable .xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)
-#' @param pvalCutOff P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05
-#' @param sigmaCutOff PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)
-#' @param lfcCutOff Log-fold change cut off. Default is 0
 #'
 #' @return Generates bar plot (or timeseries) for the selected protein(s) or site(s)
 #'
@@ -21,8 +15,7 @@
 ################################################################################
 # Barplot of for selected proteins/sites
 
-bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FALSE, lfq.data, contrasts, sampleTable,
-                          pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
+bar.timePlots <- function(imputed.data, fav.proteins, timeSeries = FALSE, lfq.data){
 
   lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
 
@@ -103,6 +96,6 @@ bar.timePlots <- function(imputed.data, fav.proteins, Fraction, timeSeries = FAL
     }else if(!is.null(fav.proteins) & nrow(lfq.data.sub == 0)){
       print("The given protein(s) (or site(s)) were NOT found. Check the data or the format of the protein name. Provided symbols should exactly match the symbols given in the database, including the case of each letter")
     } else{
-      print("Favourite protein not provided")
+      print("Favourite protein(s) or site(s) not provided")
     }
   }

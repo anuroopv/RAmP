@@ -4,18 +4,10 @@
 #'
 #' @param data_impute Output from plot_pca function
 #' @param lfq.data Title of the plot
-#' @param filter.protein.type Parameters (column should be present in the sampleTable file) to compare in the PCA (i.e. conditions or batch or timepoint)
-#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
 #' @param distance.matrix One of "spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird"
 #' @param exclusive.data Data frame(s) (as list) containing exclusive proteins or sites
 #' @param clustering.method One of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid"
 #' @param title Title of the plot
-#' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
-#' @param sampleTable .xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)
-#' @param pvalCutOff P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05
-#' @param org Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"
-#' @param sigmaCutOff PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)
-#' @param lfcCutOff Log-fold change cut off. Default is 0
 #'
 #' @return Generates heatmap and a file containing the order of protein(s) or site(s) in the heatmap
 #'
@@ -29,10 +21,10 @@
 
 # Function for generating heatmaps for exclusive and significant proteins/sites
 
-heatmap <- function(data_impute, lfq.data = lfq.data, filter.protein.type = filter.protein.type, Fraction, contrasts,
+heatmap <- function(data_impute, lfq.data = lfq.data,
                     distance.matrix = c("spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird"), exclusive.data = exclusive.data,
-                    clustering.method = c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid"), sampleTable,
-                    title = NA, pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, org = "dme"){
+                    clustering.method = c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid"),
+                    title = NA){
 
   sign.data <- list()
   protlist <- list()

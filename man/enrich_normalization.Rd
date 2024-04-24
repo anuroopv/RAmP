@@ -8,10 +8,7 @@ enrich_normalization(
   protein.data,
   enrich.data,
   enrich.batch = c(TRUE, FALSE),
-  probability,
-  quantification,
-  org,
-  sampleTable
+  probability
 )
 }
 \arguments{
@@ -19,16 +16,12 @@ enrich_normalization(
 
 \item{enrich.data}{Modified proteome file from MaxQuant (.txt)}
 
-\item{enrich.batch}{If the normalization should be done based on paired replicates or avergae of replicates}
+\item{enrich.batch}{If the normalization should be done based on paired replicates or average of replicates}
 
 \item{probability}{Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value}
-
-\item{org}{Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"}
-
-\item{sampleTable}{.xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)}
 }
 \value{
-Filtered and vsn normalized data
+Protein normalized modified-proteome data
 }
 \description{
 Normalizes modified proteomes to the corresponding input proteomes

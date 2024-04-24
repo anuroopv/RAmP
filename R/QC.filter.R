@@ -3,37 +3,17 @@
 #' @description Performs quality control and filters the missing values based on parameters provided
 #'
 #' @param data output file (or output) from editData function
-#' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
-#' @param filter.protein.type Can be either "complete" or "condition" or "fraction". complete indictaes removal of all NAs. condition indicates removal of NAs based on different conditions in the data (Ex. mutant and control). fraction indicates removal of NAs based on all samples irrespective of different conditions (check DEP package for further details)
 #' @param filter.thr Only if filter.protein.type = condition. Numerical value less than the number of relicates in either condition (Ex. 0 indicates the protein should have no NAs in all replicates of atleast one condition while 1 indicates they can have one NAs)
 #' @param filter.protein.min Only if filter.protein.type = fraction. Any value between 0-1 Any value between 0-1 (Ex. 0.75 indicates the protein should not have NAs in 75\% of all samples)
-#' @param org Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"
-#' @param quantification Default is LFQ. Can be either "LFQ" or "iBAQ"
 #'
 #' @return Filtered and vsn normalized data
 #'
 #' @examples
-#' norm_data <- QC.filter(data = lfqdata, fraction = "Enriched", filter.protein.type = "fraction", filter.protein.min = 0.75)
+#' norm_data <- QC.filter(data = lfqdata, filter.protein.type = "fraction", filter.protein.min = 0.75)
 #' @export
 ###################################################### Filtering and quality control of the data ##############################################
 
-QC.filter <- function(data, Fraction, sampleTable,
-                      filter.protein.type = c("complete", "condition", "fraction"),
-                      filter.thr = NA, filter.protein.min = NULL, org = "dme", quantification = "LFQ"){
-
-  # Decide the organism database
-
-  if(org == "dme"){
-    orgDB = org.Dm.eg.db
-  }else if(org == "hsa"){
-    orgDB = org.Hs.eg.db
-  }else if(org == "mmu"){
-    orgDB = org.Mm.eg.db
-  }else if(org == "sce"){
-    orgDB = org.Sc.sgd.db
-  }else{
-    stop("Only drosophila, human, mouse and yeast databases are supported")
-  }
+QC.filter <- function(data, filter.thr = NA, filter.protein.min = NULL){
 
   if(org != "sce"){
     data$symbol <- mapIds(x = orgDB, keys =  as.character(data$Uniprot), column = "SYMBOL", keytype="UNIPROT", multiVals="first")

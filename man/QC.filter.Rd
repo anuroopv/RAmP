@@ -4,31 +4,14 @@
 \alias{QC.filter}
 \title{QC.filter}
 \usage{
-QC.filter(
-  data,
-  Fraction,
-  sampleTable,
-  filter.protein.type = c("complete", "condition", "fraction"),
-  filter.thr = NA,
-  filter.protein.min = NULL,
-  org = "dme",
-  quantification = "LFQ"
-)
+QC.filter(data, filter.thr = NA, filter.protein.min = NULL)
 }
 \arguments{
 \item{data}{output file (or output) from editData function}
 
-\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
-
-\item{filter.protein.type}{Can be either "complete" or "condition" or "fraction". complete indictaes removal of all NAs. condition indicates removal of NAs based on different conditions in the data (Ex. mutant and control). fraction indicates removal of NAs based on all samples irrespective of different conditions (check DEP package for further details)}
-
 \item{filter.thr}{Only if filter.protein.type = condition. Numerical value less than the number of relicates in either condition (Ex. 0 indicates the protein should have no NAs in all replicates of atleast one condition while 1 indicates they can have one NAs)}
 
 \item{filter.protein.min}{Only if filter.protein.type = fraction. Any value between 0-1 Any value between 0-1 (Ex. 0.75 indicates the protein should not have NAs in 75\% of all samples)}
-
-\item{org}{Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"}
-
-\item{quantification}{Default is LFQ. Can be either "LFQ" or "iBAQ"}
 }
 \value{
 Filtered and vsn normalized data
@@ -37,5 +20,5 @@ Filtered and vsn normalized data
 Performs quality control and filters the missing values based on parameters provided
 }
 \examples{
-norm_data <- QC.filter(data = lfqdata, fraction = "Enriched", filter.protein.type = "fraction", filter.protein.min = 0.75)
+norm_data <- QC.filter(data = lfqdata, filter.protein.type = "fraction", filter.protein.min = 0.75)
 }

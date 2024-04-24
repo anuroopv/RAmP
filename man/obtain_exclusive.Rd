@@ -4,16 +4,10 @@
 \alias{obtain_exclusive}
 \title{obtain_exclusive}
 \usage{
-obtain_exclusive(data, Fraction, sampleTable, contrasts)
+obtain_exclusive(data)
 }
 \arguments{
-\item{data}{Input or modified proteome file from MaxQuant (.txt)}
-
-\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
-
-\item{sampleTable}{.xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)}
-
-\item{contrasts}{Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time}
+\item{data}{output file (or output) from editData function}
 }
 \value{
 List of exclsive proteins/sites from all comparisons (except difference of difference comparisons)

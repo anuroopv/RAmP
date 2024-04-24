@@ -9,11 +9,6 @@
 #' @param seq.width Width of the sequence for motif search. Default is 15
 #' @param min.seqs This threshold refers to the minimum number of times you wish each of your extracted motifs to occur in the data set. Default is 20 and is usually appropriate, although this parameter may be adjusted to yield more specific or less specific motifs.
 #' @param p.value.motif The p-value threshold for the binomial probability. This is used for the selection of significant residue/position pairs in the motif. Default is 1e-05 and is suggested to maintain a low false positive rate in standard protein motif analyses.
-#' @param pvalCutOff P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05
-#' @param sigmaCutOff PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)
-#' @param lfcCutOff Log-fold change cut off. Default is 0
-#' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
-#' @param sampleTable .xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)
 #'
 #' @return Image of the most representated motif(s) and the corresponding information as a file (Check rmotifx package for more information)
 #'
@@ -27,9 +22,7 @@
 
 # Motif analysis of significant enriched sites
 
-motif.analysis <- function(raw.enrichData, Ex.data, nonEx.data, fasta, aa = "K", seq.width = 15, min.seqs = 20, p.value.motif = 1e-5,
-                           contrasts, sampleTable,
-                           pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0){
+motif.analysis <- function(raw.enrichData, Ex.data, nonEx.data, fasta, aa = "K", seq.width = 15, min.seqs = 20, p.value.motif = 1e-5){
 
   enrichdata.sub <- raw.enrichData %>%
     select(ends_with("Probabilities"),

@@ -103,10 +103,20 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                 circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
                 showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
+  # Assign top-level variables from user input
+  assign(x = "org", value = org, envir = topenv())
+  assign(x = "Fraction", value = Fraction, envir = topenv())
+  assign(x = "sampleTable", value = sampleTable, envir = topenv())
+  assign(x = "quantification", value = quantification, envir = topenv())
+  assign(x = "contrasts", value = contrasts, envir = topenv())
+  assign(x = "pvalCutOff", value = pvalCutOff, envir = topenv())
+  assign(x = "sigmaCutOff", value = sigmaCutOff, envir = topenv())
+  assign(x = "lfcCutOff", value = lfcCutOff, envir = topenv())
+  assign(x = "filter.protein.type", value = filter.protein.type, envir = topenv())
+
   date.time <- paste(Sys.Date(),"_",format(Sys.time(), "%H:%M:%S"), sep = "")
   date.time <- gsub(":","-",date.time)
-  path1 <<- paste(getwd(),"/Results","_",date.time,sep = "")
-
+  assign(x = "path1", value = paste(getwd(),"/Results","_",date.time,sep = ""), envir = topenv())
 
   dir.create(path = path1, showWarnings = FALSE)
   sampleTable$label <- gsub(" ", ".", sampleTable$label)
@@ -114,43 +124,39 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   # Decide the organism database
 
   if(org == "dme"){
-    orgDB = org.Dm.eg.db
+    assign(x = "orgDB", value = org.Dm.eg.db, envir = topenv())
   }else if(org == "hsa"){
-    orgDB = org.Hs.eg.db
+    assign(x = "orgDB", value = org.Hs.eg.db, envir = topenv())
   }else if(org == "mmu"){
-    orgDB = org.Mm.eg.db
+    assign(x = "orgDB", value = org.Mm.eg.db, envir = topenv())
   }else if(org == "sce"){
-    orgDB = org.Sc.sgd.db
+    assign(x = "orgDB", value = org.Sc.sgd.db, envir = topenv())
   }else{
     stop("Only drosophila, human, mouse and yeast databases are supported")
   }
 
   if(Fraction == "Proteome"){
-    lfq.data <- editData(data = prot.Data, Fraction = Fraction, org = org, quantification = quantification)
+    lfq.data <- editData(data = prot.Data, Fraction = Fraction)
   }else{
-    lfq.data <- editData(data = enrich.Data, Fraction = Fraction, probability = probability, org = org)
+    lfq.data <- editData(data = enrich.Data, Fraction = Fraction, probability = probability)
   }
 
   if(Fraction == "Proteome"){
     print("Filtering proteome data")
-    data.norm <- QC.filter(data = lfq.data, Fraction = Fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
-                           filter.protein.min = filter.protein.min, org = org, quantification = quantification)
+    data.norm <- QC.filter(data = lfq.data, filter.thr = filter.thr, filter.protein.min = filter.protein.min)
   }else if(Fraction == "Enriched" & filter.protein.type == "condition"){
-    data.norm <- QC.filter(data = lfq.data, Fraction = Fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
-                           filter.protein.min = filter.protein.min, org = org)
+    data.norm <- QC.filter(data = lfq.data, filter.thr = filter.thr, filter.protein.min = filter.protein.min)
     print("Enriched data is NOT normalized to the Proteome")
   }else if(Fraction == "Enriched" & filter.protein.type == "fraction"){
-    normalized.enrich <- enrich_normalization(protein.data = prot.Data, enrich.data = enrich.Data, probability = probability, enrich.batch = enrich.batch,
-                                              sampleTable = sampleTable, org = org, quantification = quantification)
-    data.norm <- QC.filter(data = normalized.enrich, Fraction = Fraction, filter.protein.type = filter.protein.type, filter.thr = filter.thr, sampleTable = sampleTable,
-                           filter.protein.min = filter.protein.min, org = org)
+    normalized.enrich <- enrich_normalization(protein.data = prot.Data, enrich.data = enrich.Data, probability = probability, enrich.batch = enrich.batch)
+    data.norm <- QC.filter(data = normalized.enrich, filter.thr = filter.thr, filter.protein.min = filter.protein.min)
     print("Enriched data is normalized to the Proteome")
   }else{
     print("")
   }
 
   if(filter.protein.type == "fraction"){
-    exclusive.data <- obtain_exclusive(data = lfq.data, Fraction = Fraction, sampleTable = sampleTable, contrasts = contrasts)
+    exclusive.data <- obtain_exclusive(data = lfq.data)
   }else{
     exclusive.data <- NULL
     print("Exclusive proteins/site file is not generated (applies to difference of difference contrasts)")
@@ -305,13 +311,11 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
 
   # Heatmap of significant and exclusive proteins/sites
 
-  heatmap(data_impute = data_impute, lfq.data = lfq.data, Fraction = Fraction, distance.matrix = distance.matrix, clustering.method = clustering.method,
-          title = title, exclusive.data = exclusive.data, filter.protein.type = filter.protein.type, contrasts = contrasts, sampleTable = sampleTable,
-          pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff, org = org)
+  heatmap(data_impute = data_impute, lfq.data = lfq.data, distance.matrix = distance.matrix, clustering.method = clustering.method,
+          title = title, exclusive.data = exclusive.data)
 
   # Barplot of for selected proteins/sites
-  bar.timePlots(imputed.data = data_impute, fav.proteins = fav.proteins, Fraction = Fraction, timeSeries = timeSeries, lfq.data = lfq.data,
-                contrasts = contrasts, sampleTable = sampleTable, pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
+  bar.timePlots(imputed.data = data_impute, fav.proteins = fav.proteins, timeSeries = timeSeries, lfq.data = lfq.data)
 
   res <- as.data.frame(data_impute@elementMetadata@listData)
 
@@ -345,37 +349,34 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   names(nonExclusive.list) <- contrasts
 
   if(filter.protein.type=="fraction"){
-    res <- filter.identical(nonexclusive.data = nonExclusive.list, exlusive.data = exclusive.data, Fraction = Fraction, contrasts = contrasts)
+    res <- filter.identical(nonexclusive.data = nonExclusive.list, exlusive.data = exclusive.data)
   } else {
     res <- nonExclusive.list
   }
 
   # Volcano plot
-  volcanoPlot(proteinList = fav.proteins, name.sigProteins = name.sigProteins, resData = res, Fraction = Fraction, filter.protein.type = filter.protein.type,
-              contrasts = contrasts, pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
+  volcanoPlot(proteinList = fav.proteins, name.sigProteins = name.sigProteins, resData = res)
 
   dir.create(paste(path1,"/",Fraction,"/Final_data",sep = ""), showWarnings = FALSE)
   writexl::write_xlsx(x = nonExclusive.list, path = paste(path1,"/",Fraction,"/Final_data/",Fraction,"_finalData.xlsx",sep = ""), col_names = TRUE, format_headers = TRUE)
 
+  # Enrichment analysis
   if(is.null(exclusive.data) == TRUE){
-    enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, Fraction = Fraction, rankBy = rankBy, KEGG = KEGG,
+    enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, rankBy = rankBy, KEGG = KEGG,
                                       ont = ont, padjustMethod = padjustMethod.enrich, background = background, minGS = minGS, maxGS = maxGS,
-                                      simplify = simplify, simplify_cutoff = simplify_cutoff, org = org, contrasts = contrasts, pvalCutOff = pvalCutOff,
-                                      sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
+                                      simplify = simplify, simplify_cutoff = simplify_cutoff,)
   }else{
-    enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, exclusive.data = exclusive.data, Fraction = Fraction, rankBy = rankBy, KEGG = KEGG,
+    enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, exclusive.data = exclusive.data, rankBy = rankBy, KEGG = KEGG,
                                       ont = ont, padjustMethod = padjustMethod.enrich, background = background, minGS = minGS, maxGS = maxGS,
-                                      simplify = simplify, simplify_cutoff = simplify_cutoff, org = org, contrasts = contrasts, pvalCutOff = pvalCutOff,
-                                      sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
+                                      simplify = simplify, simplify_cutoff = simplify_cutoff)
   }
 
   # Enrichment analysis and corresponding plots
-  GSEAPlots(gseData = enrich.data, Fraction = Fraction, enrich = enrich, plotType = plotType, showCategory = 20, org = org, pvalCutOff = pvalCutOff)
+  GSEAPlots(gseData = enrich.data, enrich = enrich, plotType = plotType, showCategory = 20)
 
   # Motif analysis
   if(Fraction == "Enriched"){
     motif.analysis(raw.enrichData = enrich.Data, Ex.data = exclusive.data, nonEx.data = nonExclusive.list, aa = aa, seq.width = seq.width, min.seqs = min.seqs, p.value.motif = motif.pval,
-                   contrasts = contrasts, sampleTable = sampleTable, fasta = fasta,
-                   pvalCutOff = pvalCutOff, sigmaCutOff = sigmaCutOff, lfcCutOff = lfcCutOff)
+                   fasta = fasta)
   }
 }

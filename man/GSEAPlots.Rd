@@ -6,7 +6,6 @@
 \usage{
 GSEAPlots(
   gseData,
-  Fraction,
   enrich = c("gsea", "ora"),
   plotType = c("dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"),
   circular = FALSE,
@@ -16,15 +15,11 @@ GSEAPlots(
   cexLabelGene = 0.8,
   colorCcategory = "black",
   colorGene = "black",
-  showCategory = 10,
-  org = "dme",
-  pvalCutOff = 0.05
+  showCategory = 10
 )
 }
 \arguments{
 \item{gseData}{Output from clusterProfiler (as list)}
-
-\item{Fraction}{Can be either "Proteome" or "Enriched". Indicates the type of input data used}
 
 \item{plotType}{Can be one of "dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"}
 
@@ -43,10 +38,6 @@ GSEAPlots(
 \item{colorGene}{Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"}
 
 \item{showCategory}{Number of GO terms to be displayed in the plot. Default is 10}
-
-\item{org}{Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"}
-
-\item{pvalCutOff}{P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05}
 }
 \value{
 Generates plots from GO term analysis

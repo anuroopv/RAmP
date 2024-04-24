@@ -12,12 +12,7 @@ motif.analysis(
   aa = "K",
   seq.width = 15,
   min.seqs = 20,
-  p.value.motif = 1e-05,
-  contrasts,
-  sampleTable,
-  pvalCutOff = 0.05,
-  sigmaCutOff = 0.05,
-  lfcCutOff = 0
+  p.value.motif = 1e-05
 )
 }
 \arguments{
@@ -34,16 +29,6 @@ motif.analysis(
 \item{min.seqs}{This threshold refers to the minimum number of times you wish each of your extracted motifs to occur in the data set. Default is 20 and is usually appropriate, although this parameter may be adjusted to yield more specific or less specific motifs.}
 
 \item{p.value.motif}{The p-value threshold for the binomial probability. This is used for the selection of significant residue/position pairs in the motif. Default is 1e-05 and is suggested to maintain a low false positive rate in standard protein motif analyses.}
-
-\item{contrasts}{Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time}
-
-\item{sampleTable}{.xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)}
-
-\item{pvalCutOff}{P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05}
-
-\item{sigmaCutOff}{PI-value cut off for significant protein(s) and site(s). Default is 0.05 (Refer Xiao et al, 2014 and Hostrup et al, 2022 for details on PI-value)}
-
-\item{lfcCutOff}{Log-fold change cut off. Default is 0}
 }
 \value{
 Image of the most representated motif(s) and the corresponding information as a file (Check rmotifx package for more information)
