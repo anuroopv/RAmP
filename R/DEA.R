@@ -120,7 +120,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
     assign(x = "sigmaCutOff", value = sigmaCutOff, envir = parent.env(environment()))
     assign(x = "lfcCutOff", value = lfcCutOff, envir = parent.env(environment()))
     assign(x = "filter.protein.type", value = filter.protein.type, envir = parent.env(environment()))
-    assign(x = "path1", value = paste(getwd(),"/Results","_",date.time,sep = ""), envir = parent.env(environment()))
+    assign(x = "path1", value = path1, envir = parent.env(environment()))
   }
 
   # Pre-processing of sampleTable
@@ -128,13 +128,21 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
 
   # Decide the organism database
   if(org == "dme"){
-    assign(x = "orgDB", value = org.Dm.eg.db, envir = topenv())
+    .onLoad <- function(RAmP) {
+    assign(x = "orgDB", value = org.Dm.eg.db, envir = parent.env(environment()))
+    }
   }else if(org == "hsa"){
-    assign(x = "orgDB", value = org.Hs.eg.db, envir = topenv())
+    .onLoad <- function(RAmP) {
+      assign(x = "orgDB", value = org.Hs.eg.db, envir = parent.env(environment()))
+    }
   }else if(org == "mmu"){
-    assign(x = "orgDB", value = org.Mm.eg.db, envir = topenv())
+    .onLoad <- function(RAmP) {
+      assign(x = "orgDB", value = org.Mm.eg.db, envir = parent.env(environment()))
+    }
   }else if(org == "sce"){
-    assign(x = "orgDB", value = org.Sc.sgd.db, envir = topenv())
+    .onLoad <- function(RAmP) {
+      assign(x = "orgDB", value = org.Sc.sgd.db, envir = parent.env(environment()))
+    }
   }else{
     stop("Only drosophila, human, mouse and yeast databases are supported")
   }
