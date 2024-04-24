@@ -103,7 +103,13 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                 circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
                 showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
-  # Assign top-level variables from user input
+  # Path initialization for creating results directory
+  date.time <- paste(Sys.Date(),"_",format(Sys.time(), "%H:%M:%S"), sep = "")
+  date.time <- gsub(":","-",date.time)
+  path1 <- paste(getwd(),"/Results","_",date.time,sep = "")
+  dir.create(path = path1, showWarnings = FALSE)
+
+  # Assign variables to package namespace from user input
   .onLoad <- function(RAmP) {
     assign(x = "org", value = org, envir = parent.env(environment()))
     assign(x = "Fraction", value = Fraction, envir = parent.env(environment()))
@@ -114,22 +120,13 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
     assign(x = "sigmaCutOff", value = sigmaCutOff, envir = parent.env(environment()))
     assign(x = "lfcCutOff", value = lfcCutOff, envir = parent.env(environment()))
     assign(x = "filter.protein.type", value = filter.protein.type, envir = parent.env(environment()))
+    assign(x = "path1", value = paste(getwd(),"/Results","_",date.time,sep = ""), envir = parent.env(environment()))
   }
 
-
-
-  date.time <- paste(Sys.Date(),"_",format(Sys.time(), "%H:%M:%S"), sep = "")
-  date.time <- gsub(":","-",date.time)
-
-  .onLoad <- function(RAmP) {
-  assign(x = "path1", value = paste(getwd(),"/Results","_",date.time,sep = ""), envir = parent.env(environment()))
-  }
-
-  dir.create(path = path1, showWarnings = FALSE)
+  # Pre-processing of sampleTable
   sampleTable$label <- gsub(" ", ".", sampleTable$label)
 
   # Decide the organism database
-
   if(org == "dme"){
     assign(x = "orgDB", value = org.Dm.eg.db, envir = topenv())
   }else if(org == "hsa"){
@@ -207,7 +204,6 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   dev.off()
 
   # Differential analysis with Limma
-
   counts <- assay(data_impute)
   condition <- as.factor(experimental_design$condition)
   replicate <- as.factor(experimental_design$replicate)
@@ -243,7 +239,6 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   rowData(data_impute) <- merge(rowData(data_impute, use.names = FALSE), top.table, by.x = "name", by.y = "row.names", all.x = TRUE, sort=FALSE)
 
   # Correlation plot
-
   dir.create(paste(path1,"/",Fraction,"/QC_files",sep = ""), showWarnings = FALSE)
   pdf(file = paste(path1,"/",Fraction,"/QC_files/",Fraction,"_QC-plots.pdf",sep = ""))
 
@@ -261,7 +256,6 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   corrplot(cor[i, i], cl.pos = 'n', addCoef.col = 'black', number.cex = 1, addgrid.col = NA, tl.col = "black", col = color)
 
   # Function for PCA plot
-
   pcaPLOT <- function(data, title = "", comparison){
     print(ggplot(data$data, aes(x = data$data[,2], data$data[,3], color = comparison)) + geom_point(size = 3) + theme_pubr() +
             labs(title = title, x = data$labels$x, y = data$labels$y) +
@@ -317,7 +311,6 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   #                      annotation_names_col = FALSE, drop_levels =  TRUE, color = my.colors, main = "Heatmap after batch correction")}
 
   # Heatmap of significant and exclusive proteins/sites
-
   heatmap(data_impute = data_impute, lfq.data = lfq.data, distance.matrix = distance.matrix, clustering.method = clustering.method,
           title = title, exclusive.data = exclusive.data)
 
@@ -378,7 +371,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                                       simplify = simplify, simplify_cutoff = simplify_cutoff)
   }
 
-  # Enrichment analysis and corresponding plots
+  # Enrichment plots
   GSEAPlots(gseData = enrich.data, enrich = enrich, plotType = plotType, showCategory = 20)
 
   # Motif analysis
