@@ -41,7 +41,7 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
   }else if(is.null(exclusive.data) == FALSE){
     print("GSEA cannot be perfromed for exclusive data but the analysis will be proceeded for non-exclusive data. To use both, perform over-representation analysis")
   }else{
-    print("")
+    print("Performing Gene Set Enrichment Analysis")
   }
   gse.list <- list()
   pathways.list <- list()
@@ -106,7 +106,7 @@ EnrichmentAnalysis <- function(enrich = c('gsea', 'ora'), nonExclusive.data = NU
     pathways <- as.data.frame(gse)
     if(nrow(pathways) == 0){
       print("No significant go-terms for the provided cutoff parameters")
-      next
+      # next
     }
     gse.list[[i]] <- gse
     pathways.list[[i]] <- pathways

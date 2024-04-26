@@ -18,6 +18,7 @@ volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData){
   pdf(paste(path1,"/",Fraction,"/VolcanoPlots/",Fraction,"_volcanoPlot.pdf",sep = ""), paper = "a4r")
 
   for(i in seq_along(1:length(contrasts))){
+    conditions <- unlist(strsplit(gsub("_vs_|[()]", ",", contrasts[i]), ","))
     data.sub <- resData[[i]]
     rownames(data.sub) <- resData[[i]]$name
     proteinData <- data.sub[data.sub$symbol %in% proteinList,]
@@ -77,9 +78,12 @@ volcanoPlot <- function(proteinList, name.sigProteins = FALSE, resData){
       theme(axis.title.x = element_text(margin = margin(t = 5, r = 0, b = 0, l = 0))) +
       theme(axis.title.y = element_text(size = 12, face = "bold", angle = 90)) +
       theme(axis.title.x = element_text(size = 12, face = "bold")) +
+      theme(plot.subtitle = element_text(size = 16, face = "bold")) +
       scale_x_continuous(breaks = seq(from = round(min(allSigData[,logFC_col_num]-0.5), 0), to = round(max(allSigData[,logFC_col_num]+0.5), 0), by = 1)) +
       scale_y_continuous(breaks = seq(from = 0, to = max(-log10(allSigData[,pval_col_num])) + 0.5, by = 1)) +
-      geom_text(aes(x = min(resData[[i]][,logFC_col_num] + 1), y = 0, label = paste("Significant: ", (nrow(signData) + nrow(sigmaData)))))
+      geom_text(aes(x = min(resData[[i]][,logFC_col_num] + 1), y = 0, label = paste("Significant: ", (nrow(signData) + nrow(sigmaData))), fontface = "bold.italic"), colour = "darkgreen") +
+      {if(length(conditions)==2){geom_text(aes(x = min(resData[[i]][,logFC_col_num] + 1), y = max(-log10(resData[[i]][,pval_col_num]) + 1), label = paste("Increased in", conditions[2], sep = " "), fontface = "bold"), size = 5, colour = "blue")}} +
+      {if(length(conditions)==2){geom_text(aes(x = max(resData[[i]][,logFC_col_num] - 1), y = max(-log10(resData[[i]][,pval_col_num]) + 1), label = paste("Increased in", conditions[1], sep = " "), fontface = "bold"), size = 5, colour = "red")}}
     print(volcano)
   }
   dev.off()

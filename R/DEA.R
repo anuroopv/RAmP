@@ -366,7 +366,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   if(is.null(exclusive.data) == TRUE){
     enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, rankBy = rankBy, KEGG = KEGG,
                                       ont = ont, padjustMethod = padjustMethod.enrich, background = background, minGS = minGS, maxGS = maxGS,
-                                      simplify = simplify, simplify_cutoff = simplify_cutoff,)
+                                      simplify = simplify, simplify_cutoff = simplify_cutoff)
   }else{
     enrich.data <- EnrichmentAnalysis(enrich = enrich, nonExclusive.data = nonExclusive.list, exclusive.data = exclusive.data, rankBy = rankBy, KEGG = KEGG,
                                       ont = ont, padjustMethod = padjustMethod.enrich, background = background, minGS = minGS, maxGS = maxGS,
@@ -374,7 +374,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   }
 
   # Enrichment plots
-  GSEAPlots(gseData = enrich.data, enrich = enrich, plotType = plotType, showCategory = 20)
+  GSEAPlots(gseData = enrich.data, enrich = enrich, plotType = plotType, showCategory = showCategory)
 
   # Motif analysis
   if(Fraction == "Enriched"){
