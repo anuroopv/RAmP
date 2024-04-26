@@ -34,7 +34,16 @@ heatmap <- function(data_impute, lfq.data = lfq.data,
     conditions <- conditions[nzchar(conditions)]
     if(length(conditions) == 2){conditions = conditions}else{conditions = conditions[c(1,3)]}
 
-    title <- if(filter.protein.type == "fraction" | str_count(contrasts[i], "vs") == 1){"Heat map of exclusive and significant features"}else{"Heat map of only significant features \n(Note: Exclusive data not generated (This also applies to difference of difference))"}
+    if(filter.protein.type == "fraction" & str_count(contrasts[i], "vs") == 1){
+      title <- "Heat map of exclusive and significant features"
+    }else if(filter.protein.type == "condition" & str_count(contrasts[i], "vs") == 1){
+      title <- "Heat map of significant features"
+    }else if(filter.protein.type == "complete" & str_count(contrasts[i], "vs") == 1){
+      title <- "Heat map of significant features"
+    }else if(str_count(contrasts[i], "vs") != 1){
+      title <- "Heat map of significant features \n(Note: Exclusive data is not available for difference of difference))"
+      }
+
     data.heatmap <- as.data.frame(rowData(data_impute))
     colnames(data.heatmap) <- gsub("X.", "", colnames(data.heatmap))
     colnames(data.heatmap) <- gsub("\\._vs_\\.", "_vs_", colnames(data.heatmap))
