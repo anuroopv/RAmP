@@ -5,7 +5,7 @@
 #' @param prot.Data Input proteome output from MaxQuant
 #' @param enrich.Data Modified proteome output from MaxQuant. Default is NULL
 #' @param sampleTable .xlsx file containing information about the samples. Three columns are mandatory (label, condition and replicate)
-#' @param fasta fasta file from uniprot (same fasta flies used for MaxQuant search). Default is NULL. Fasta file required for motif search
+#' @param fasta fasta file from UNIPROT (same fasta flies used for MaxQuant search). Default is NULL. Fasta file required for motif search
 #' @param org Database of the organism. Drosophila melanogaster = "dme", Mus muscuslus ' "mmu", Homo sapiens = "hsa", Saccharomyces cerevisae = "sce". Default is "dme"
 #' @param quantification Default is LFQ. Can be either "LFQ" or "iBAQ"
 #' @param pvalCutOff P-value cut off for significant protein(s), site(s) and GO terms. Default is 0.05
@@ -13,17 +13,18 @@
 #' @param lfcCutOff Log-fold change cut off. Default is 0
 #' @param contrasts Mentions the conditions to be compared. Ex. MUTANT_vs_WILDTYPE or (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B). This how the contrasts should be provided and the values should be the same as the one given in condition column of sampleTable. (MUTANT-A_vs_WILDTYPE-A)_vs_(MUTANT-B_vs_WILDTYPE-B): This type can be used for complex data when comparing the interaction between two conditions such genotype and time
 #' @param Fraction Can be either "Proteome" or "Enriched". Indicates the type of input data used
-#' @param filter.protein.type Can be either "complete" or "condition" or "fraction". complete indictaes removal of all NAs. condition indicates removal of NAs based on different conditions in the data (Ex. mutant and control). fraction indicates removal of NAs based on all samples irrespective of different conditions (check DEP package for further details)
-#' @param filter.thr Only if filter.protein.type = condition. Numerical value less than the number of relicates in either condition (Ex. 0 indicates the protein should have no NAs in all replicates of atleast one condition while 1 indicates they can have one NAs)
+#' @param filter.protein.type Can be either "complete" or "condition" or "fraction". complete indicates removal of all NAs. condition indicates removal of NAs based on different conditions in the data (Ex. mutant and control). fraction indicates removal of NAs based on all samples irrespective of different conditions (check DEP package for further details)
+#' @param filter.thr Only if filter.protein.type = condition. Numerical value less than the number of replicates in either condition (Ex. 0 indicates the protein should have no NAs in all replicates of atleast one condition while 1 indicates they can have one NAs)
 #' @param filter.protein.min Only if filter.protein.type = fraction. Any value between 0-1 Any value between 0-1 (Ex. 0.75 indicates the protein should not have NAs in 75\% of all samples)
 #' @param probability Numeric value between 0-1. Filters out modified peptides with probabilities less than the given value (Only used if Fraction = "Enriched")
-#' @param enrich.batch If the normalization should be done based on paired replicates or avergae of replicates
+#' @param enrich.batch If the normalization should be done based on paired replicates or average of replicates
+#' @param normalize Default is FALSE. Make this TRUE if the enriched fraction should be normalized to the proteome
 #' @param impute.function If filter.protein.type = "condition", one of "QRILC", "man", "MinProb", "MinDet". If filter.protein.type = "fraction", one of "bpca", "knn", "MLE"
 #' @param q.MinProbDet Default is 0.01 (Refer DEP package for further information)
 #' @param k.knn Default is 10 (Refer DEP package for further information)
 #' @param rowmax.knn Default in 0.9 (Refer DEP package for further information)
 #' @param shift.man Default is 1.8 (Refer DEP package for further information)
-#' @param scale.man Deafult is 0.3 (Refer DEP package for further information)
+#' @param scale.man Default is 0.3 (Refer DEP package for further information)
 #' @param distance.matrix One of "spearman", "pearson", "uncentered correlation", "absolute pearson", "sqrt", "weird". Used for heatmap and default is spearman
 #' @param clustering.method One of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid". Used for heatmap and default is ward.D2
 #' @param fav.proteins Vector with favourite proteins (or their corresponding sites) to be named in the volcano plot irrespective of its statistical significance. Also used for plotting corresponding bar plot/timeseries plot (in that case, only significant ones will be plotted)
@@ -90,7 +91,7 @@
 ############### Differential analysis of proteome/enriched data using DEP package ###############
 
 DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL, org = "dme", quantification = "LFQ", pvalCutOff = 0.05, sigmaCutOff = 0.05, lfcCutOff = 0, contrasts,
-                Fraction = c("Proteome", "Enriched"), filter.protein.type = "condition", filter.thr = 0, filter.protein.min = 0.75,
+                Fraction = c("Proteome", "Enriched"), filter.protein.type = "condition", filter.thr = 0, filter.protein.min = 0.75, normalize = FALSE,
                 probability = NULL, enrich.batch = FALSE,
                 impute.function = c("knn", "MLE", "QRILC", "man", "MinProb", "bpca", "MinDet"),
                 q.MinProbDet = 0.01, k.knn = 10, rowmax.knn = 0.9, shift.man = 1.8, scale.man = 0.3,
@@ -151,12 +152,23 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
     print("Filtering proteome data")
     data.norm <- QC.filter(data = lfq.data, filter.thr = filter.thr, filter.protein.min = filter.protein.min)
   }else if(Fraction == "Enriched" & filter.protein.type == "condition"){
+    if(normalize == TRUE){
+      normalized.enrich <- enrich_normalization(protein.data = prot.Data, enrich.data = enrich.Data, probability = probability, enrich.batch = enrich.batch)
+      data.norm <- QC.filter(data = normalized.enrich, filter.thr = filter.thr, filter.protein.min = filter.protein.min)
+      print("Enriched data is normalized to the Proteome")
+    }else{
     data.norm <- QC.filter(data = lfq.data, filter.thr = filter.thr, filter.protein.min = filter.protein.min)
     print("Enriched data is NOT normalized to the Proteome")
+    }
   }else if(Fraction == "Enriched" & filter.protein.type == "fraction"){
-    normalized.enrich <- enrich_normalization(protein.data = prot.Data, enrich.data = enrich.Data, probability = probability, enrich.batch = enrich.batch)
-    data.norm <- QC.filter(data = normalized.enrich, filter.thr = filter.thr, filter.protein.min = filter.protein.min)
-    print("Enriched data is normalized to the Proteome")
+    if(normalize == TRUE){
+      normalized.enrich <- enrich_normalization(protein.data = prot.Data, enrich.data = enrich.Data, probability = probability, enrich.batch = enrich.batch)
+      data.norm <- QC.filter(data = normalized.enrich, filter.thr = filter.thr, filter.protein.min = filter.protein.min)
+      print("Enriched data is normalized to the Proteome")
+    }else{
+      data.norm <- QC.filter(data = lfq.data, filter.thr = filter.thr, filter.protein.min = filter.protein.min)
+      print("Enriched data is NOT normalized to the Proteome")
+    }
   }else{
     print("")
   }
@@ -202,6 +214,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
 
   dir.create(paste(path1,"/",Fraction,"/Impute_files",sep = ""), showWarnings = FALSE)
   pdf(file = paste(path1,"/",Fraction,"/Impute_files/",Fraction,"_Impute-plots.pdf",sep = ""))
+  writexl::write_xlsx(x = assay(data_impute), path = paste(path1,"/",Fraction,"/Impute_files/",Fraction,"_imputedData.xlsx", sep = ""), col_names = TRUE, format_headers = TRUE)
   print(plot_imputation(data.norm, data_impute))
   dev.off()
 
