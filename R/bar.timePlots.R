@@ -14,7 +14,7 @@
 ################################################################################
 # Barplot of for selected proteins/sites
 
-bar.timePlots.new <- function(fav.proteins, timeSeries = FALSE, lfq.data){
+bar.timePlots <- function(fav.proteins, timeSeries = FALSE, lfq.data){
 
   lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
 
