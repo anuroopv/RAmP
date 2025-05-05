@@ -214,7 +214,6 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
 
   dir.create(paste(path1,"/",Fraction,"/Impute_files",sep = ""), showWarnings = FALSE)
   pdf(file = paste(path1,"/",Fraction,"/Impute_files/",Fraction,"_Impute-plots.pdf",sep = ""))
-  writexl::write_xlsx(x = as.data.frame(assay(data_impute)), path = paste(path1,"/",Fraction,"/Impute_files/",Fraction,"_imputedData.xlsx", sep = ""), col_names = TRUE, format_headers = TRUE)
   print(plot_imputation(data.norm, data_impute))
   dev.off()
 

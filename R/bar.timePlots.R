@@ -4,7 +4,6 @@
 #'
 #' @param fav.proteins Vector with favourite proteins (or their corresponding sites) for which corresponding bar or timeseries plots are required
 #' @param timeSeries Logical (Default is FALSE). If TRUE, line plots will be generated instead of barplots
-#' @param imputed.data Imputed data obtained after QC.filter
 #' @param lfq.data Output from editData function
 #'
 #' @return Generates bar plot (or timeseries) for the selected protein(s) or site(s)
@@ -15,7 +14,7 @@
 ################################################################################
 # Barplot of for selected proteins/sites
 
-bar.timePlots <- function(imputed.data, fav.proteins, timeSeries = FALSE, lfq.data){
+bar.timePlots.new <- function(fav.proteins, timeSeries = FALSE, lfq.data){
 
   lfq.data.sub <- lfq.data[lfq.data$symbol %in% fav.proteins,]
 
@@ -50,52 +49,64 @@ bar.timePlots <- function(imputed.data, fav.proteins, timeSeries = FALSE, lfq.da
     summary.data$genotype <- as.factor(gsub("[_].*", "", summary.data$condition))
 
     # if(nrow(summary.data) != 0){
-      if(timeSeries == FALSE){
-        summary.data$condition <- gsub(".*[_]", "", summary.data$condition)
-        plot2 <- ggplot(data = summary.data, aes(x=condition, y=measurement, fill = genotype)) +
-          geom_bar(stat="identity", position = position_dodge(.9)) +
-          theme_pubr() +
-          labs(x = "", y = "LFQ (or iBAQ)") +
-          geom_errorbar(aes(ymin=measurement-se, ymax=measurement+se), width = 0.2, position = position_dodge(0.9)) +
-          scale_y_continuous(labels = function(x) format(x, scientific = TRUE)) +
-          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-          theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0))) +
-          theme(axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0))) +
-          theme(strip.text = element_text(size=4)) +
-          theme(legend.title = element_blank(), plot.subtitle = element_text(size = 10, face = "bold"), plot.caption = element_text(size = 8)) +
-          theme(axis.title.x = element_text(size = 10, face = "bold")) +
-          theme(axis.title.y = element_text(size = 10, face = "bold")) +
-          {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence,  nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
-      }else{
-        summary.data$condition <- as.numeric(gsub(".*[_]", "", summary.data$condition))
-        plot2 <- ggplot(data = summary.data, aes(x=condition, y=measurement, color = genotype)) +
-          geom_line(aes(group=1)) +
-          geom_point() +
-          theme_pubr() +
-          labs(x = "Time", y = "LFQ (or iBAQ)") +
-          geom_errorbar(aes(ymin=measurement-se, ymax=measurement+se), width = 0.2, position = position_dodge(0.9)) +
-          scale_y_continuous(labels = function(x) format(x, scientific = TRUE)) +
-          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-          theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0))) +
-          theme(axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0))) +
-          theme(strip.text = element_text(size=4)) +
-          theme(legend.title = element_blank(), plot.subtitle = element_text(size = 10, face = "bold"), plot.caption = element_text(size = 8)) +
-          theme(axis.title.x = element_text(size = 10, face = "bold")) +
-          theme(axis.title.y = element_text(size = 10, face = "bold")) +
-          {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
-      }
-
-      dir.create(paste(path1,"/",Fraction,"/BarPlots",sep = ""), showWarnings = FALSE)
-      pdf(paste(path1,"/",Fraction,"/BarPlots/",Fraction,"_IntensityPlots_selectedFeatures.pdf",sep = ""), paper = "USr")
-      for(i in 1:(n_pages(plot2))){
-        if(Fraction=="Proteome"){print(plot2 + facet_wrap_paginate(~symbol, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
-        }else{print(plot2 + facet_wrap_paginate(~symbol+Sequence, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
-        }
-      }
-      dev.off()
-    }else if(!is.null(fav.proteins) & nrow(lfq.data.sub == 0)){
-      print("The given protein(s) (or site(s)) were NOT found. Check the data or the format of the protein name. Provided symbols should exactly match the symbols given in the database, including the case of each letter")
-    } else{
-      print("Favourite protein(s) or site(s) not provided")
+    if(timeSeries == FALSE){
+      summary.data$condition <- gsub(".*[_]", "", summary.data$condition)
+      plot2 <- ggplot(data = summary.data, aes(x=condition, y=measurement, fill = genotype)) +
+        geom_bar(stat="identity", position = position_dodge(.9)) +
+        theme_pubr() +
+        labs(x = "", y = "LFQ (or iBAQ)") +
+        geom_errorbar(aes(ymin=measurement-se, ymax=measurement+se), width = 0.2, position = position_dodge(0.9)) +
+        scale_y_continuous(labels = function(x) format(x, scientific = TRUE)) +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+        theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0))) +
+        theme(axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0))) +
+        theme(strip.text = element_text(size=4)) +
+        theme(legend.title = element_blank(), plot.subtitle = element_text(size = 10, face = "bold"), plot.caption = element_text(size = 8)) +
+        theme(axis.title.x = element_text(size = 10, face = "bold")) +
+        theme(axis.title.y = element_text(size = 10, face = "bold")) +
+        {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence,  nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
+    }else{
+      summary.data$condition <- as.numeric(gsub(".*[_]", "", summary.data$condition))
+      plot2 <- ggplot(data = summary.data, aes(x=condition, y=measurement, color = genotype)) +
+        geom_line(aes(group=1)) +
+        geom_point() +
+        theme_pubr() +
+        labs(x = "Time", y = "LFQ (or iBAQ)") +
+        geom_errorbar(aes(ymin=measurement-se, ymax=measurement+se), width = 0.2, position = position_dodge(0.9)) +
+        scale_y_continuous(labels = function(x) format(x, scientific = TRUE)) +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+        theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0))) +
+        theme(axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0))) +
+        theme(strip.text = element_text(size=4)) +
+        theme(legend.title = element_blank(), plot.subtitle = element_text(size = 10, face = "bold"), plot.caption = element_text(size = 8)) +
+        theme(axis.title.x = element_text(size = 10, face = "bold")) +
+        theme(axis.title.y = element_text(size = 10, face = "bold")) +
+        {if(Fraction=="Proteome"){facet_wrap_paginate(~symbol, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}else{facet_wrap_paginate(~symbol+Sequence, nrow = 1, ncol = 3, labeller = label_context, scales = "free_y")}}
     }
+
+    if(exists("path1")){
+      dir.create(paste(path1, "/", Fraction, "/BarPlots",
+                       sep = ""), showWarnings = FALSE)
+      pdf(paste(path1, "/", Fraction, "/BarPlots/", Fraction,
+                "_IntensityPlots_selectedFeatures.pdf", sep = ""),
+          paper = "USr")
+    }else{
+      dir.create(paste(getwd(), "/BarPlots",
+                       sep = ""), showWarnings = FALSE)
+      pdf(paste(getwd(), "/BarPlots/", Fraction,
+                "_IntensityPlots_selectedFeatures.pdf", sep = ""),
+          paper = "USr")
+    }
+
+    for(i in 1:(n_pages(plot2))){
+      if(Fraction=="Proteome"){print(plot2 + facet_wrap_paginate(~symbol, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
+      }else{print(plot2 + facet_wrap_paginate(~symbol+Sequence, ncol = 3, nrow = 1, labeller = label_context, page = i, scales = "free_y"))
+      }
+    }
+    dev.off()
+  }else if(!is.null(fav.proteins) & nrow(lfq.data.sub == 0)){
+    print("The given protein(s) (or site(s)) were NOT found. Check the data or the format of the protein name. Provided symbols should exactly match the symbols given in the database, including the case of each letter")
+  } else{
+    print("Favourite protein(s) or site(s) not provided")
   }
+}
