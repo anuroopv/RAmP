@@ -12,6 +12,7 @@
 #' @param colorCcategory Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
 #' @param colorGene Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot (Check enrichplot package for further info). Default is "black"
 #' @param showCategory Number of GO terms to be displayed in the plot. Default is 10
+#' @param nCluster Number of clusters for treeplot. Default is 5
 #'
 #' @return Generates plots from GO term analysis
 #'
@@ -25,7 +26,7 @@
 GSEAPlots <- function(gseData, enrich = c('gsea', 'ora'),
                       plotType = c("dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"),
                       circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
-                      showCategory = 10){
+                      showCategory = 10, nCluster = 5){
 
   dir.create(paste(path1,"/",Fraction,"/Enrichment_plots",sep = ""), showWarnings = FALSE)
 
@@ -64,7 +65,15 @@ GSEAPlots <- function(gseData, enrich = c('gsea', 'ora'),
     }else if(plotType == "treePlot"){
       pdf(file = paste(path1,"/",Fraction,"/Enrichment_plots/",Fraction,"_",names(gseData[i]),"_enrichmentPlots-treePlot.pdf",sep = ""), paper = "a4r")
       edox <- pairwise_termsim(gseData[[i]])
-      print(enrichplot::treeplot(edox, showCategory = showCategory) + ggtitle(names(gseData[i])))
+
+      if(nrow(edox@termsim) < nCluster){
+        nCluster = nrow(edox2@termsim)
+        print(paste("Number of clusters possible for treeplots is ", nCluster))
+      }else{
+        nCluster = nCluster
+      }
+
+      print(enrichplot::treeplot(edox, showCategory = showCategory, cluster.params = list(n = nCluster)) + ggtitle(names(gseData[i])))
       dev.off()
     }else if(plotType == "gseaPlot"){
       if(enrich == "ora"){

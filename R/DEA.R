@@ -41,6 +41,7 @@
 #' @param simplify Logical, default is FALSE. If TRUE, redundant GO terms will be simplified based on the simplify_cutoff
 #' @param simplify_cutoff Cutoff for simplify method. Numerical value from 0-1. Default is 0.7
 #' @param plotType Can be one of "dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"
+#' @param nCluster Number of clusters for treeplot. Default is 5
 #' @param circular Logical, default is FALSE. If TRUE, circular visualization will be used for cNetPlot
 #' @param colorEdge Logical, default is FALSE. Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot
 #' @param nodeLabel Can be one of "gene", "category", "all", "none". Parameter to be used if circular = "TRUE" and plotType ' "cNetPlot
@@ -100,7 +101,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
                 fav.proteins = NULL, name.sigProteins = FALSE, timeSeries = FALSE,
                 enrich = 'gsea', rankBy = "stat", KEGG = FALSE, ont= "BP", padjustMethod.enrich = "fdr", background = TRUE,
                 minGS = 50, maxGS = 500, simplify = FALSE, simplify_cutoff = 0.7,
-                plotType = c("dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"),
+                plotType = c("dotPlot", "cNetPlot", "heatPlot", "treePlot", "gseaPlot", "ridgePlot"), nCluster = 5,
                 circular = FALSE, colorEdge = FALSE, nodeLabel = c("gene", "category", "all", "none"), cexLabelCategory = 1.2, cexLabelGene = 0.8, colorCcategory = "black", colorGene = "black",
                 showCategory = 10, aa = "K", seq.width = 15, min.seqs = 5, motif.pval = 1e-05){
 
@@ -386,7 +387,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
   }
 
   # Enrichment plots
-  GSEAPlots(gseData = enrich.data, enrich = enrich, plotType = plotType, showCategory = showCategory)
+  GSEAPlots(gseData = enrich.data, enrich = enrich, plotType = plotType, showCategory = showCategory, nCluster = nCluster)
 
   # Motif analysis
   if(Fraction == "Enriched"){
