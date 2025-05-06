@@ -329,7 +329,7 @@ DEA <- function(prot.Data = NULL, enrich.Data = NULL, sampleTable, fasta = NULL,
           title = title, exclusive.data = exclusive.data)
 
   # Barplot of for selected proteins/sites
-  bar.timePlots(imputed.data = data_impute, fav.proteins = fav.proteins, timeSeries = timeSeries, lfq.data = lfq.data)
+  bar.timePlots(fav.proteins = fav.proteins, timeSeries = timeSeries, lfq.data = lfq.data)
 
   res <- as.data.frame(data_impute@elementMetadata@listData)
 
