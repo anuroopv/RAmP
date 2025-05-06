@@ -67,7 +67,7 @@ GSEAPlots <- function(gseData, enrich = c('gsea', 'ora'),
       edox <- pairwise_termsim(gseData[[i]])
 
       if(nrow(edox@termsim) < nCluster){
-        nCluster = nrow(edox2@termsim)
+        nCluster = nrow(edox@termsim)
         print(paste("Number of clusters possible for treeplots is ", nCluster))
       }else{
         nCluster = nCluster
